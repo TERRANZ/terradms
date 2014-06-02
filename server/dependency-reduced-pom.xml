@@ -37,10 +37,6 @@
                 <Build-Number>1</Build-Number>
               </manifestEntries>
             </transformer>
-            <transformer>
-              <resource>META-INF/persistence.xml</resource>
-              <file>src/main/resources/META-INF/persistence.xml</file>
-            </transformer>
           </transformers>
         </configuration>
       </plugin>

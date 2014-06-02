@@ -2,6 +2,7 @@ package ru.terra.dms.desktop.gui.parts;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Service;
 import javafx.concurrent.Worker.State;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,7 +20,7 @@ import ru.terra.dms.desktop.gui.service.LoginService;
  * Time: 13:32
  */
 public class ProgressDialog {
-    public static Stage create(final LoginService service, Stage owner, boolean indeterminate) {
+    public static Stage create(final Service service, Stage owner, boolean indeterminate) {
         final Stage stage = new Stage();
         stage.initModality(Modality.WINDOW_MODAL);
         stage.initOwner(owner);

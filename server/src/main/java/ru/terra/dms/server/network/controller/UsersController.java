@@ -7,9 +7,9 @@ import ru.terra.server.controller.AbstractController;
 import ru.terra.server.dto.LoginDTO;
 import ru.terra.server.dto.UserDTO;
 
-import javax.ws.rs.FormParam;
-import javax.ws.rs.POST;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 
 /**
@@ -22,9 +22,13 @@ public class UsersController extends AbstractController<User, UserDTO, UsersEngi
         super(UsersEngine.class, false, User.class, UserDTO.class);
     }
 
-    @POST
-    @Path("/login")
-    public LoginDTO login(@Context HttpContext hc, @FormParam("user") String user, @FormParam("pass") String pass) {
+    @GET
+    @Path("/do.login.json")
+    public LoginDTO login(@Context HttpContext hc, @QueryParam("user") String user, @QueryParam("pass") String pass) {
+        User u = engine.getUser(user, pass);
+        if (u != null) {
+            return new LoginDTO("",true,sessionsHolder.registerUserSession(u));
+        }
         return new LoginDTO();
     }
 }

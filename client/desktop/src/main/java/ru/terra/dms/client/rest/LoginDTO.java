@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for loginDTO complex type.
- * <p>
+ * 
  * <p>The following schema fragment specifies the expected content contained within this class.
- * <p>
+ * 
  * <pre>
  * &lt;complexType name="loginDTO">
  *   &lt;complexContent>
@@ -24,15 +24,18 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "loginDTO", propOrder = {
-        "message",
-        "logged",
-        "session"
+    "message",
+    "logged",
+    "session"
 })
 public class LoginDTO
-        extends CommonDTO {
+    extends CommonDTO
+{
 
     protected String message;
     protected boolean logged;
@@ -40,9 +43,11 @@ public class LoginDTO
 
     /**
      * Gets the value of the message property.
-     *
-     * @return possible object is
-     * {@link String }
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getMessage() {
         return message;
@@ -50,9 +55,11 @@ public class LoginDTO
 
     /**
      * Sets the value of the message property.
-     *
-     * @param value allowed object is
-     *              {@link String }
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setMessage(String value) {
         this.message = value;
@@ -60,6 +67,7 @@ public class LoginDTO
 
     /**
      * Gets the value of the logged property.
+     * 
      */
     public boolean isLogged() {
         return logged;
@@ -67,6 +75,7 @@ public class LoginDTO
 
     /**
      * Sets the value of the logged property.
+     * 
      */
     public void setLogged(boolean value) {
         this.logged = value;
@@ -74,9 +83,11 @@ public class LoginDTO
 
     /**
      * Gets the value of the session property.
-     *
-     * @return possible object is
-     * {@link String }
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getSession() {
         return session;
@@ -84,9 +95,11 @@ public class LoginDTO
 
     /**
      * Sets the value of the session property.
-     *
-     * @param value allowed object is
-     *              {@link String }
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setSession(String value) {
         this.session = value;

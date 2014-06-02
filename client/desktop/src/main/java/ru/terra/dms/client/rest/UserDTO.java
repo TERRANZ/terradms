@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for userDTO complex type.
- * <p>
+ * 
  * <p>The following schema fragment specifies the expected content contained within this class.
- * <p>
+ * 
  * <pre>
  * &lt;complexType name="userDTO">
  *   &lt;complexContent>
@@ -23,23 +23,28 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
+ * 
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "userDTO", propOrder = {
-        "name",
-        "level"
+    "name",
+    "level"
 })
 public class UserDTO
-        extends CommonDTO {
+    extends CommonDTO
+{
 
     protected String name;
     protected Integer level;
 
     /**
      * Gets the value of the name property.
-     *
-     * @return possible object is
-     * {@link String }
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
     public String getName() {
         return name;
@@ -47,9 +52,11 @@ public class UserDTO
 
     /**
      * Sets the value of the name property.
-     *
-     * @param value allowed object is
-     *              {@link String }
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
     public void setName(String value) {
         this.name = value;
@@ -57,9 +64,11 @@ public class UserDTO
 
     /**
      * Gets the value of the level property.
-     *
-     * @return possible object is
-     * {@link Integer }
+     * 
+     * @return
+     *     possible object is
+     *     {@link Integer }
+     *     
      */
     public Integer getLevel() {
         return level;
@@ -67,9 +76,11 @@ public class UserDTO
 
     /**
      * Sets the value of the level property.
-     *
-     * @param value allowed object is
-     *              {@link Integer }
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Integer }
+     *     
      */
     public void setLevel(Integer value) {
         this.level = value;

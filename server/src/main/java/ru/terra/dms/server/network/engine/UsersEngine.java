@@ -28,4 +28,8 @@ public class UsersEngine extends AbstractEngine<User, UserDTO> {
     public UserDTO entityToDto(User user) {
         return null;
     }
+
+    public User getUser(String user, String pass) {
+        return ((UsersDBController) dbController).findByNamePass(user, pass);
+    }
 }

@@ -1,4 +1,4 @@
-package ru.terra.dms.core;
+package ru.terra.dms.desktop.core;
 
 /**
  * Date: 26.05.14

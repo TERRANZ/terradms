@@ -1,7 +1,7 @@
-package ru.terra.dms.configuration.parser;
+package ru.terra.dms.desktop.configuration.parser;
 
 import flexjson.JSONSerializer;
-import ru.terra.dms.configuration.Configuration;
+import ru.terra.dms.desktop.configuration.Configuration;
 
 import java.io.*;
 

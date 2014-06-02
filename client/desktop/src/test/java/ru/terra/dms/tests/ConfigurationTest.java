@@ -1,12 +1,12 @@
 package ru.terra.dms.tests;
 
 import junit.framework.TestCase;
-import ru.terra.dms.configuration.Configuration;
-import ru.terra.dms.configuration.bean.MenuPart;
-import ru.terra.dms.configuration.bean.Pojo;
-import ru.terra.dms.configuration.bean.ViewPart;
-import ru.terra.dms.configuration.parser.JSONConfigurationReader;
-import ru.terra.dms.configuration.parser.JSONConfigurationWriter;
+import ru.terra.dms.desktop.configuration.Configuration;
+import ru.terra.dms.desktop.configuration.bean.MenuPart;
+import ru.terra.dms.desktop.configuration.bean.Pojo;
+import ru.terra.dms.desktop.configuration.bean.ViewPart;
+import ru.terra.dms.desktop.configuration.parser.JSONConfigurationReader;
+import ru.terra.dms.desktop.configuration.parser.JSONConfigurationWriter;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -30,6 +30,8 @@ public class ConfigurationTest extends TestCase {
         ViewPart viewPart1 = new ViewPart();
         viewPart1.setId(UUID.randomUUID().toString());
         viewPart1.setName(viewPart1Name);
+        viewPart1.setControllerType("simpletable");
+
         Pojo viewPart1Pojo = new Pojo();
         viewPart1Pojo.setName("View part pojo 1");
         viewPart1Pojo.setType("products");

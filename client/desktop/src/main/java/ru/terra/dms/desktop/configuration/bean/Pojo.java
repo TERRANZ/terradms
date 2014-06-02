@@ -1,4 +1,4 @@
-package ru.terra.dms.configuration.bean;
+package ru.terra.dms.desktop.configuration.bean;
 
 import java.io.Serializable;
 import java.util.Map;

@@ -1,8 +1,8 @@
-package ru.terra.dms.configuration;
+package ru.terra.dms.desktop.configuration;
 
 
-import ru.terra.dms.configuration.bean.MenuPart;
-import ru.terra.dms.configuration.bean.ViewPart;
+import ru.terra.dms.desktop.configuration.bean.MenuPart;
+import ru.terra.dms.desktop.configuration.bean.ViewPart;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -52,5 +52,20 @@ public class Configuration implements Serializable {
         this.comment = comment;
     }
 
+    @Override
+    public String toString() {
+        return "Configuration{" +
+                "name='" + name + '\'' +
+                ", comment='" + comment + '\'' +
+                ", menus=" + menus +
+                ", viewParts=" + viewParts +
+                '}';
+    }
 
+    public ViewPart getViewPart(String name) {
+        for (ViewPart viewPart : viewParts)
+            if (viewPart.getName().equals(name))
+                return viewPart;
+        return null;
+    }
 }

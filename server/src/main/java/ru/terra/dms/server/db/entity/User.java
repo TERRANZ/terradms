@@ -1,5 +1,7 @@
 package ru.terra.dms.server.db.entity;
 
+import ru.terra.server.db.entity.AbstractUser;
+
 import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
@@ -9,13 +11,17 @@ import java.io.Serializable;
  * Time: 12:37
  */
 @XmlRootElement
-public class User implements Serializable {
+public class User extends AbstractUser implements Serializable {
     @Id
     private Integer id;
-    private String name;
-    private Integer level;
+    private String pass;
 
     public User() {
+        super(0, 0, "");
+    }
+
+    public User(Integer id, int level, String name) {
+        super(id, level, name);
     }
 
     public Integer getId() {
@@ -26,19 +32,11 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getPass() {
+        return pass;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getLevel() {
-        return level;
-    }
-
-    public void setLevel(Integer level) {
-        this.level = level;
+    public void setPass(String pass) {
+        this.pass = pass;
     }
 }

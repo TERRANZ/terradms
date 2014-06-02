@@ -1,7 +1,7 @@
 package ru.terra.dms.server.network.dto;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.List;
+import java.util.Map;
 
 /**
  * Date: 02.06.14
@@ -9,8 +9,7 @@ import java.util.List;
  */
 @XmlRootElement
 public class ObjectDTO {
-    public String name;
     public String type;
-    public Long id;
-    public List<Pair<String, Object>> fields;
+    public Integer id;
+    public Map<String, Object> fields;
 }

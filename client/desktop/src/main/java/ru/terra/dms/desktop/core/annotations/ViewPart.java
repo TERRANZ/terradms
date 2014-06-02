@@ -1,4 +1,4 @@
-package ru.terra.dms.core.annotations;
+package ru.terra.dms.desktop.core.annotations;
 
 import java.lang.annotation.*;
 
@@ -10,5 +10,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
 public @interface ViewPart {
-    String value() default "";
+    String name() default "";
+    String fxml() default "";
+
 }

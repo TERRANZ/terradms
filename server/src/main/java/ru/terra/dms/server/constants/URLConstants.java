@@ -10,5 +10,6 @@ import ru.terra.server.constants.CoreUrlConstants;
 public class URLConstants extends CoreUrlConstants {
     public static class Objects {
         public static final String OBJECTS = "/objects/";
+        public static final String LIST_BY_NAME = "do.list.byname.json";
     }
 }

@@ -2,6 +2,7 @@ package ru.terra.dms.desktop.gui.service;
 
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import ru.terra.dms.client.rest.Localhost_Dms;
 import ru.terra.dms.client.rest.LoginDTO;
 
 /**
@@ -23,6 +24,11 @@ public class LoginService extends Service<LoginDTO> {
         return new Task<LoginDTO>() {
             @Override
             protected LoginDTO call() throws Exception {
+                try {
+                    return Localhost_Dms.users().doLoginJson().getAsLoginDTO(user, pass);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 return null;
             }
         };
