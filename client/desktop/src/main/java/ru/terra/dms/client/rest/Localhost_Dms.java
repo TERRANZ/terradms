@@ -13,7 +13,7 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 
 @Generated(value = {
     "wadl|http://localhost:8080/dms/application.wadl"
-}, comments = "wadl2java, http://wadl.java.net", date = "2014-06-03T15:05:02.973+04:00")
+}, comments = "wadl2java, http://wadl.java.net", date = "2014-06-03T16:23:43.901+04:00")
 public class Localhost_Dms {
 
     /**
@@ -436,7 +436,7 @@ public class Localhost_Dms {
                 _templateAndMatrixParameterValues = new HashMap<String, Object>();
             }
 
-            public ObjectDTO getAsObjectDTO() {
+            public ListDTO getAsListDTO() {
                 UriBuilder localUriBuilder = _uriBuilder.clone();
                 com.sun.jersey.api.client.WebResource resource = _client.resource(localUriBuilder.buildFromMap(_templateAndMatrixParameterValues));
                 com.sun.jersey.api.client.WebResource.Builder resourceBuilder = resource.getRequestBuilder();
@@ -446,7 +446,7 @@ public class Localhost_Dms {
                 if (response.getStatus()>= 400) {
                     throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
                 }
-                return response.getEntity(ObjectDTO.class);
+                return response.getEntity(ListDTO.class);
             }
 
             public<T >T getAsJson(com.sun.jersey.api.client.GenericType<T> returnType) {
@@ -481,7 +481,7 @@ public class Localhost_Dms {
                 }
             }
 
-            public ObjectDTO getAsObjectDTO(String name) {
+            public ListDTO getAsListDTO(String name) {
                 UriBuilder localUriBuilder = _uriBuilder.clone();
                 if (name == null) {
                 }
@@ -498,7 +498,7 @@ public class Localhost_Dms {
                 if (response.getStatus()>= 400) {
                     throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
                 }
-                return response.getEntity(ObjectDTO.class);
+                return response.getEntity(ListDTO.class);
             }
 
             public<T >T getAsJson(String name, com.sun.jersey.api.client.GenericType<T> returnType) {

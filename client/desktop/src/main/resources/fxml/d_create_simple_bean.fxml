@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+      prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ru.terra.dms.desktop.core.viewpart.impl.simpletable.EditSimpleBeanDialog">
+    <children>
+        <TableView fx:id="tblFields">
+            <columns>
+                <TableColumn prefWidth="150.0" text="Параметр" fx:id="colKey"/>
+                <TableColumn minWidth="0.0" prefWidth="442.0" text="Значение" fx:id="colVal"/>
+            </columns>
+        </TableView>
+        <HBox>
+            <children>
+                <Button mnemonicParsing="false" onAction="#ok" text="OK"/>
+                <Button mnemonicParsing="false" onAction="#cancel" text="Cancel"/>
+            </children>
+        </HBox>
+    </children>
+</VBox>

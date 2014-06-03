@@ -1,20 +1,21 @@
 package ru.terra.dms.desktop.core.viewpart;
 
 import javafx.fxml.Initializable;
-import ru.terra.dms.desktop.configuration.bean.Pojo;
 
 /**
  * Date: 26.05.14
  * Time: 15:42
  */
 public abstract class AbstractViewPart implements Initializable {
-    protected Pojo pojo;
+    protected String viewPartName;
 
-    public Pojo getPojo() {
-        return pojo;
+    public String getViewPartName() {
+        return viewPartName;
     }
 
-    public void setPojo(Pojo pojo) {
-        this.pojo = pojo;
+    public void setViewPartName(String viewPartName) {
+        this.viewPartName = viewPartName;
     }
+
+    public abstract void load();
 }

@@ -1,19 +1,19 @@
 
 package ru.terra.dms.client.rest;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * <p>Java class for objectDTO complex type.
- * 
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
  * &lt;complexType name="objectDTO">
  *   &lt;complexContent>
@@ -48,14 +48,12 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "objectDTO", propOrder = {
-    "type",
-    "id",
-    "fields"
+        "type",
+        "id",
+        "fields"
 })
 public class ObjectDTO {
 
@@ -66,11 +64,9 @@ public class ObjectDTO {
 
     /**
      * Gets the value of the type property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getType() {
         return type;
@@ -78,11 +74,9 @@ public class ObjectDTO {
 
     /**
      * Sets the value of the type property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setType(String value) {
         this.type = value;
@@ -90,11 +84,9 @@ public class ObjectDTO {
 
     /**
      * Gets the value of the id property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *     
+     *
+     * @return possible object is
+     * {@link Integer }
      */
     public Integer getId() {
         return id;
@@ -102,11 +94,9 @@ public class ObjectDTO {
 
     /**
      * Sets the value of the id property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link Integer }
      */
     public void setId(Integer value) {
         this.id = value;
@@ -114,11 +104,9 @@ public class ObjectDTO {
 
     /**
      * Gets the value of the fields property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link ObjectDTO.Fields }
-     *     
+     *
+     * @return possible object is
+     * {@link ObjectDTO.Fields }
      */
     public ObjectDTO.Fields getFields() {
         return fields;
@@ -126,11 +114,9 @@ public class ObjectDTO {
 
     /**
      * Sets the value of the fields property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link ObjectDTO.Fields }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link ObjectDTO.Fields }
      */
     public void setFields(ObjectDTO.Fields value) {
         this.fields = value;
@@ -139,9 +125,9 @@ public class ObjectDTO {
 
     /**
      * <p>Java class for anonymous complex type.
-     * 
+     * <p>
      * <p>The following schema fragment specifies the expected content contained within this class.
-     * 
+     * <p>
      * <pre>
      * &lt;complexType>
      *   &lt;complexContent>
@@ -164,12 +150,10 @@ public class ObjectDTO {
      *   &lt;/complexContent>
      * &lt;/complexType>
      * </pre>
-     * 
-     * 
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
-        "entry"
+            "entry"
     })
     public static class Fields {
 
@@ -177,25 +161,23 @@ public class ObjectDTO {
 
         /**
          * Gets the value of the entry property.
-         * 
+         * <p>
          * <p>
          * This accessor method returns a reference to the live list,
          * not a snapshot. Therefore any modification you make to the
          * returned list will be present inside the JAXB object.
          * This is why there is not a <CODE>set</CODE> method for the entry property.
-         * 
+         * <p>
          * <p>
          * For example, to add a new item, do as follows:
          * <pre>
          *    getEntry().add(newItem);
          * </pre>
-         * 
-         * 
+         * <p>
+         * <p>
          * <p>
          * Objects of the following type(s) are allowed in the list
          * {@link ObjectDTO.Fields.Entry }
-         * 
-         * 
          */
         public List<ObjectDTO.Fields.Entry> getEntry() {
             if (entry == null) {
@@ -204,12 +186,15 @@ public class ObjectDTO {
             return this.entry;
         }
 
+        public void setEntry(List<Entry> entry) {
+            this.entry = entry;
+        }
 
         /**
          * <p>Java class for anonymous complex type.
-         * 
+         * <p>
          * <p>The following schema fragment specifies the expected content contained within this class.
-         * 
+         * <p>
          * <pre>
          * &lt;complexType>
          *   &lt;complexContent>
@@ -222,26 +207,22 @@ public class ObjectDTO {
          *   &lt;/complexContent>
          * &lt;/complexType>
          * </pre>
-         * 
-         * 
          */
         @XmlAccessorType(XmlAccessType.FIELD)
         @XmlType(name = "", propOrder = {
-            "key",
-            "value"
+                "key",
+                "value"
         })
         public static class Entry {
 
-            protected String key;
-            protected Object value;
+            protected String key = "";
+            protected Object value = new String();
 
             /**
              * Gets the value of the key property.
-             * 
-             * @return
-             *     possible object is
-             *     {@link String }
-             *     
+             *
+             * @return possible object is
+             * {@link String }
              */
             public String getKey() {
                 return key;
@@ -249,11 +230,9 @@ public class ObjectDTO {
 
             /**
              * Sets the value of the key property.
-             * 
-             * @param value
-             *     allowed object is
-             *     {@link String }
-             *     
+             *
+             * @param value allowed object is
+             *              {@link String }
              */
             public void setKey(String value) {
                 this.key = value;
@@ -261,11 +240,9 @@ public class ObjectDTO {
 
             /**
              * Gets the value of the value property.
-             * 
-             * @return
-             *     possible object is
-             *     {@link Object }
-             *     
+             *
+             * @return possible object is
+             * {@link Object }
              */
             public Object getValue() {
                 return value;
@@ -273,11 +250,9 @@ public class ObjectDTO {
 
             /**
              * Sets the value of the value property.
-             * 
-             * @param value
-             *     allowed object is
-             *     {@link Object }
-             *     
+             *
+             * @param value allowed object is
+             *              {@link Object }
              */
             public void setValue(Object value) {
                 this.value = value;

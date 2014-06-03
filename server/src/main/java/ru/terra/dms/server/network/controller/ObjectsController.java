@@ -6,11 +6,13 @@ import org.slf4j.LoggerFactory;
 import ru.terra.dms.server.constants.URLConstants;
 import ru.terra.dms.server.network.dto.ObjectDTO;
 import ru.terra.server.controller.AbstractResource;
+import ru.terra.server.dto.ListDTO;
 import ru.terraobjects.entity.TObject;
 import ru.terraobjects.manager.ObjectsManager;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.GenericEntity;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,15 +51,17 @@ public class ObjectsController extends AbstractResource {
 
     @GET
     @Path(URLConstants.Objects.LIST_BY_NAME)
-    public List<ObjectDTO> listByName(@Context HttpContext hc, @QueryParam("name") String name) {
-        List<ObjectDTO> ret = new ArrayList<>();
+    public ListDTO<ObjectDTO> listByName(@Context HttpContext hc, @QueryParam("name") String name) {
+        ListDTO<ObjectDTO> ret = new ListDTO<>();
+        List<ObjectDTO> data = new ArrayList<>();
         for (TObject tObject : objectsManager.load(name, -1, -1, true)) {
             ObjectDTO objectDTO = new ObjectDTO();
             objectDTO.id = tObject.getId();
             objectDTO.type = tObject.getName();
             objectDTO.fields = objectsManager.getObjectFieldValues(tObject.getId());
-            ret.add(objectDTO);
+            data.add(objectDTO);
         }
+        ret.setData(data);
         return ret;
     }
 }

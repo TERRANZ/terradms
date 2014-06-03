@@ -41,7 +41,7 @@ public class RegController implements Initializable {
                 LoginDTO loginDTO = regUserService.getValue();
                 System.out.println(loginDTO.isLogged());
                 if (loginDTO.isLogged())
-                    StageHelper.openWindow("w_login.fxml", "Main", true);
+                    StageHelper.openWindow("w_main.fxml", "Main", true);
             }
         });
     }
