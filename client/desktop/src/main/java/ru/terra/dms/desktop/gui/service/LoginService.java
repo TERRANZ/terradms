@@ -5,14 +5,18 @@ import javafx.concurrent.Task;
 import ru.terra.dms.client.rest.Localhost_Dms;
 import ru.terra.dms.client.rest.LoginDTO;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * Date: 16.05.14
  * Time: 17:53
  */
 public class LoginService extends Service<LoginDTO> {
 
-    private final String user;
-    private final String pass;
+    protected final String user;
+    protected final String pass;
+    protected Logger logger = Logger.getLogger(this.getClass().getName());
 
     public LoginService(String user, String pass) {
         this.user = user;
@@ -27,7 +31,7 @@ public class LoginService extends Service<LoginDTO> {
                 try {
                     return Localhost_Dms.users().doLoginJson().getAsLoginDTO(user, pass);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    logger.log(Level.SEVERE, "Unable to login", e);
                 }
                 return null;
             }

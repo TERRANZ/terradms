@@ -15,6 +15,8 @@ public class User extends AbstractUser implements Serializable {
     @Id
     private Integer id;
     private String pass;
+    protected Integer level;
+    protected String name;
 
     public User() {
         super(0, 0, "");
@@ -38,5 +40,21 @@ public class User extends AbstractUser implements Serializable {
 
     public void setPass(String pass) {
         this.pass = pass;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -21,8 +21,8 @@ public class UsersDBController extends AbstractDBController<User> {
     }
 
     public User findByNamePass(String user, String pass) {
-        User u = objectsManager.load(User.class, user);
-        return (u != null && u.getPass().equals(pass)) ? u : null;
+        List<User> users = objectsManager.load(User.class, "user", user);
+        return (users != null && users.size() > 0 && users.get(0).getPass().equals(pass)) ? users.get(0) : null;
     }
 
     @Override

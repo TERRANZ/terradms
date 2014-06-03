@@ -13,7 +13,7 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 
 @Generated(value = {
     "wadl|http://localhost:8080/dms/application.wadl"
-}, comments = "wadl2java, http://wadl.java.net", date = "2014-06-02T18:29:02.992+04:00")
+}, comments = "wadl2java, http://wadl.java.net", date = "2014-06-03T15:05:02.973+04:00")
 public class Localhost_Dms {
 
     /**
@@ -635,6 +635,10 @@ public class Localhost_Dms {
 
         public Localhost_Dms.Users.DoLoginJson doLoginJson() {
             return new Localhost_Dms.Users.DoLoginJson(_client, _uriBuilder.buildFromMap(_templateAndMatrixParameterValues));
+        }
+
+        public Localhost_Dms.Users.DoRegJson doRegJson() {
+            return new Localhost_Dms.Users.DoRegJson(_client, _uriBuilder.buildFromMap(_templateAndMatrixParameterValues));
         }
 
         public Localhost_Dms.Users.DoGetJson doGetJson() {
@@ -1259,6 +1263,163 @@ public class Localhost_Dms {
                 _client = client;
                 _uriBuilder = UriBuilder.fromUri(baseUri);
                 _uriBuilder = _uriBuilder.path("/do.login.json");
+                _templateAndMatrixParameterValues = new HashMap<String, Object>();
+            }
+
+            public LoginDTO getAsLoginDTO() {
+                UriBuilder localUriBuilder = _uriBuilder.clone();
+                com.sun.jersey.api.client.WebResource resource = _client.resource(localUriBuilder.buildFromMap(_templateAndMatrixParameterValues));
+                com.sun.jersey.api.client.WebResource.Builder resourceBuilder = resource.getRequestBuilder();
+                resourceBuilder = resourceBuilder.accept("application/json");
+                com.sun.jersey.api.client.ClientResponse response;
+                response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
+                if (response.getStatus()>= 400) {
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                }
+                return response.getEntity(LoginDTO.class);
+            }
+
+            public<T >T getAsJson(com.sun.jersey.api.client.GenericType<T> returnType) {
+                UriBuilder localUriBuilder = _uriBuilder.clone();
+                com.sun.jersey.api.client.WebResource resource = _client.resource(localUriBuilder.buildFromMap(_templateAndMatrixParameterValues));
+                com.sun.jersey.api.client.WebResource.Builder resourceBuilder = resource.getRequestBuilder();
+                resourceBuilder = resourceBuilder.accept("application/json");
+                com.sun.jersey.api.client.ClientResponse response;
+                response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
+                if (response.getStatus()>= 400) {
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                }
+                return response.getEntity(returnType);
+            }
+
+            public<T >T getAsJson(Class<T> returnType) {
+                UriBuilder localUriBuilder = _uriBuilder.clone();
+                com.sun.jersey.api.client.WebResource resource = _client.resource(localUriBuilder.buildFromMap(_templateAndMatrixParameterValues));
+                com.sun.jersey.api.client.WebResource.Builder resourceBuilder = resource.getRequestBuilder();
+                resourceBuilder = resourceBuilder.accept("application/json");
+                com.sun.jersey.api.client.ClientResponse response;
+                response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
+                if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
+                    if (response.getStatus()>= 400) {
+                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    }
+                }
+                if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
+                    return response.getEntity(returnType);
+                } else {
+                    return returnType.cast(response);
+                }
+            }
+
+            public LoginDTO getAsLoginDTO(String user, String pass) {
+                UriBuilder localUriBuilder = _uriBuilder.clone();
+                if (user == null) {
+                }
+                if (user!= null) {
+                    localUriBuilder = localUriBuilder.replaceQueryParam("user", user);
+                } else {
+                    localUriBuilder = localUriBuilder.replaceQueryParam("user", ((Object[]) null));
+                }
+                if (pass == null) {
+                }
+                if (pass!= null) {
+                    localUriBuilder = localUriBuilder.replaceQueryParam("pass", pass);
+                } else {
+                    localUriBuilder = localUriBuilder.replaceQueryParam("pass", ((Object[]) null));
+                }
+                com.sun.jersey.api.client.WebResource resource = _client.resource(localUriBuilder.buildFromMap(_templateAndMatrixParameterValues));
+                com.sun.jersey.api.client.WebResource.Builder resourceBuilder = resource.getRequestBuilder();
+                resourceBuilder = resourceBuilder.accept("application/json");
+                com.sun.jersey.api.client.ClientResponse response;
+                response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
+                if (response.getStatus()>= 400) {
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                }
+                return response.getEntity(LoginDTO.class);
+            }
+
+            public<T >T getAsJson(String user, String pass, com.sun.jersey.api.client.GenericType<T> returnType) {
+                UriBuilder localUriBuilder = _uriBuilder.clone();
+                if (user == null) {
+                }
+                if (user!= null) {
+                    localUriBuilder = localUriBuilder.replaceQueryParam("user", user);
+                } else {
+                    localUriBuilder = localUriBuilder.replaceQueryParam("user", ((Object[]) null));
+                }
+                if (pass == null) {
+                }
+                if (pass!= null) {
+                    localUriBuilder = localUriBuilder.replaceQueryParam("pass", pass);
+                } else {
+                    localUriBuilder = localUriBuilder.replaceQueryParam("pass", ((Object[]) null));
+                }
+                com.sun.jersey.api.client.WebResource resource = _client.resource(localUriBuilder.buildFromMap(_templateAndMatrixParameterValues));
+                com.sun.jersey.api.client.WebResource.Builder resourceBuilder = resource.getRequestBuilder();
+                resourceBuilder = resourceBuilder.accept("application/json");
+                com.sun.jersey.api.client.ClientResponse response;
+                response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
+                if (response.getStatus()>= 400) {
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                }
+                return response.getEntity(returnType);
+            }
+
+            public<T >T getAsJson(String user, String pass, Class<T> returnType) {
+                UriBuilder localUriBuilder = _uriBuilder.clone();
+                if (user == null) {
+                }
+                if (user!= null) {
+                    localUriBuilder = localUriBuilder.replaceQueryParam("user", user);
+                } else {
+                    localUriBuilder = localUriBuilder.replaceQueryParam("user", ((Object[]) null));
+                }
+                if (pass == null) {
+                }
+                if (pass!= null) {
+                    localUriBuilder = localUriBuilder.replaceQueryParam("pass", pass);
+                } else {
+                    localUriBuilder = localUriBuilder.replaceQueryParam("pass", ((Object[]) null));
+                }
+                com.sun.jersey.api.client.WebResource resource = _client.resource(localUriBuilder.buildFromMap(_templateAndMatrixParameterValues));
+                com.sun.jersey.api.client.WebResource.Builder resourceBuilder = resource.getRequestBuilder();
+                resourceBuilder = resourceBuilder.accept("application/json");
+                com.sun.jersey.api.client.ClientResponse response;
+                response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
+                if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
+                    if (response.getStatus()>= 400) {
+                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    }
+                }
+                if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
+                    return response.getEntity(returnType);
+                } else {
+                    return returnType.cast(response);
+                }
+            }
+
+        }
+
+        public static class DoRegJson {
+
+            private com.sun.jersey.api.client.Client _client;
+            private UriBuilder _uriBuilder;
+            private Map<String, Object> _templateAndMatrixParameterValues;
+
+            private DoRegJson(com.sun.jersey.api.client.Client client, UriBuilder uriBuilder, Map<String, Object> map) {
+                _client = client;
+                _uriBuilder = uriBuilder.clone();
+                _templateAndMatrixParameterValues = map;
+            }
+
+            /**
+             * Create new instance using existing Client instance, and a base URI and any parameters
+             * 
+             */
+            public DoRegJson(com.sun.jersey.api.client.Client client, URI baseUri) {
+                _client = client;
+                _uriBuilder = UriBuilder.fromUri(baseUri);
+                _uriBuilder = _uriBuilder.path("/do.reg.json");
                 _templateAndMatrixParameterValues = new HashMap<String, Object>();
             }
 
