@@ -2,6 +2,8 @@ package ru.terra.dms.desktop.core.viewpart.impl.simpletable;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
@@ -10,8 +12,10 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import ru.terra.dms.client.rest.ListDTO;
 import ru.terra.dms.client.rest.Localhost_Dms;
 import ru.terra.dms.client.rest.ObjectDTO;
@@ -51,6 +55,8 @@ public class SimpleTableViewPart extends AbstractViewPart {
     public Button btnRefresh;
     @FXML
     public TableView<SimpleTableItem> table;
+    @FXML
+    public TableColumn<SimpleTableItem, String> colValue;
     private ru.terra.dms.desktop.configuration.bean.ViewPart viewPart;
 
     private class LoadService extends Service<ObservableList<SimpleTableItem>> {
@@ -95,6 +101,12 @@ public class SimpleTableViewPart extends AbstractViewPart {
             @Override
             public void handle(ActionEvent actionEvent) {
                 load();
+            }
+        });
+        colValue.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<SimpleTableItem, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<SimpleTableItem, String> simpleTableItemStringCellDataFeatures) {
+                return new ReadOnlyStringWrapper(simpleTableItemStringCellDataFeatures.getValue().toString());
             }
         });
     }
