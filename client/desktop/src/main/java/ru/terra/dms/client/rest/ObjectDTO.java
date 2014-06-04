@@ -258,6 +258,13 @@ public class ObjectDTO {
                 this.value = value;
             }
 
+            public Entry(String key, Object value) {
+                this.key = key;
+                this.value = value;
+            }
+
+            public Entry() {
+            }
         }
 
     }

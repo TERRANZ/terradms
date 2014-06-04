@@ -17,6 +17,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.JavaType;
 import ru.terra.dms.client.rest.ListDTO;
 import ru.terra.dms.client.rest.Localhost_Dms;
 import ru.terra.dms.client.rest.ObjectDTO;
@@ -72,12 +74,28 @@ public class SimpleTableViewPart extends AbstractViewPart {
                     if (viewPart == null)
                         return null;
                     List<SimpleTableItem> ret = new ArrayList<>();
-                    ListDTO listDTO = Localhost_Dms.objects().doListBynameJson().getAsListDTO(viewPart.getPojo().getName());
-                    if (listDTO.getData() != null)
-                        for (Object o : listDTO.getData()) {
-                            ObjectDTO objectDTO = (ObjectDTO) o;
-                            ret.add(processObjectDTO(objectDTO));
-                        }
+                    try {
+                        String json = Localhost_Dms.objects().doListBynameJson().getAsJson(viewPart.getPojo().getType(), String.class);
+                        logger.info("json: " + json);
+//                        ListDTO listDTO = Localhost_Dms.objects().doListBynameJson().getAsListDTO(viewPart.getPojo().getType());
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        JavaType type = objectMapper.getTypeFactory().constructParametricType(ListDTO.class, ru.terra.dms.server.network.dto.ObjectDTO.class);
+                        ListDTO<ru.terra.dms.server.network.dto.ObjectDTO> listDTO = objectMapper.readValue(json, type);
+                        if (listDTO.getData() != null)
+                            for (ru.terra.dms.server.network.dto.ObjectDTO dto : listDTO.getData()) {
+                                ObjectDTO o = new ObjectDTO();
+                                o.setId(dto.id);
+                                o.setType(dto.type);
+                                o.setFields(new ObjectDTO.Fields());
+                                o.getFields().setEntry(new ArrayList<>());
+                                for (String key : dto.fields.keySet())
+                                    o.getFields().getEntry().add(new ObjectDTO.Fields.Entry(key, dto.fields.get(key)));
+                                ret.add(processObjectDTO(o));
+                            }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     return FXCollections.observableArrayList(ret);
                 }
             };
@@ -120,9 +138,10 @@ public class SimpleTableViewPart extends AbstractViewPart {
         viewPart = ConfigurationManager.getInstance().getViewPart(viewPartName);
         LoadService loadService = new LoadService();
         loadService.start();
-        loadService.onSucceededProperty().addListener(new InvalidationListener() {
+        loadService.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
-            public void invalidated(Observable observable) {
+            public void handle(WorkerStateEvent workerStateEvent) {
+                table.getItems().clear();
                 table.setItems(loadService.getValue());
             }
         });

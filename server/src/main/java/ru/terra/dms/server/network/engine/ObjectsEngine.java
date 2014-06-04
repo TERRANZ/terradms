@@ -1,7 +1,6 @@
 package ru.terra.dms.server.network.engine;
 
 import ru.terra.dms.server.network.dto.ObjectDTO;
-import ru.terra.dms.desktop.dto.Pair;
 import ru.terra.dms.server.processing.ProcessingTrigger;
 import ru.terra.dms.server.processing.impl.WayBillsProcessingTrigger;
 import ru.terraobjects.entity.TObject;
@@ -32,16 +31,12 @@ public class ObjectsEngine {
         newObject.setObjectFieldsList(new ArrayList<>());
 
         try {
-            objectsManager.saveOrUpdate(newObject);
+            objectsManager.saveObject(newObject);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        Map<String, Object> map = new HashMap<>();
-        for (Pair<String, Object> pair : objectDTO.fields)
-            map.put(pair.key, pair.value);
-        objectsManager.updateObjectFields(newObject.getId(), map);
-
+        objectsManager.updateObjectFields(newObject.getId(), objectDTO.fields);
         for (ProcessingTrigger trigger : triggers)
             trigger.onCreate(newObject.getId());
     }

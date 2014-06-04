@@ -1,10 +1,6 @@
 package ru.terra.dms.server.network.dto;
 
-import ru.terra.dms.desktop.dto.Pair;
-
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,5 +11,5 @@ import java.util.Map;
 public class ObjectDTO {
     public String type;
     public Integer id;
-    public List<Pair<String, Object>> fields;
+    public Map<String, Object> fields;
 }
