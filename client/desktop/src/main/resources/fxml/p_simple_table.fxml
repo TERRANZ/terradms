@@ -9,11 +9,12 @@
             <items>
                 <Button fx:id="btnRefresh" mnemonicParsing="false" text="Обновить"/>
                 <Button mnemonicParsing="false" onAction="#add" text="Добавить"/>
+                <Button mnemonicParsing="false" text="Сохранить" onAction="#save"/>
             </items>
         </ToolBar>
         <TableView fx:id="table" prefHeight="596.0" prefWidth="600.0">
             <columns>
-                <TableColumn prefWidth="599.0" text="Column X" fx:id="colValue"/>
+                <TableColumn fx:id="colValue" prefWidth="599.0" text="Column X"/>
             </columns>
         </TableView>
     </children>

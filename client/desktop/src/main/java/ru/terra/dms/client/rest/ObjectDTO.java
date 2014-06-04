@@ -216,7 +216,7 @@ public class ObjectDTO {
         public static class Entry {
 
             protected String key = "";
-            protected Object value = new String();
+            protected Object value = "";
 
             /**
              * Gets the value of the key property.

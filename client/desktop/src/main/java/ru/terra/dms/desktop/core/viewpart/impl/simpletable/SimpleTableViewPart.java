@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -23,7 +24,9 @@ import ru.terra.dms.desktop.configuration.ConfigurationManager;
 import ru.terra.dms.desktop.core.annotations.ViewPart;
 import ru.terra.dms.desktop.core.util.WorkIsDoneListener;
 import ru.terra.dms.desktop.core.viewpart.AbstractViewPart;
+import ru.terra.dms.desktop.gui.parts.ProgressDialog;
 import ru.terra.dms.desktop.gui.parts.StageHelper;
+import ru.terra.dms.desktop.gui.service.SendObjectsService;
 import ru.terra.dms.desktop.gui.util.Pair;
 
 import java.io.Serializable;
@@ -58,6 +61,7 @@ public class SimpleTableViewPart extends AbstractViewPart {
     @FXML
     public TableColumn<SimpleTableItem, String> colValue;
     private ru.terra.dms.desktop.configuration.bean.ViewPart viewPart;
+    private List<ObjectDTO> newObjects = new ArrayList<>();
 
     private class LoadService extends Service<ObservableList<SimpleTableItem>> {
         @Override
@@ -131,9 +135,27 @@ public class SimpleTableViewPart extends AbstractViewPart {
             public void workIsDone(int code, String... msg) {
                 dialogPair.getKey().close();
                 ObjectDTO dto = dialogPair.getValue().getReturnValue();
+                dto.setId(0);
+                dto.setType(viewPart.getPojo().getType());
+                newObjects.add(dto);
                 table.getItems().addAll(processObjectDTO(dto));
 
             }
         });
+    }
+
+    public void save(ActionEvent actionEvent) {
+        SendObjectsService sendObjectsService = new SendObjectsService(newObjects);
+        ProgressDialog.create(sendObjectsService, StageHelper.currStage, true).show();
+        sendObjectsService.reset();
+        sendObjectsService.start();
+        sendObjectsService.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent workerStateEvent) {
+                newObjects.clear();
+            }
+        });
+
+
     }
 }

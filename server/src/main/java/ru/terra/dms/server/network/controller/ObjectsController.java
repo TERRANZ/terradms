@@ -1,10 +1,13 @@
 package ru.terra.dms.server.network.controller;
 
 import com.sun.jersey.api.core.HttpContext;
+import flexjson.JSONDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.terra.dms.desktop.dto.Pair;
 import ru.terra.dms.server.constants.URLConstants;
 import ru.terra.dms.server.network.dto.ObjectDTO;
+import ru.terra.dms.server.network.engine.ObjectsEngine;
 import ru.terra.server.controller.AbstractResource;
 import ru.terra.server.dto.ListDTO;
 import ru.terraobjects.entity.TObject;
@@ -12,9 +15,9 @@ import ru.terraobjects.manager.ObjectsManager;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.GenericEntity;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Date: 02.06.14
@@ -24,10 +27,14 @@ import java.util.List;
 public class ObjectsController extends AbstractResource {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     private ObjectsManager<TObject> objectsManager = new ObjectsManager<>();
+    private ObjectsEngine objectsEngine = new ObjectsEngine();
 
-    @PUT
+    @POST
     @Path(URLConstants.DoJson.DO_CREATE)
-    public Boolean create(@Context HttpContext hc, @FormParam("object") ObjectDTO objectDTO) {
+    public Boolean create(@Context HttpContext hc, @FormParam("object") String json) {
+        logger.info(json);
+        ObjectDTO objectDTO = new JSONDeserializer<ObjectDTO>().use("fields", ArrayList.class).use("field.values", Pair.class).deserialize(json, ObjectDTO.class);
+        objectsEngine.createObject(objectDTO);
         return true;
     }
 
@@ -58,7 +65,14 @@ public class ObjectsController extends AbstractResource {
             ObjectDTO objectDTO = new ObjectDTO();
             objectDTO.id = tObject.getId();
             objectDTO.type = tObject.getName();
-            objectDTO.fields = objectsManager.getObjectFieldValues(tObject.getId());
+            objectDTO.fields = new ArrayList<>();
+            Map<String, Object> map = objectsManager.getObjectFieldValues(tObject.getId());
+            for (String key : map.keySet()) {
+                Pair<String, Object> pair = new Pair<String, Object>();
+                pair.key = key;
+                pair.value = map.get(key);
+                objectDTO.fields.add(pair);
+            }
             data.add(objectDTO);
         }
         ret.setData(data);
