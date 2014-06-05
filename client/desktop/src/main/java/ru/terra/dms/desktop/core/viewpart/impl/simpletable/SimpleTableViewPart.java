@@ -1,7 +1,5 @@
 package ru.terra.dms.desktop.core.viewpart.impl.simpletable;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -49,8 +47,7 @@ public class SimpleTableViewPart extends AbstractViewPart {
 
         @Override
         public String toString() {
-            return "SimpleTableItem{" +
-                    "id=" + id +
+            return "id=" + id +
                     ", values='" + values + '\'' +
                     '}';
         }
@@ -149,13 +146,20 @@ public class SimpleTableViewPart extends AbstractViewPart {
 
     public void add(ActionEvent actionEvent) {
         Pair<Stage, EditSimpleBeanDialog> dialogPair = StageHelper.<EditSimpleBeanDialog>openWindow("d_create_simple_bean.fxml", "редактирование", false);
+        dialogPair.getValue().setThisStage(dialogPair.getKey());
+        ObjectDTO objectDTO = new ObjectDTO();
+        objectDTO.setType(viewPart.getPojo().getType());
+        objectDTO.setId(0);
+        objectDTO.setFields(new ObjectDTO.Fields());
+        objectDTO.getFields().setEntry(new ArrayList<>());
+        for (String name : viewPart.getPojo().getFields().keySet())
+            objectDTO.getFields().getEntry().add(new ObjectDTO.Fields.Entry(name, viewPart.getPojo().getFields().get(name)));
+        dialogPair.getValue().setReturnValue(objectDTO);
         dialogPair.getValue().setWorkIsDoneListener(new WorkIsDoneListener() {
             @Override
             public void workIsDone(int code, String... msg) {
                 dialogPair.getKey().close();
                 ObjectDTO dto = dialogPair.getValue().getReturnValue();
-                dto.setId(0);
-                dto.setType(viewPart.getPojo().getType());
                 newObjects.add(dto);
                 table.getItems().addAll(processObjectDTO(dto));
 

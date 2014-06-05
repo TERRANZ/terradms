@@ -43,7 +43,4 @@ public abstract class AbstractEditDialog<RetVal> implements Initializable {
     public void cancel(ActionEvent actionEvent) {
         thisStage.close();
     }
-
-    public abstract void loadExisting(RetVal value);
-
 }

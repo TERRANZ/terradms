@@ -2,6 +2,7 @@ package ru.terra.dms.desktop.core.viewpart.impl.simpletable;
 
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -90,8 +91,10 @@ public class EditSimpleBeanDialog extends AbstractEditDialog<ObjectDTO> {
     }
 
     @Override
-    public void loadExisting(ObjectDTO value) {
-        thisStage.setTitle(value.getType());
-
+    public void setReturnValue(ObjectDTO returnValue) {
+        super.setReturnValue(returnValue);
+        thisStage.setTitle(returnValue.getType());
+        if (returnValue.getFields() != null && returnValue.getFields().getEntry() != null && returnValue.getFields().getEntry().size() > 0)
+            tblFields.setItems(FXCollections.observableArrayList(returnValue.getFields().getEntry()));
     }
 }
