@@ -13,7 +13,7 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 
 @Generated(value = {
     "wadl|http://localhost:8080/dms/application.wadl"
-}, comments = "wadl2java, http://wadl.java.net", date = "2014-06-04T13:52:45.677+04:00")
+}, comments = "wadl2java, http://wadl.java.net", date = "2014-06-10T11:13:42.859+04:00")
 public class Localhost_Dms {
 
     /**
@@ -102,6 +102,117 @@ public class Localhost_Dms {
         return objects(client, BASE_URI);
     }
 
+    public static Localhost_Dms.Configuration configuration(com.sun.jersey.api.client.Client client, URI baseURI) {
+        return new Localhost_Dms.Configuration(client, baseURI);
+    }
+
+    public static Localhost_Dms.Configuration configuration() {
+        return configuration(createClient(), BASE_URI);
+    }
+
+    public static Localhost_Dms.Configuration configuration(com.sun.jersey.api.client.Client client) {
+        return configuration(client, BASE_URI);
+    }
+
+    public static class Configuration {
+
+        private com.sun.jersey.api.client.Client _client;
+        private UriBuilder _uriBuilder;
+        private Map<String, Object> _templateAndMatrixParameterValues;
+
+        private Configuration(com.sun.jersey.api.client.Client client, UriBuilder uriBuilder, Map<String, Object> map) {
+            _client = client;
+            _uriBuilder = uriBuilder.clone();
+            _templateAndMatrixParameterValues = map;
+        }
+
+        /**
+         * Create new instance using existing Client instance, and a base URI and any parameters
+         * 
+         */
+        public Configuration(com.sun.jersey.api.client.Client client, URI baseUri) {
+            _client = client;
+            _uriBuilder = UriBuilder.fromUri(baseUri);
+            _uriBuilder = _uriBuilder.path("/configuration/");
+            _templateAndMatrixParameterValues = new HashMap<String, Object>();
+        }
+
+        public Localhost_Dms.Configuration.DoGetJson doGetJson() {
+            return new Localhost_Dms.Configuration.DoGetJson(_client, _uriBuilder.buildFromMap(_templateAndMatrixParameterValues));
+        }
+
+        public static class DoGetJson {
+
+            private com.sun.jersey.api.client.Client _client;
+            private UriBuilder _uriBuilder;
+            private Map<String, Object> _templateAndMatrixParameterValues;
+
+            private DoGetJson(com.sun.jersey.api.client.Client client, UriBuilder uriBuilder, Map<String, Object> map) {
+                _client = client;
+                _uriBuilder = uriBuilder.clone();
+                _templateAndMatrixParameterValues = map;
+            }
+
+            /**
+             * Create new instance using existing Client instance, and a base URI and any parameters
+             * 
+             */
+            public DoGetJson(com.sun.jersey.api.client.Client client, URI baseUri) {
+                _client = client;
+                _uriBuilder = UriBuilder.fromUri(baseUri);
+                _uriBuilder = _uriBuilder.path("do.get.json");
+                _templateAndMatrixParameterValues = new HashMap<String, Object>();
+            }
+
+            public ru.terra.dms.client.rest.Configuration getAsConfiguration() {
+                UriBuilder localUriBuilder = _uriBuilder.clone();
+                com.sun.jersey.api.client.WebResource resource = _client.resource(localUriBuilder.buildFromMap(_templateAndMatrixParameterValues));
+                com.sun.jersey.api.client.WebResource.Builder resourceBuilder = resource.getRequestBuilder();
+                resourceBuilder = resourceBuilder.accept("application/json");
+                com.sun.jersey.api.client.ClientResponse response;
+                response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
+                if (response.getStatus()>= 400) {
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
+                }
+                return response.getEntity(ru.terra.dms.client.rest.Configuration.class);
+            }
+
+            public<T >T getAsJson(com.sun.jersey.api.client.GenericType<T> returnType) {
+                UriBuilder localUriBuilder = _uriBuilder.clone();
+                com.sun.jersey.api.client.WebResource resource = _client.resource(localUriBuilder.buildFromMap(_templateAndMatrixParameterValues));
+                com.sun.jersey.api.client.WebResource.Builder resourceBuilder = resource.getRequestBuilder();
+                resourceBuilder = resourceBuilder.accept("application/json");
+                com.sun.jersey.api.client.ClientResponse response;
+                response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
+                if (response.getStatus()>= 400) {
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
+                }
+                return response.getEntity(returnType);
+            }
+
+            public<T >T getAsJson(Class<T> returnType) {
+                UriBuilder localUriBuilder = _uriBuilder.clone();
+                com.sun.jersey.api.client.WebResource resource = _client.resource(localUriBuilder.buildFromMap(_templateAndMatrixParameterValues));
+                com.sun.jersey.api.client.WebResource.Builder resourceBuilder = resource.getRequestBuilder();
+                resourceBuilder = resourceBuilder.accept("application/json");
+                com.sun.jersey.api.client.ClientResponse response;
+                response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
+                if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
+                    if (response.getStatus()>= 400) {
+                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
+                    }
+                }
+                if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
+                    return response.getEntity(returnType);
+                } else {
+                    return returnType.cast(response);
+                }
+            }
+
+        }
+
+    }
+
     public static class Objects {
 
         private com.sun.jersey.api.client.Client _client;
@@ -177,7 +288,7 @@ public class Localhost_Dms {
                 com.sun.jersey.api.client.ClientResponse response;
                 response = resourceBuilder.method("POST", com.sun.jersey.api.client.ClientResponse.class, input);
                 if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                 }
                 return response.getEntity(returnType);
             }
@@ -192,7 +303,7 @@ public class Localhost_Dms {
                 response = resourceBuilder.method("POST", com.sun.jersey.api.client.ClientResponse.class, input);
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
                     if (response.getStatus()>= 400) {
-                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                     }
                 }
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
@@ -276,7 +387,7 @@ public class Localhost_Dms {
                 com.sun.jersey.api.client.ClientResponse response;
                 response = resourceBuilder.method("DELETE", com.sun.jersey.api.client.ClientResponse.class);
                 if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                 }
                 return response.getEntity(returnType);
             }
@@ -290,7 +401,7 @@ public class Localhost_Dms {
                 response = resourceBuilder.method("DELETE", com.sun.jersey.api.client.ClientResponse.class);
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
                     if (response.getStatus()>= 400) {
-                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                     }
                 }
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
@@ -374,7 +485,7 @@ public class Localhost_Dms {
                 com.sun.jersey.api.client.ClientResponse response;
                 response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
                 if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                 }
                 return response.getEntity(ObjectDTO.class);
             }
@@ -387,7 +498,7 @@ public class Localhost_Dms {
                 com.sun.jersey.api.client.ClientResponse response;
                 response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
                 if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                 }
                 return response.getEntity(returnType);
             }
@@ -401,7 +512,7 @@ public class Localhost_Dms {
                 response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
                     if (response.getStatus()>= 400) {
-                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                     }
                 }
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
@@ -436,19 +547,6 @@ public class Localhost_Dms {
                 _templateAndMatrixParameterValues = new HashMap<String, Object>();
             }
 
-            public ListDTO getAsListDTO() {
-                UriBuilder localUriBuilder = _uriBuilder.clone();
-                com.sun.jersey.api.client.WebResource resource = _client.resource(localUriBuilder.buildFromMap(_templateAndMatrixParameterValues));
-                com.sun.jersey.api.client.WebResource.Builder resourceBuilder = resource.getRequestBuilder();
-                resourceBuilder = resourceBuilder.accept("application/json");
-                com.sun.jersey.api.client.ClientResponse response;
-                response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
-                if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
-                }
-                return response.getEntity(ListDTO.class);
-            }
-
             public<T >T getAsJson(com.sun.jersey.api.client.GenericType<T> returnType) {
                 UriBuilder localUriBuilder = _uriBuilder.clone();
                 com.sun.jersey.api.client.WebResource resource = _client.resource(localUriBuilder.buildFromMap(_templateAndMatrixParameterValues));
@@ -457,7 +555,7 @@ public class Localhost_Dms {
                 com.sun.jersey.api.client.ClientResponse response;
                 response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
                 if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                 }
                 return response.getEntity(returnType);
             }
@@ -471,7 +569,7 @@ public class Localhost_Dms {
                 response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
                     if (response.getStatus()>= 400) {
-                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                     }
                 }
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
@@ -479,26 +577,6 @@ public class Localhost_Dms {
                 } else {
                     return returnType.cast(response);
                 }
-            }
-
-            public ListDTO getAsListDTO(String name) {
-                UriBuilder localUriBuilder = _uriBuilder.clone();
-                if (name == null) {
-                }
-                if (name!= null) {
-                    localUriBuilder = localUriBuilder.replaceQueryParam("name", name);
-                } else {
-                    localUriBuilder = localUriBuilder.replaceQueryParam("name", ((Object[]) null));
-                }
-                com.sun.jersey.api.client.WebResource resource = _client.resource(localUriBuilder.buildFromMap(_templateAndMatrixParameterValues));
-                com.sun.jersey.api.client.WebResource.Builder resourceBuilder = resource.getRequestBuilder();
-                resourceBuilder = resourceBuilder.accept("application/json");
-                com.sun.jersey.api.client.ClientResponse response;
-                response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
-                if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
-                }
-                return response.getEntity(ListDTO.class);
             }
 
             public<T >T getAsJson(String name, com.sun.jersey.api.client.GenericType<T> returnType) {
@@ -516,7 +594,7 @@ public class Localhost_Dms {
                 com.sun.jersey.api.client.ClientResponse response;
                 response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
                 if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                 }
                 return response.getEntity(returnType);
             }
@@ -537,7 +615,7 @@ public class Localhost_Dms {
                 response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
                     if (response.getStatus()>= 400) {
-                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                     }
                 }
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
@@ -581,7 +659,7 @@ public class Localhost_Dms {
                 com.sun.jersey.api.client.ClientResponse response;
                 response = resourceBuilder.method("POST", com.sun.jersey.api.client.ClientResponse.class, input);
                 if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                 }
                 return response.getEntity(returnType);
             }
@@ -596,7 +674,7 @@ public class Localhost_Dms {
                 response = resourceBuilder.method("POST", com.sun.jersey.api.client.ClientResponse.class, input);
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
                     if (response.getStatus()>= 400) {
-                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                     }
                 }
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
@@ -688,7 +766,7 @@ public class Localhost_Dms {
                 com.sun.jersey.api.client.ClientResponse response;
                 response = resourceBuilder.method("PUT", com.sun.jersey.api.client.ClientResponse.class);
                 if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                 }
                 return response.getEntity(UserDTO.class);
             }
@@ -701,7 +779,7 @@ public class Localhost_Dms {
                 com.sun.jersey.api.client.ClientResponse response;
                 response = resourceBuilder.method("PUT", com.sun.jersey.api.client.ClientResponse.class);
                 if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                 }
                 return response.getEntity(returnType);
             }
@@ -715,7 +793,7 @@ public class Localhost_Dms {
                 response = resourceBuilder.method("PUT", com.sun.jersey.api.client.ClientResponse.class);
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
                     if (response.getStatus()>= 400) {
-                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                     }
                 }
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
@@ -740,7 +818,7 @@ public class Localhost_Dms {
                 com.sun.jersey.api.client.ClientResponse response;
                 response = resourceBuilder.method("PUT", com.sun.jersey.api.client.ClientResponse.class);
                 if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                 }
                 return response.getEntity(UserDTO.class);
             }
@@ -760,7 +838,7 @@ public class Localhost_Dms {
                 com.sun.jersey.api.client.ClientResponse response;
                 response = resourceBuilder.method("PUT", com.sun.jersey.api.client.ClientResponse.class);
                 if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                 }
                 return response.getEntity(returnType);
             }
@@ -781,7 +859,7 @@ public class Localhost_Dms {
                 response = resourceBuilder.method("PUT", com.sun.jersey.api.client.ClientResponse.class);
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
                     if (response.getStatus()>= 400) {
-                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                     }
                 }
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
@@ -824,7 +902,7 @@ public class Localhost_Dms {
                 com.sun.jersey.api.client.ClientResponse response;
                 response = resourceBuilder.method("DELETE", com.sun.jersey.api.client.ClientResponse.class);
                 if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                 }
                 return response.getEntity(SimpleDataDTO.class);
             }
@@ -837,7 +915,7 @@ public class Localhost_Dms {
                 com.sun.jersey.api.client.ClientResponse response;
                 response = resourceBuilder.method("DELETE", com.sun.jersey.api.client.ClientResponse.class);
                 if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                 }
                 return response.getEntity(returnType);
             }
@@ -851,7 +929,7 @@ public class Localhost_Dms {
                 response = resourceBuilder.method("DELETE", com.sun.jersey.api.client.ClientResponse.class);
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
                     if (response.getStatus()>= 400) {
-                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                     }
                 }
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
@@ -876,7 +954,7 @@ public class Localhost_Dms {
                 com.sun.jersey.api.client.ClientResponse response;
                 response = resourceBuilder.method("DELETE", com.sun.jersey.api.client.ClientResponse.class);
                 if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                 }
                 return response.getEntity(SimpleDataDTO.class);
             }
@@ -896,7 +974,7 @@ public class Localhost_Dms {
                 com.sun.jersey.api.client.ClientResponse response;
                 response = resourceBuilder.method("DELETE", com.sun.jersey.api.client.ClientResponse.class);
                 if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                 }
                 return response.getEntity(returnType);
             }
@@ -917,7 +995,7 @@ public class Localhost_Dms {
                 response = resourceBuilder.method("DELETE", com.sun.jersey.api.client.ClientResponse.class);
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
                     if (response.getStatus()>= 400) {
-                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                     }
                 }
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
@@ -960,7 +1038,7 @@ public class Localhost_Dms {
                 com.sun.jersey.api.client.ClientResponse response;
                 response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
                 if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                 }
                 return response.getEntity(UserDTO.class);
             }
@@ -973,7 +1051,7 @@ public class Localhost_Dms {
                 com.sun.jersey.api.client.ClientResponse response;
                 response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
                 if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                 }
                 return response.getEntity(returnType);
             }
@@ -987,7 +1065,7 @@ public class Localhost_Dms {
                 response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
                     if (response.getStatus()>= 400) {
-                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                     }
                 }
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
@@ -1012,7 +1090,7 @@ public class Localhost_Dms {
                 com.sun.jersey.api.client.ClientResponse response;
                 response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
                 if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                 }
                 return response.getEntity(UserDTO.class);
             }
@@ -1032,7 +1110,7 @@ public class Localhost_Dms {
                 com.sun.jersey.api.client.ClientResponse response;
                 response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
                 if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                 }
                 return response.getEntity(returnType);
             }
@@ -1053,7 +1131,7 @@ public class Localhost_Dms {
                 response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
                     if (response.getStatus()>= 400) {
-                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                     }
                 }
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
@@ -1096,7 +1174,7 @@ public class Localhost_Dms {
                 com.sun.jersey.api.client.ClientResponse response;
                 response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
                 if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                 }
                 return response.getEntity(ListDTO.class);
             }
@@ -1109,7 +1187,7 @@ public class Localhost_Dms {
                 com.sun.jersey.api.client.ClientResponse response;
                 response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
                 if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                 }
                 return response.getEntity(returnType);
             }
@@ -1123,7 +1201,7 @@ public class Localhost_Dms {
                 response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
                     if (response.getStatus()>= 400) {
-                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                     }
                 }
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
@@ -1162,7 +1240,7 @@ public class Localhost_Dms {
                 com.sun.jersey.api.client.ClientResponse response;
                 response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
                 if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                 }
                 return response.getEntity(ListDTO.class);
             }
@@ -1196,7 +1274,7 @@ public class Localhost_Dms {
                 com.sun.jersey.api.client.ClientResponse response;
                 response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
                 if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                 }
                 return response.getEntity(returnType);
             }
@@ -1231,7 +1309,7 @@ public class Localhost_Dms {
                 response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
                     if (response.getStatus()>= 400) {
-                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                     }
                 }
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
@@ -1274,7 +1352,7 @@ public class Localhost_Dms {
                 com.sun.jersey.api.client.ClientResponse response;
                 response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
                 if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                 }
                 return response.getEntity(LoginDTO.class);
             }
@@ -1287,7 +1365,7 @@ public class Localhost_Dms {
                 com.sun.jersey.api.client.ClientResponse response;
                 response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
                 if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                 }
                 return response.getEntity(returnType);
             }
@@ -1301,7 +1379,7 @@ public class Localhost_Dms {
                 response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
                     if (response.getStatus()>= 400) {
-                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                     }
                 }
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
@@ -1333,7 +1411,7 @@ public class Localhost_Dms {
                 com.sun.jersey.api.client.ClientResponse response;
                 response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
                 if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                 }
                 return response.getEntity(LoginDTO.class);
             }
@@ -1360,7 +1438,7 @@ public class Localhost_Dms {
                 com.sun.jersey.api.client.ClientResponse response;
                 response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
                 if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                 }
                 return response.getEntity(returnType);
             }
@@ -1388,7 +1466,7 @@ public class Localhost_Dms {
                 response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
                     if (response.getStatus()>= 400) {
-                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                     }
                 }
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
@@ -1431,7 +1509,7 @@ public class Localhost_Dms {
                 com.sun.jersey.api.client.ClientResponse response;
                 response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
                 if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                 }
                 return response.getEntity(LoginDTO.class);
             }
@@ -1444,7 +1522,7 @@ public class Localhost_Dms {
                 com.sun.jersey.api.client.ClientResponse response;
                 response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
                 if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                 }
                 return response.getEntity(returnType);
             }
@@ -1458,7 +1536,7 @@ public class Localhost_Dms {
                 response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
                     if (response.getStatus()>= 400) {
-                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                     }
                 }
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
@@ -1490,7 +1568,7 @@ public class Localhost_Dms {
                 com.sun.jersey.api.client.ClientResponse response;
                 response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
                 if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                 }
                 return response.getEntity(LoginDTO.class);
             }
@@ -1517,7 +1595,7 @@ public class Localhost_Dms {
                 com.sun.jersey.api.client.ClientResponse response;
                 response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
                 if (response.getStatus()>= 400) {
-                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                    throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                 }
                 return response.getEntity(returnType);
             }
@@ -1545,7 +1623,7 @@ public class Localhost_Dms {
                 response = resourceBuilder.method("GET", com.sun.jersey.api.client.ClientResponse.class);
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {
                     if (response.getStatus()>= 400) {
-                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getClientResponseStatus()).build());
+                        throw new Localhost_Dms.WebApplicationExceptionMessage(Response.status(response.getStatusInfo()).build());
                     }
                 }
                 if (!com.sun.jersey.api.client.ClientResponse.class.isAssignableFrom(returnType)) {

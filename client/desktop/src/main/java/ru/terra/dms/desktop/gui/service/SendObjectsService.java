@@ -33,7 +33,7 @@ public class SendObjectsService extends Service<Boolean> {
             protected Boolean call() throws Exception {
                 for (ObjectDTO objectDTO : objects)
                     try {
-                        ru.terra.dms.server.network.dto.ObjectDTO objectWithFieldsDTO = new ru.terra.dms.server.network.dto.ObjectDTO();
+                        ru.terra.dms.shared.dto.ObjectDTO objectWithFieldsDTO = new ru.terra.dms.shared.dto.ObjectDTO();
                         objectWithFieldsDTO.id = objectDTO.getId();
                         objectWithFieldsDTO.type = objectDTO.getType();
                         objectWithFieldsDTO.fields = new HashMap<>();

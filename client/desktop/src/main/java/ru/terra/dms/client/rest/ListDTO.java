@@ -31,16 +31,11 @@ import java.util.List;
         "data",
         "size"
 })
-public class ListDTO<T>
-        extends CommonDTO {
+public class ListDTO<T> extends CommonDTO {
 
     @XmlElement(nillable = true)
     protected List<T> data;
-    private Integer size;
-
-    public void setData(List<T> data) {
-        this.data = data;
-    }
+    public Integer size;
 
     public Integer getSize() {
         return size;

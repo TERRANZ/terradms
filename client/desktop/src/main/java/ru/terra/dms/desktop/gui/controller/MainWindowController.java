@@ -5,9 +5,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
-import ru.terra.dms.desktop.configuration.Configuration;
-import ru.terra.dms.desktop.configuration.ConfigurationManager;
-import ru.terra.dms.desktop.configuration.bean.ViewPart;
+import ru.terra.dms.client.rest.Configuration;
+import ru.terra.dms.client.rest.ViewPart;
+import ru.terra.dms.desktop.core.configuration.ConfigurationManager;
 import ru.terra.dms.desktop.core.viewpart.AbstractViewPart;
 import ru.terra.dms.desktop.core.viewpart.ViewPartHelper;
 import ru.terra.dms.desktop.gui.parts.StageHelper;
@@ -26,7 +26,7 @@ public class MainWindowController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Configuration configuration = ConfigurationManager.getInstance();
+        Configuration configuration = ConfigurationManager.getConfiguration();
         StageHelper.currStage.setTitle(configuration.getName());
         configuration.getMenus().forEach(menuPart -> {
             MenuItem viewPartMenuItem = new MenuItem();

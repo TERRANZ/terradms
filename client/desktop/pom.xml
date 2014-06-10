@@ -65,7 +65,7 @@
         </dependency>
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-core-asl</artifactId>
+            <artifactId>jackson-mapper-asl</artifactId>
             <version>1.9.4</version>
         </dependency>
         <dependency>
@@ -89,6 +89,11 @@
             <groupId>com.sun.jersey.contribs</groupId>
             <artifactId>jersey-multipart</artifactId>
             <version>1.18.1</version>
+        </dependency>
+        <dependency>
+            <groupId>ru.terra.dms</groupId>
+            <artifactId>shared</artifactId>
+            <version>1</version>
         </dependency>
     </dependencies>
 

@@ -1,17 +1,18 @@
-package ru.terra.dms.desktop.configuration;
+package ru.terra.dms.configuration;
 
+import ru.terra.dms.configuration.bean.MenuPart;
+import ru.terra.dms.configuration.bean.ViewPart;
 
-import ru.terra.dms.desktop.configuration.bean.MenuPart;
-import ru.terra.dms.desktop.configuration.bean.ViewPart;
-
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
+/**           @XmlRootElement
  * Date: 26.05.14
  * Time: 15:29
  */
+@XmlRootElement
 public class Configuration implements Serializable {
     private String name, comment;
     private List<MenuPart> menus = new ArrayList<>();

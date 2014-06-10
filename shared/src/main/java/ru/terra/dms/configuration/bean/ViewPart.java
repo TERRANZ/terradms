@@ -1,16 +1,25 @@
-package ru.terra.dms.desktop.configuration.bean;
+package ru.terra.dms.configuration.bean;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 /**
  * Date: 26.05.14
  * Time: 15:33
  */
+@XmlRootElement
 public class ViewPart implements Serializable {
     private String id, controllerType, name;
     private Pojo pojo;
 
     public ViewPart() {
+    }
+
+    public ViewPart(String id, String controllerType, String name, Pojo pojo) {
+        this.id = id;
+        this.controllerType = controllerType;
+        this.name = name;
+        this.pojo = pojo;
     }
 
     public String getId() {

@@ -159,6 +159,10 @@ public class ObjectDTO {
 
         protected List<ObjectDTO.Fields.Entry> entry;
 
+        public void setEntry(List<Entry> entry) {
+            this.entry = entry;
+        }
+
         /**
          * Gets the value of the entry property.
          * <p>
@@ -186,9 +190,6 @@ public class ObjectDTO {
             return this.entry;
         }
 
-        public void setEntry(List<Entry> entry) {
-            this.entry = entry;
-        }
 
         /**
          * <p>Java class for anonymous complex type.
@@ -215,8 +216,16 @@ public class ObjectDTO {
         })
         public static class Entry {
 
-            protected String key = "";
-            protected Object value = "";
+            protected String key;
+            protected Object value;
+
+            public Entry() {
+            }
+
+            public Entry(String key, Object value) {
+                this.key = key;
+                this.value = value;
+            }
 
             /**
              * Gets the value of the key property.
@@ -258,13 +267,6 @@ public class ObjectDTO {
                 this.value = value;
             }
 
-            public Entry(String key, Object value) {
-                this.key = key;
-                this.value = value;
-            }
-
-            public Entry() {
-            }
         }
 
     }

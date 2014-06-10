@@ -1,13 +1,12 @@
 package ru.terra.dms.server.network.controller;
 
 import com.sun.jersey.api.core.HttpContext;
-import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.terra.dms.server.constants.URLConstants;
-import ru.terra.dms.server.network.dto.ObjectDTO;
-import ru.terra.dms.server.network.engine.ObjectsEngine;
+import ru.terra.dms.shared.dto.ObjectDTO;
+import ru.terra.dms.server.engine.ObjectsEngine;
 import ru.terra.server.controller.AbstractResource;
 import ru.terra.server.dto.CommonDTO;
 import ru.terra.server.dto.ListDTO;

@@ -1,11 +1,13 @@
-package ru.terra.dms.desktop.configuration.bean;
+package ru.terra.dms.configuration.bean;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 /**
  * Date: 26.05.14
  * Time: 15:30
  */
+@XmlRootElement
 public class MenuPart implements Serializable {
     public static enum MenuPartType {
         VIEWPART, SPLITTER
@@ -13,6 +15,13 @@ public class MenuPart implements Serializable {
 
     private String text, shortcut, viewPart;
     private MenuPartType type;
+
+    public MenuPart(String text, String shortcut, String viewPart, MenuPartType type) {
+        this.text = text;
+        this.shortcut = shortcut;
+        this.viewPart = viewPart;
+        this.type = type;
+    }
 
     public MenuPart() {
     }

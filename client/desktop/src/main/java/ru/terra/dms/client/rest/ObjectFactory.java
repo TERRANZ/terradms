@@ -24,10 +24,14 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
+    private final static QName _Pojo_QNAME = new QName("", "pojo");
+    private final static QName _MenuPart_QNAME = new QName("", "menuPart");
     private final static QName _CommonDTO_QNAME = new QName("", "commonDTO");
+    private final static QName _Configuration_QNAME = new QName("", "configuration");
     private final static QName _LoginDTO_QNAME = new QName("", "loginDTO");
     private final static QName _ObjectDTO_QNAME = new QName("", "objectDTO");
     private final static QName _ListDTO_QNAME = new QName("", "listDTO");
+    private final static QName _ViewPart_QNAME = new QName("", "viewPart");
     private final static QName _SimpleDataDTO_QNAME = new QName("", "simpleDataDTO");
     private final static QName _UserDTO_QNAME = new QName("", "userDTO");
 
@@ -55,11 +59,43 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Pojo }
+     * 
+     */
+    public Pojo createPojo() {
+        return new Pojo();
+    }
+
+    /**
+     * Create an instance of {@link Pojo.Fields }
+     * 
+     */
+    public Pojo.Fields createPojoFields() {
+        return new Pojo.Fields();
+    }
+
+    /**
+     * Create an instance of {@link MenuPart }
+     * 
+     */
+    public MenuPart createMenuPart() {
+        return new MenuPart();
+    }
+
+    /**
      * Create an instance of {@link CommonDTO }
      * 
      */
     public CommonDTO createCommonDTO() {
         return new CommonDTO();
+    }
+
+    /**
+     * Create an instance of {@link Configuration }
+     * 
+     */
+    public Configuration createConfiguration() {
+        return new Configuration();
     }
 
     /**
@@ -76,6 +112,14 @@ public class ObjectFactory {
      */
     public ListDTO createListDTO() {
         return new ListDTO();
+    }
+
+    /**
+     * Create an instance of {@link ViewPart }
+     * 
+     */
+    public ViewPart createViewPart() {
+        return new ViewPart();
     }
 
     /**
@@ -103,12 +147,47 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Pojo.Fields.Entry }
+     * 
+     */
+    public Pojo.Fields.Entry createPojoFieldsEntry() {
+        return new Pojo.Fields.Entry();
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Pojo }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "", name = "pojo")
+    public JAXBElement<Pojo> createPojo(Pojo value) {
+        return new JAXBElement<Pojo>(_Pojo_QNAME, Pojo.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link MenuPart }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "", name = "menuPart")
+    public JAXBElement<MenuPart> createMenuPart(MenuPart value) {
+        return new JAXBElement<MenuPart>(_MenuPart_QNAME, MenuPart.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link CommonDTO }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "", name = "commonDTO")
     public JAXBElement<CommonDTO> createCommonDTO(CommonDTO value) {
         return new JAXBElement<CommonDTO>(_CommonDTO_QNAME, CommonDTO.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Configuration }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "", name = "configuration")
+    public JAXBElement<Configuration> createConfiguration(Configuration value) {
+        return new JAXBElement<Configuration>(_Configuration_QNAME, Configuration.class, null, value);
     }
 
     /**
@@ -136,6 +215,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "", name = "listDTO")
     public JAXBElement<ListDTO> createListDTO(ListDTO value) {
         return new JAXBElement<ListDTO>(_ListDTO_QNAME, ListDTO.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ViewPart }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "", name = "viewPart")
+    public JAXBElement<ViewPart> createViewPart(ViewPart value) {
+        return new JAXBElement<ViewPart>(_ViewPart_QNAME, ViewPart.class, null, value);
     }
 
     /**

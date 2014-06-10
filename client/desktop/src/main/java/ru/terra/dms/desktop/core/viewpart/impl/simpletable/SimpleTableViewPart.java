@@ -20,8 +20,9 @@ import org.codehaus.jackson.type.JavaType;
 import ru.terra.dms.client.rest.ListDTO;
 import ru.terra.dms.client.rest.Localhost_Dms;
 import ru.terra.dms.client.rest.ObjectDTO;
-import ru.terra.dms.desktop.configuration.ConfigurationManager;
+import ru.terra.dms.client.rest.Pojo;
 import ru.terra.dms.desktop.core.annotations.ViewPart;
+import ru.terra.dms.desktop.core.configuration.ConfigurationManager;
 import ru.terra.dms.desktop.core.util.WorkIsDoneListener;
 import ru.terra.dms.desktop.core.viewpart.AbstractViewPart;
 import ru.terra.dms.desktop.gui.parts.ProgressDialog;
@@ -59,7 +60,7 @@ public class SimpleTableViewPart extends AbstractViewPart {
     public TableView<SimpleTableItem> table;
     @FXML
     public TableColumn<SimpleTableItem, String> colValue;
-    private ru.terra.dms.desktop.configuration.bean.ViewPart viewPart;
+    private ru.terra.dms.client.rest.ViewPart viewPart;
     private List<ObjectDTO> newObjects = new ArrayList<>();
 
     private class LoadService extends Service<ObservableList<SimpleTableItem>> {
@@ -76,10 +77,10 @@ public class SimpleTableViewPart extends AbstractViewPart {
                         logger.info("json: " + json);
 //                        ListDTO listDTO = Localhost_Dms.objects().doListBynameJson().getAsListDTO(viewPart.getPojo().getType());
                         ObjectMapper objectMapper = new ObjectMapper();
-                        JavaType type = objectMapper.getTypeFactory().constructParametricType(ListDTO.class, ru.terra.dms.server.network.dto.ObjectDTO.class);
-                        ListDTO<ru.terra.dms.server.network.dto.ObjectDTO> listDTO = objectMapper.readValue(json, type);
+                        JavaType type = objectMapper.getTypeFactory().constructParametricType(ListDTO.class, ru.terra.dms.shared.dto.ObjectDTO.class);
+                        ListDTO<ru.terra.dms.shared.dto.ObjectDTO> listDTO = objectMapper.readValue(json, type);
                         if (listDTO.getData() != null)
-                            for (ru.terra.dms.server.network.dto.ObjectDTO dto : listDTO.getData()) {
+                            for (ru.terra.dms.shared.dto.ObjectDTO dto : listDTO.getData()) {
                                 ObjectDTO o = new ObjectDTO();
                                 o.setId(dto.id);
                                 o.setType(dto.type);
@@ -132,7 +133,7 @@ public class SimpleTableViewPart extends AbstractViewPart {
 
     @Override
     public void load() {
-        viewPart = ConfigurationManager.getInstance().getViewPart(viewPartName);
+        viewPart = ConfigurationManager.getConfiguration().getViewPart(viewPartName);
         LoadService loadService = new LoadService();
         loadService.start();
         loadService.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
@@ -152,8 +153,8 @@ public class SimpleTableViewPart extends AbstractViewPart {
         objectDTO.setId(0);
         objectDTO.setFields(new ObjectDTO.Fields());
         objectDTO.getFields().setEntry(new ArrayList<>());
-        for (String name : viewPart.getPojo().getFields().keySet())
-            objectDTO.getFields().getEntry().add(new ObjectDTO.Fields.Entry(name, viewPart.getPojo().getFields().get(name)));
+        for (Pojo.Fields.Entry entry : viewPart.getPojo().getFields().getEntry())
+            objectDTO.getFields().getEntry().add(new ObjectDTO.Fields.Entry(entry.getKey(), viewPart.getPojo().getFields().getEntry(entry.getKey())));
         dialogPair.getValue().setReturnValue(objectDTO);
         dialogPair.getValue().setWorkIsDoneListener(new WorkIsDoneListener() {
             @Override

@@ -1,4 +1,4 @@
-package ru.terra.dms.server.network.dto;
+package ru.terra.dms.shared.dto;
 
 import javax.xml.bind.annotation.XmlRootElement;
 

@@ -1,13 +1,15 @@
-package ru.terra.dms.tests;
+package ru.terra.dms.server.test;
 
 import junit.framework.TestCase;
-import ru.terra.dms.desktop.configuration.Configuration;
-import ru.terra.dms.desktop.configuration.bean.MenuPart;
-import ru.terra.dms.desktop.configuration.bean.Pojo;
-import ru.terra.dms.desktop.configuration.bean.ViewPart;
-import ru.terra.dms.desktop.configuration.parser.JSONConfigurationReader;
-import ru.terra.dms.desktop.configuration.parser.JSONConfigurationWriter;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Test;
+import ru.terra.dms.configuration.Configuration;
+import ru.terra.dms.configuration.bean.MenuPart;
+import ru.terra.dms.configuration.bean.Pojo;
+import ru.terra.dms.configuration.bean.ViewPart;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -15,14 +17,12 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * Date: 02.06.14
- * Time: 13:47
+ * Date: 10.06.14
+ * Time: 11:52
  */
 public class ConfigurationTest extends TestCase {
-    public ConfigurationTest() {
-        super("Configuration read write test");
-    }
 
+    @Test
     public void test1() throws IOException {
         Configuration configuration = new Configuration();
 
@@ -54,10 +54,6 @@ public class ConfigurationTest extends TestCase {
         configuration.setComment("comment 1");
         configuration.setName("configuration name 1");
 
-        JSONConfigurationWriter.write("configuration.json", configuration);
-        JSONConfigurationReader.load("configuration.json");
-    }
-
-    public void test2() {
+        new ObjectMapper().writeValue(new File("configuration.json"), configuration);
     }
 }

@@ -1,5 +1,6 @@
-package ru.terra.dms.desktop.configuration.bean;
+package ru.terra.dms.configuration.bean;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import java.util.Map;
  * Date: 02.06.14
  * Time: 13:36
  */
+@XmlRootElement
 public class Pojo implements Serializable {
     private String name, type;
     private Map<String, String> fields;

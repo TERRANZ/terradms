@@ -15,14 +15,30 @@
 
     <dependencies>
         <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.7</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>ru.terraobjects</groupId>
             <artifactId>entity</artifactId>
             <version>2</version>
         </dependency>
         <dependency>
+            <groupId>ru.terra.dms</groupId>
+            <artifactId>shared</artifactId>
+            <version>1</version>
+        </dependency>
+        <dependency>
             <groupId>ru.terra</groupId>
             <artifactId>server</artifactId>
             <version>0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.9-RC1</version>
         </dependency>
     </dependencies>
 
