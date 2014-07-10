@@ -17,6 +17,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        StageHelper.openWindow("w_login.fxml", "Start", false);
+        StageHelper.openWindow("w_login.fxml", "Start");
     }
 }

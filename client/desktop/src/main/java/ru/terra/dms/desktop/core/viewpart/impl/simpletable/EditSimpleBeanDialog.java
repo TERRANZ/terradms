@@ -86,14 +86,10 @@ public class EditSimpleBeanDialog extends AbstractEditDialog<ObjectDTO> {
             workIsDoneListener.workIsDone(0);
     }
 
-    public void cancel(ActionEvent actionEvent) {
-        thisStage.close();
-    }
-
     @Override
     public void setReturnValue(ObjectDTO returnValue) {
         super.setReturnValue(returnValue);
-        thisStage.setTitle(returnValue.getType());
+        currStage.setTitle(returnValue.getType());
         if (returnValue.getFields() != null && returnValue.getFields().getEntry() != null && returnValue.getFields().getEntry().size() > 0)
             tblFields.setItems(FXCollections.observableArrayList(returnValue.getFields().getEntry()));
     }

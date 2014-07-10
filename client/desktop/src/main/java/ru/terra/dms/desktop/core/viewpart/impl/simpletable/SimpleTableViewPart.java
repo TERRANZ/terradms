@@ -146,8 +146,7 @@ public class SimpleTableViewPart extends AbstractViewPart {
     }
 
     public void add(ActionEvent actionEvent) {
-        Pair<Stage, EditSimpleBeanDialog> dialogPair = StageHelper.<EditSimpleBeanDialog>openWindow("d_create_simple_bean.fxml", "редактирование", false);
-        dialogPair.getValue().setThisStage(dialogPair.getKey());
+        Pair<Stage, EditSimpleBeanDialog> dialogPair = StageHelper.<EditSimpleBeanDialog>openWindow("d_create_simple_bean.fxml", "редактирование");
         ObjectDTO objectDTO = new ObjectDTO();
         objectDTO.setType(viewPart.getPojo().getType());
         objectDTO.setId(0);
@@ -170,7 +169,7 @@ public class SimpleTableViewPart extends AbstractViewPart {
 
     public void save(ActionEvent actionEvent) {
         SendObjectsService sendObjectsService = new SendObjectsService(newObjects);
-        ProgressDialog.create(sendObjectsService, StageHelper.currStage, true).show();
+        ProgressDialog.create(sendObjectsService, currStage, true).show();
         sendObjectsService.reset();
         sendObjectsService.start();
         sendObjectsService.setOnSucceeded(new EventHandler<WorkerStateEvent>() {

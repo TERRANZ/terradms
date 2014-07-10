@@ -116,7 +116,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>ru.ru.terra.dms.desktop.gui.Main</mainClass>
+                            <mainClass>ru.terra.dms.desktop.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

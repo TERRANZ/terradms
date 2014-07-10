@@ -39,7 +39,7 @@ public class ObjectsController extends AbstractResource {
 
     @POST
     @Path(URLConstants.DoJson.DO_UPDATE)
-    public Boolean update(@Context HttpContext hc, @FormParam("object") ObjectDTO objectDTO) {
+    public Boolean update(@Context HttpContext hc, @FormParam("object") String json) {
         return true;
     }
 

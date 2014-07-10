@@ -4,9 +4,9 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import ru.terra.dms.client.rest.LoginDTO;
+import ru.terra.dms.desktop.core.viewpart.AbstractWindow;
 import ru.terra.dms.desktop.gui.parts.ProgressDialog;
 import ru.terra.dms.desktop.gui.parts.StageHelper;
 import ru.terra.dms.desktop.gui.service.RegUserService;
@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
  * Date: 03.06.14
  * Time: 14:45
  */
-public class RegController implements Initializable {
+public class RegController extends AbstractWindow {
     @FXML
     public TextField tfUser;
     @FXML
@@ -32,7 +32,7 @@ public class RegController implements Initializable {
 
     public void login(ActionEvent actionEvent) {
         RegUserService regUserService = new RegUserService(tfUser.getText(), tfPass.getText());
-        ProgressDialog.create(regUserService, StageHelper.currStage, true);
+        ProgressDialog.create(regUserService, currStage, true);
         regUserService.reset();
         regUserService.start();
         regUserService.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
@@ -41,12 +41,12 @@ public class RegController implements Initializable {
                 LoginDTO loginDTO = regUserService.getValue();
                 System.out.println(loginDTO.isLogged());
                 if (loginDTO.isLogged())
-                    StageHelper.openWindow("w_main.fxml", "Main", true);
+                    StageHelper.openWindow("w_main.fxml", "Main");
             }
         });
     }
 
     public void cancel(ActionEvent actionEvent) {
-        StageHelper.currStage.close();
+        currStage.close();
     }
 }

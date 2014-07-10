@@ -23,7 +23,7 @@ public class Localhost_Dms {
     public final static URI BASE_URI;
 
     static {
-        URI originalURI = URI.create("http://localhost:8080/dms/");
+        URI originalURI = URI.create("http://127.0.0.1:8080/dms/");
         // Look up to see if we have any indirection in the local copy
         // of META-INF/java-rs-catalog.xml file, assuming it will be in the
         // oasis:name:tc:entity:xmlns:xml:catalog namespace or similar duck type
