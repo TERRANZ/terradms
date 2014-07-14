@@ -1,4 +1,3 @@
-
 package ru.terra.dms.client.rest;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -9,9 +8,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for commonDTO complex type.
- * 
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
  * &lt;complexType name="commonDTO">
  *   &lt;complexContent>
@@ -27,22 +26,20 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "commonDTO", propOrder = {
-    "errorMessage",
-    "errorCode",
-    "status",
-    "timestamp",
-    "id"
+        "errorMessage",
+        "errorCode",
+        "status",
+        "timestamp",
+        "id"
 })
 @XmlSeeAlso({
-    LoginDTO.class,
-    ListDTO.class,
-    SimpleDataDTO.class,
-    UserDTO.class
+        LoginDTO.class,
+        ListDTO.class,
+        SimpleDataDTO.class,
+        UserDTO.class
 })
 public class CommonDTO {
 
@@ -54,11 +51,9 @@ public class CommonDTO {
 
     /**
      * Gets the value of the errorMessage property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getErrorMessage() {
         return errorMessage;
@@ -66,11 +61,9 @@ public class CommonDTO {
 
     /**
      * Sets the value of the errorMessage property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setErrorMessage(String value) {
         this.errorMessage = value;
@@ -78,11 +71,9 @@ public class CommonDTO {
 
     /**
      * Gets the value of the errorCode property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *     
+     *
+     * @return possible object is
+     * {@link Integer }
      */
     public Integer getErrorCode() {
         return errorCode;
@@ -90,11 +81,9 @@ public class CommonDTO {
 
     /**
      * Sets the value of the errorCode property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link Integer }
      */
     public void setErrorCode(Integer value) {
         this.errorCode = value;
@@ -102,11 +91,9 @@ public class CommonDTO {
 
     /**
      * Gets the value of the status property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getStatus() {
         return status;
@@ -114,11 +101,9 @@ public class CommonDTO {
 
     /**
      * Sets the value of the status property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setStatus(String value) {
         this.status = value;
@@ -126,11 +111,9 @@ public class CommonDTO {
 
     /**
      * Gets the value of the timestamp property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Long }
-     *     
+     *
+     * @return possible object is
+     * {@link Long }
      */
     public Long getTimestamp() {
         return timestamp;
@@ -138,11 +121,9 @@ public class CommonDTO {
 
     /**
      * Sets the value of the timestamp property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Long }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link Long }
      */
     public void setTimestamp(Long value) {
         this.timestamp = value;
@@ -150,11 +131,9 @@ public class CommonDTO {
 
     /**
      * Gets the value of the id property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *     
+     *
+     * @return possible object is
+     * {@link Integer }
      */
     public Integer getId() {
         return id;
@@ -162,11 +141,9 @@ public class CommonDTO {
 
     /**
      * Sets the value of the id property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link Integer }
      */
     public void setId(Integer value) {
         this.id = value;

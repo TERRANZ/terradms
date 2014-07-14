@@ -1,4 +1,3 @@
-
 package ru.terra.dms.client.rest;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -139,10 +138,10 @@ public class Configuration {
         return this.viewParts;
     }
 
-    public ViewPart getViewPart(String name) {
-        for (ViewPart viewPart : viewParts)
-            if (viewPart.getName().equals(name))
-                return viewPart;
+    public ViewPart getViewPart(String viewPart) {
+        for (ViewPart vp : viewParts)
+            if (vp.getName().equals(viewPart))
+                return vp;
         return null;
     }
 }

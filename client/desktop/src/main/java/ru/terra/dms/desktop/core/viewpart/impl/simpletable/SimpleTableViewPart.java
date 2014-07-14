@@ -13,10 +13,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.JavaType;
+import org.controlsfx.dialog.Dialogs;
 import ru.terra.dms.client.rest.ListDTO;
 import ru.terra.dms.client.rest.Localhost_Dms;
 import ru.terra.dms.client.rest.ObjectDTO;
@@ -25,7 +27,6 @@ import ru.terra.dms.desktop.core.annotations.ViewPart;
 import ru.terra.dms.desktop.core.configuration.ConfigurationManager;
 import ru.terra.dms.desktop.core.util.WorkIsDoneListener;
 import ru.terra.dms.desktop.core.viewpart.AbstractViewPart;
-import ru.terra.dms.desktop.gui.parts.ProgressDialog;
 import ru.terra.dms.desktop.gui.parts.StageHelper;
 import ru.terra.dms.desktop.gui.service.SendObjectsService;
 import ru.terra.dms.desktop.gui.util.Pair;
@@ -43,8 +44,9 @@ import java.util.ResourceBundle;
 @ViewPart(name = "simpletable", fxml = "p_simple_table.fxml")
 public class SimpleTableViewPart extends AbstractViewPart {
     public static class SimpleTableItem implements Serializable {
-        Integer id = 0;
+        public Integer id = 0;
         public String values = "";
+        public ObjectDTO dto;
 
         @Override
         public String toString() {
@@ -100,20 +102,6 @@ public class SimpleTableViewPart extends AbstractViewPart {
         }
     }
 
-    private SimpleTableItem processObjectDTO(ObjectDTO objectDTO) {
-        SimpleTableItem tableItem = new SimpleTableItem();
-        tableItem.id = objectDTO.getId();
-        StringBuilder sb = new StringBuilder();
-        for (ObjectDTO.Fields.Entry entry : objectDTO.getFields().getEntry()) {
-            sb.append(entry.getKey());
-            sb.append("=");
-            sb.append(entry.getValue());
-            sb.append(";");
-        }
-        tableItem.values = sb.toString();
-
-        return tableItem;
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -129,6 +117,41 @@ public class SimpleTableViewPart extends AbstractViewPart {
                 return new ReadOnlyStringWrapper(simpleTableItemStringCellDataFeatures.getValue().toString());
             }
         });
+        table.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getClickCount() > 1) {
+                    SimpleTableItem item = table.getSelectionModel().getSelectedItem();
+                    if (item != null) {
+                        Pair<Stage, EditSimpleBeanDialog> dialogPair = StageHelper.<EditSimpleBeanDialog>openWindow("d_create_simple_bean.fxml", "редактирование");
+                        dialogPair.getValue().setReturnValue(item.dto);
+                        dialogPair.getValue().setWorkIsDoneListener(new WorkIsDoneListener() {
+                            @Override
+                            public void workIsDone(int code, String... msg) {
+                                int index = table.getItems().indexOf(item);
+                                table.getItems().remove(item);
+                                table.getItems().add(index, processObjectDTO(dialogPair.getValue().getReturnValue()));
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    }
+
+    private SimpleTableItem processObjectDTO(ObjectDTO objectDTO) {
+        SimpleTableItem tableItem = new SimpleTableItem();
+        tableItem.id = objectDTO.getId();
+        StringBuilder sb = new StringBuilder();
+        for (ObjectDTO.Fields.Entry entry : objectDTO.getFields().getEntry()) {
+            sb.append(entry.getKey());
+            sb.append("=");
+            sb.append(entry.getValue());
+            sb.append(";");
+        }
+        tableItem.values = sb.toString();
+        tableItem.dto = objectDTO;
+        return tableItem;
     }
 
     @Override
@@ -169,7 +192,7 @@ public class SimpleTableViewPart extends AbstractViewPart {
 
     public void save(ActionEvent actionEvent) {
         SendObjectsService sendObjectsService = new SendObjectsService(newObjects);
-        ProgressDialog.create(sendObjectsService, currStage, true).show();
+        Dialogs.create().owner(currStage).showWorkerProgress(sendObjectsService);
         sendObjectsService.reset();
         sendObjectsService.start();
         sendObjectsService.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
@@ -178,7 +201,5 @@ public class SimpleTableViewPart extends AbstractViewPart {
                 newObjects.clear();
             }
         });
-
-
     }
 }

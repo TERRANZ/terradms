@@ -1,4 +1,3 @@
-
 package ru.terra.dms.client.rest;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -159,6 +158,18 @@ public class Pojo {
 
         protected List<Pojo.Fields.Entry> entry;
 
+        public Fields() {
+            System.out.println();
+        }
+
+        public Fields(List<Entry> entry) {
+            this.entry = entry;
+        }
+
+        public void setEntry(List<Entry> entry) {
+            this.entry = entry;
+        }
+
         /**
          * Gets the value of the entry property.
          * <p>
@@ -186,12 +197,13 @@ public class Pojo {
             return this.entry;
         }
 
-        public Pojo.Fields.Entry getEntry(String name) {
+        public Entry getEntry(String key) {
             for (Entry e : entry)
-                if (e.getKey().equals(name))
+                if (e.getKey().equals(key))
                     return e;
             return null;
         }
+
 
         /**
          * <p>Java class for anonymous complex type.

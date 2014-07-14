@@ -1,4 +1,3 @@
-
 package ru.terra.dms.client.rest;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -8,9 +7,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for viewPart complex type.
- * 
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
  * &lt;complexType name="viewPart">
  *   &lt;complexContent>
@@ -25,15 +24,13 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "viewPart", propOrder = {
-    "controllerType",
-    "id",
-    "name",
-    "pojo"
+        "controllerType",
+        "id",
+        "name",
+        "pojo"
 })
 public class ViewPart {
 
@@ -44,11 +41,9 @@ public class ViewPart {
 
     /**
      * Gets the value of the controllerType property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getControllerType() {
         return controllerType;
@@ -56,11 +51,9 @@ public class ViewPart {
 
     /**
      * Sets the value of the controllerType property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setControllerType(String value) {
         this.controllerType = value;
@@ -68,11 +61,9 @@ public class ViewPart {
 
     /**
      * Gets the value of the id property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getId() {
         return id;
@@ -80,11 +71,9 @@ public class ViewPart {
 
     /**
      * Sets the value of the id property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setId(String value) {
         this.id = value;
@@ -92,11 +81,9 @@ public class ViewPart {
 
     /**
      * Gets the value of the name property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getName() {
         return name;
@@ -104,11 +91,9 @@ public class ViewPart {
 
     /**
      * Sets the value of the name property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setName(String value) {
         this.name = value;
@@ -116,11 +101,9 @@ public class ViewPart {
 
     /**
      * Gets the value of the pojo property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Pojo }
-     *     
+     *
+     * @return possible object is
+     * {@link Pojo }
      */
     public Pojo getPojo() {
         return pojo;
@@ -128,11 +111,9 @@ public class ViewPart {
 
     /**
      * Sets the value of the pojo property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Pojo }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link Pojo }
      */
     public void setPojo(Pojo value) {
         this.pojo = value;

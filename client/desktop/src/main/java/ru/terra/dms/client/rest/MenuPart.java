@@ -1,4 +1,3 @@
-
 package ru.terra.dms.client.rest;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -8,9 +7,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for menuPart complex type.
- * 
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
  * &lt;complexType name="menuPart">
  *   &lt;complexContent>
@@ -25,15 +24,13 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "menuPart", propOrder = {
-    "shortcut",
-    "text",
-    "type",
-    "viewPart"
+        "shortcut",
+        "text",
+        "type",
+        "viewPart"
 })
 public class MenuPart {
 
@@ -44,11 +41,9 @@ public class MenuPart {
 
     /**
      * Gets the value of the shortcut property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getShortcut() {
         return shortcut;
@@ -56,11 +51,9 @@ public class MenuPart {
 
     /**
      * Sets the value of the shortcut property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setShortcut(String value) {
         this.shortcut = value;
@@ -68,11 +61,9 @@ public class MenuPart {
 
     /**
      * Gets the value of the text property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getText() {
         return text;
@@ -80,11 +71,9 @@ public class MenuPart {
 
     /**
      * Sets the value of the text property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setText(String value) {
         this.text = value;
@@ -92,11 +81,9 @@ public class MenuPart {
 
     /**
      * Gets the value of the type property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link MenuPartType }
-     *     
+     *
+     * @return possible object is
+     * {@link MenuPartType }
      */
     public MenuPartType getType() {
         return type;
@@ -104,11 +91,9 @@ public class MenuPart {
 
     /**
      * Sets the value of the type property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link MenuPartType }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link MenuPartType }
      */
     public void setType(MenuPartType value) {
         this.type = value;
@@ -116,11 +101,9 @@ public class MenuPart {
 
     /**
      * Gets the value of the viewPart property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getViewPart() {
         return viewPart;
@@ -128,11 +111,9 @@ public class MenuPart {
 
     /**
      * Sets the value of the viewPart property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setViewPart(String value) {
         this.viewPart = value;

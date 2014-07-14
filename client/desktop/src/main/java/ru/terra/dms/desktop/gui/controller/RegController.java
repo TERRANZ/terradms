@@ -5,9 +5,9 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import org.controlsfx.dialog.Dialogs;
 import ru.terra.dms.client.rest.LoginDTO;
 import ru.terra.dms.desktop.core.viewpart.AbstractWindow;
-import ru.terra.dms.desktop.gui.parts.ProgressDialog;
 import ru.terra.dms.desktop.gui.parts.StageHelper;
 import ru.terra.dms.desktop.gui.service.RegUserService;
 
@@ -32,7 +32,7 @@ public class RegController extends AbstractWindow {
 
     public void login(ActionEvent actionEvent) {
         RegUserService regUserService = new RegUserService(tfUser.getText(), tfPass.getText());
-        ProgressDialog.create(regUserService, currStage, true);
+        Dialogs.create().owner(currStage).showWorkerProgress(regUserService);
         regUserService.reset();
         regUserService.start();
         regUserService.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
@@ -40,6 +40,7 @@ public class RegController extends AbstractWindow {
             public void handle(WorkerStateEvent workerStateEvent) {
                 LoginDTO loginDTO = regUserService.getValue();
                 System.out.println(loginDTO.isLogged());
+                currStage.close();
                 if (loginDTO.isLogged())
                     StageHelper.openWindow("w_main.fxml", "Main");
             }

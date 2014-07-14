@@ -27,7 +27,7 @@ public class MainWindowController extends AbstractWindow {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Configuration configuration = ConfigurationManager.getConfiguration();
-        currStage.setTitle(configuration.getName());
+//        currStage.setTitle(configuration.getName());
         configuration.getMenus().forEach(menuPart -> {
             MenuItem viewPartMenuItem = new MenuItem();
             viewPartMenuItem.setText(menuPart.getText());

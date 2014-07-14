@@ -1,4 +1,3 @@
-
 package ru.terra.dms.client.rest;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -28,22 +27,14 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "listDTO", propOrder = {
-        "data",
-        "size"
+        "data", "size"
 })
-public class ListDTO<T> extends CommonDTO {
+public class ListDTO<T>
+        extends CommonDTO {
 
+    public Integer size;
     @XmlElement(nillable = true)
     protected List<T> data;
-    public Integer size;
-
-    public Integer getSize() {
-        return size;
-    }
-
-    public void setSize(Integer size) {
-        this.size = size;
-    }
 
     /**
      * Gets the value of the data property.
@@ -67,7 +58,7 @@ public class ListDTO<T> extends CommonDTO {
      */
     public List<T> getData() {
         if (data == null) {
-            data = new ArrayList<T>();
+            data = new ArrayList<>();
         }
         return this.data;
     }

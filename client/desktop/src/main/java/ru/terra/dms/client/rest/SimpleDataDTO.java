@@ -1,4 +1,3 @@
-
 package ru.terra.dms.client.rest;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -8,9 +7,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for simpleDataDTO complex type.
- * 
+ * <p>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
  * <pre>
  * &lt;complexType name="simpleDataDTO">
  *   &lt;complexContent>
@@ -22,26 +21,21 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "simpleDataDTO", propOrder = {
-    "data"
+        "data"
 })
 public class SimpleDataDTO
-    extends CommonDTO
-{
+        extends CommonDTO {
 
     protected Object data;
 
     /**
      * Gets the value of the data property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Object }
-     *     
+     *
+     * @return possible object is
+     * {@link Object }
      */
     public Object getData() {
         return data;
@@ -49,11 +43,9 @@ public class SimpleDataDTO
 
     /**
      * Sets the value of the data property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Object }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link Object }
      */
     public void setData(Object value) {
         this.data = value;

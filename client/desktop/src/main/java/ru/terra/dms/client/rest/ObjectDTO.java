@@ -1,4 +1,3 @@
-
 package ru.terra.dms.client.rest;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -159,10 +158,6 @@ public class ObjectDTO {
 
         protected List<ObjectDTO.Fields.Entry> entry;
 
-        public void setEntry(List<Entry> entry) {
-            this.entry = entry;
-        }
-
         /**
          * Gets the value of the entry property.
          * <p>
@@ -190,6 +185,9 @@ public class ObjectDTO {
             return this.entry;
         }
 
+        public void setEntry(List<Entry> entry) {
+            this.entry = entry;
+        }
 
         /**
          * <p>Java class for anonymous complex type.
@@ -222,9 +220,9 @@ public class ObjectDTO {
             public Entry() {
             }
 
-            public Entry(String key, Object value) {
+            public Entry(String key, Object o) {
                 this.key = key;
-                this.value = value;
+                this.value = o;
             }
 
             /**

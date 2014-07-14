@@ -27,11 +27,12 @@ public class StageHelper {
         }
 
         Stage stage = new Stage();
+        ((T) fxmlLoader.getController()).setCurrStage(stage);
         stage.setTitle(title);
         stage.setScene(new Scene(root));
         stage.getScene().getStylesheets().addAll(C.STYLE + "style.css");
         stage.show();
-        ((T) fxmlLoader.getController()).setCurrStage(stage);
+
         return new Pair<>(stage, (T) fxmlLoader.getController());
     }
 }

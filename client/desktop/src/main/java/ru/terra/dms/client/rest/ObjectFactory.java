@@ -1,4 +1,3 @@
-
 package ru.terra.dms.client.rest;
 
 import javax.xml.bind.JAXBElement;
@@ -8,18 +7,17 @@ import javax.xml.namespace.QName;
 
 
 /**
- * This object contains factory methods for each 
- * Java content interface and Java element interface 
- * generated in the ru.terra.dms.client.rest package. 
- * <p>An ObjectFactory allows you to programatically 
- * construct new instances of the Java representation 
- * for XML content. The Java representation of XML 
- * content can consist of schema derived interfaces 
- * and classes representing the binding of schema 
- * type definitions, element declarations and model 
- * groups.  Factory methods for each of these are 
+ * This object contains factory methods for each
+ * Java content interface and Java element interface
+ * generated in the ru.terra.dms.client.rest package.
+ * <p>An ObjectFactory allows you to programatically
+ * construct new instances of the Java representation
+ * for XML content. The Java representation of XML
+ * content can consist of schema derived interfaces
+ * and classes representing the binding of schema
+ * type definitions, element declarations and model
+ * groups.  Factory methods for each of these are
  * provided in this class.
- * 
  */
 @XmlRegistry
 public class ObjectFactory {
@@ -37,14 +35,12 @@ public class ObjectFactory {
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: ru.terra.dms.client.rest
-     * 
      */
     public ObjectFactory() {
     }
 
     /**
      * Create an instance of {@link ObjectDTO }
-     * 
      */
     public ObjectDTO createObjectDTO() {
         return new ObjectDTO();
@@ -52,7 +48,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link ObjectDTO.Fields }
-     * 
      */
     public ObjectDTO.Fields createObjectDTOFields() {
         return new ObjectDTO.Fields();
@@ -60,7 +55,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link Pojo }
-     * 
      */
     public Pojo createPojo() {
         return new Pojo();
@@ -68,7 +62,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link Pojo.Fields }
-     * 
      */
     public Pojo.Fields createPojoFields() {
         return new Pojo.Fields();
@@ -76,7 +69,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link MenuPart }
-     * 
      */
     public MenuPart createMenuPart() {
         return new MenuPart();
@@ -84,7 +76,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link CommonDTO }
-     * 
      */
     public CommonDTO createCommonDTO() {
         return new CommonDTO();
@@ -92,7 +83,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link Configuration }
-     * 
      */
     public Configuration createConfiguration() {
         return new Configuration();
@@ -100,7 +90,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link LoginDTO }
-     * 
      */
     public LoginDTO createLoginDTO() {
         return new LoginDTO();
@@ -108,7 +97,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link ListDTO }
-     * 
      */
     public ListDTO createListDTO() {
         return new ListDTO();
@@ -116,7 +104,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link ViewPart }
-     * 
      */
     public ViewPart createViewPart() {
         return new ViewPart();
@@ -124,7 +111,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link SimpleDataDTO }
-     * 
      */
     public SimpleDataDTO createSimpleDataDTO() {
         return new SimpleDataDTO();
@@ -132,7 +118,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link UserDTO }
-     * 
      */
     public UserDTO createUserDTO() {
         return new UserDTO();
@@ -140,7 +125,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link ObjectDTO.Fields.Entry }
-     * 
      */
     public ObjectDTO.Fields.Entry createObjectDTOFieldsEntry() {
         return new ObjectDTO.Fields.Entry();
@@ -148,7 +132,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link Pojo.Fields.Entry }
-     * 
      */
     public Pojo.Fields.Entry createPojoFieldsEntry() {
         return new Pojo.Fields.Entry();
@@ -156,7 +139,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link Pojo }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "", name = "pojo")
     public JAXBElement<Pojo> createPojo(Pojo value) {
@@ -165,7 +147,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link MenuPart }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "", name = "menuPart")
     public JAXBElement<MenuPart> createMenuPart(MenuPart value) {
@@ -174,7 +155,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link CommonDTO }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "", name = "commonDTO")
     public JAXBElement<CommonDTO> createCommonDTO(CommonDTO value) {
@@ -183,7 +163,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link Configuration }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "", name = "configuration")
     public JAXBElement<Configuration> createConfiguration(Configuration value) {
@@ -192,7 +171,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link LoginDTO }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "", name = "loginDTO")
     public JAXBElement<LoginDTO> createLoginDTO(LoginDTO value) {
@@ -201,7 +179,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link ObjectDTO }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "", name = "objectDTO")
     public JAXBElement<ObjectDTO> createObjectDTO(ObjectDTO value) {
@@ -210,7 +187,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link ListDTO }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "", name = "listDTO")
     public JAXBElement<ListDTO> createListDTO(ListDTO value) {
@@ -219,7 +195,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link ViewPart }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "", name = "viewPart")
     public JAXBElement<ViewPart> createViewPart(ViewPart value) {
@@ -228,7 +203,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link SimpleDataDTO }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "", name = "simpleDataDTO")
     public JAXBElement<SimpleDataDTO> createSimpleDataDTO(SimpleDataDTO value) {
@@ -237,7 +211,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link UserDTO }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "", name = "userDTO")
     public JAXBElement<UserDTO> createUserDTO(UserDTO value) {
