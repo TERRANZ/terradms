@@ -1,12 +1,13 @@
 package ru.terra.dms.server.network.controller;
 
 import com.sun.jersey.api.core.HttpContext;
+import com.sun.jersey.multipart.MultiPart;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.terra.dms.server.constants.URLConstants;
-import ru.terra.dms.shared.dto.ObjectDTO;
 import ru.terra.dms.server.engine.ObjectsEngine;
+import ru.terra.dms.shared.dto.ObjectDTO;
 import ru.terra.server.controller.AbstractResource;
 import ru.terra.server.dto.CommonDTO;
 import ru.terra.server.dto.ListDTO;
@@ -31,8 +32,16 @@ public class ObjectsController extends AbstractResource {
 
     @POST
     @Path(URLConstants.DoJson.DO_CREATE)
-    public CommonDTO create(@Context HttpContext hc, @FormParam("object") String json) throws IOException {
-        ObjectDTO objectDTO = new ObjectMapper().readValue(json, ObjectDTO.class);
+    @Consumes("multipart/mixed")
+    public CommonDTO create(@Context HttpContext hc, MultiPart multiPart){
+        String json = multiPart.getBodyParts().get(0).getEntityAs(String.class);
+        logger.info("Received json " + json);
+        ObjectDTO objectDTO = null;
+        try {
+            objectDTO = new ObjectMapper().readValue(json, ObjectDTO.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         objectsEngine.createObject(objectDTO);
         return new CommonDTO();
     }

@@ -17,12 +17,12 @@
     <children>
         <Label text="Логин" GridPane.halignment="CENTER" GridPane.valignment="CENTER"/>
         <Label text="Пароль" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER"/>
-        <TextField fx:id="tfUser" GridPane.columnIndex="1">
+        <TextField fx:id="tfUser" GridPane.columnIndex="1" text="awd">
             <GridPane.margin>
                 <Insets left="5.0" right="5.0"/>
             </GridPane.margin>
         </TextField>
-        <TextField fx:id="tfPass" GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <TextField fx:id="tfPass" GridPane.columnIndex="1" GridPane.rowIndex="1" text="awd">
             <GridPane.margin>
                 <Insets left="5.0" right="5.0"/>
             </GridPane.margin>

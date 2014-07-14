@@ -1,7 +1,7 @@
 package ru.terra.dms.desktop.core.configuration;
 
-import ru.terra.dms.client.rest.Configuration;
-import ru.terra.dms.client.rest.Localhost_Dms;
+import ru.terra.dms.client.rest.RestService;
+import ru.terra.dms.configuration.Configuration;
 
 /**
  * Date: 10.06.14
@@ -15,7 +15,7 @@ public class ConfigurationManager {
 
     public static Configuration getConfiguration() {
         if (configuration == null)
-            configuration = Localhost_Dms.configuration().doGetJson().getAsConfiguration();
+            configuration = new RestService().loadConfiguration();
         return configuration;
     }
 }

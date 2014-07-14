@@ -30,11 +30,7 @@
             <artifactId>shared</artifactId>
             <version>1</version>
         </dependency>
-        <dependency>
-            <groupId>ru.terra</groupId>
-            <artifactId>server</artifactId>
-            <version>0.1</version>
-        </dependency>
+
         <dependency>
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>

@@ -11,5 +11,5 @@ import java.util.Map;
 public class ObjectDTO {
     public String type;
     public Integer id;
-    public Map<String, Object> fields;
+    public Map<String, String> fields;
 }

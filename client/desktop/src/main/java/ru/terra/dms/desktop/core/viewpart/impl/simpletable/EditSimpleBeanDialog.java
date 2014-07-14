@@ -12,11 +12,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.Callback;
-import ru.terra.dms.client.rest.ObjectDTO;
 import ru.terra.dms.desktop.core.viewpart.AbstractEditDialog;
+import ru.terra.dms.shared.dto.ObjectDTO;
+import ru.terra.dms.shared.dto.Pair;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -25,41 +28,41 @@ import java.util.ResourceBundle;
  */
 public class EditSimpleBeanDialog extends AbstractEditDialog<ObjectDTO> {
     @FXML
-    public TableView<ObjectDTO.Fields.Entry> tblFields;
+    public TableView<Pair<String, String>> tblFields;
     @FXML
-    public TableColumn<ObjectDTO.Fields.Entry, String> colKey;
+    public TableColumn<Pair<String, String>, String> colKey;
     @FXML
-    public TableColumn<ObjectDTO.Fields.Entry, String> colVal;
+    public TableColumn<Pair<String, String>, String> colVal;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tblFields.setEditable(true);
-        colKey.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObjectDTO.Fields.Entry, String>, ObservableValue<String>>() {
+        colKey.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Pair<String, String>, String>, ObservableValue<String>>() {
             @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<ObjectDTO.Fields.Entry, String> entryStringCellDataFeatures) {
-                return new ReadOnlyStringWrapper(entryStringCellDataFeatures.getValue().getKey());
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Pair<String, String>, String> pairStringCellDataFeatures) {
+                return new ReadOnlyStringWrapper(pairStringCellDataFeatures.getValue().key);
             }
         });
-        colKey.setCellFactory(TextFieldTableCell.<ObjectDTO.Fields.Entry>forTableColumn());
-        colKey.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<ObjectDTO.Fields.Entry, String>>() {
+        colKey.setCellFactory(TextFieldTableCell.<Pair<String, String>>forTableColumn());
+        colKey.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Pair<String, String>, String>>() {
             @Override
-            public void handle(TableColumn.CellEditEvent<ObjectDTO.Fields.Entry, String> t) {
-                ObjectDTO.Fields.Entry entry = t.getTableView().getItems().get(t.getTablePosition().getRow());
-                entry.setKey(t.getNewValue());
+            public void handle(TableColumn.CellEditEvent<Pair<String, String>, String> t) {
+                Pair<String, String> entry = t.getTableView().getItems().get(t.getTablePosition().getRow());
+                entry.key = t.getNewValue();
             }
         });
-        colVal.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObjectDTO.Fields.Entry, String>, ObservableValue<String>>() {
+        colVal.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Pair<String, String>, String>, ObservableValue<String>>() {
             @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<ObjectDTO.Fields.Entry, String> entryStringCellDataFeatures) {
-                return new ReadOnlyStringWrapper(String.valueOf(entryStringCellDataFeatures.getValue().getValue()));
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Pair<String, String>, String> entryStringCellDataFeatures) {
+                return new ReadOnlyStringWrapper(String.valueOf(entryStringCellDataFeatures.getValue().value));
             }
         });
-        colVal.setCellFactory(TextFieldTableCell.<ObjectDTO.Fields.Entry>forTableColumn());
-        colVal.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<ObjectDTO.Fields.Entry, String>>() {
+        colVal.setCellFactory(TextFieldTableCell.<Pair<String, String>>forTableColumn());
+        colVal.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Pair<String, String>, String>>() {
             @Override
-            public void handle(TableColumn.CellEditEvent<ObjectDTO.Fields.Entry, String> t) {
-                ObjectDTO.Fields.Entry entry = t.getTableView().getItems().get(t.getTablePosition().getRow());
-                entry.setValue(t.getNewValue());
+            public void handle(TableColumn.CellEditEvent<Pair<String, String>, String> t) {
+                Pair<String, String> entry = t.getTableView().getItems().get(t.getTablePosition().getRow());
+                entry.value = t.getNewValue();
             }
         });
         ContextMenu tableContextMenu = new ContextMenu();
@@ -68,7 +71,7 @@ public class EditSimpleBeanDialog extends AbstractEditDialog<ObjectDTO> {
         miAdd.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                tblFields.getItems().addAll(new ObjectDTO.Fields.Entry());
+                tblFields.getItems().addAll(new Pair<>());
             }
         });
         MenuItem miDel = new MenuItem();
@@ -80,8 +83,9 @@ public class EditSimpleBeanDialog extends AbstractEditDialog<ObjectDTO> {
     public void ok(ActionEvent actionEvent) {
         if (returnValue == null)
             returnValue = new ObjectDTO();
-        returnValue.setFields(new ObjectDTO.Fields());
-        returnValue.getFields().setEntry(new ArrayList<>(tblFields.getItems()));
+        returnValue.fields = new HashMap<>();
+        for (Pair<String, String> pair : tblFields.getItems())
+            returnValue.fields.put(pair.key, pair.value);
         if (workIsDoneListener != null)
             workIsDoneListener.workIsDone(0);
     }
@@ -89,8 +93,16 @@ public class EditSimpleBeanDialog extends AbstractEditDialog<ObjectDTO> {
     @Override
     public void setReturnValue(ObjectDTO returnValue) {
         super.setReturnValue(returnValue);
-        currStage.setTitle(returnValue.getType());
-        if (returnValue.getFields() != null && returnValue.getFields().getEntry() != null && returnValue.getFields().getEntry().size() > 0)
-            tblFields.setItems(FXCollections.observableArrayList(returnValue.getFields().getEntry()));
+        currStage.setTitle(returnValue.type);
+        if (returnValue.fields != null && returnValue.fields.size() > 0) {
+            List<Pair<String, String>> list = new ArrayList<>();
+            for (String key : returnValue.fields.keySet()) {
+                Pair<String, String> pair = new Pair<>();
+                pair.key = key;
+                pair.value = returnValue.fields.get(key);
+                list.add(pair);
+            }
+            tblFields.setItems(FXCollections.observableArrayList(list));
+        }
     }
 }

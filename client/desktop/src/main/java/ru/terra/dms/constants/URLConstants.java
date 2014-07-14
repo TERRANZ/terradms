@@ -1,21 +1,21 @@
-package ru.terra.dms.server.constants;
-
-import ru.terra.server.constants.CoreUrlConstants;
+package ru.terra.dms.constants;
 
 /**
- * Date: 02.06.14
- * Time: 11:55
+ * Date: 14.07.14
+ * Time: 12:27
  */
+public class URLConstants {
+    public static final String URL = "http://localhost:8080/dms";
 
-public class URLConstants extends CoreUrlConstants {
     public static class Objects {
-        public static final String OBJECTS = "/objects/";
-        public static final String LIST_BY_NAME = "do.list.byname.json";
+        public static final String OBJECTS = "/objects";
+        public static final String LIST_BY_NAME = "/do.list.byname.json";
     }
 
     public static class Configuration {
-        public static final String CONFIGURATION = "/configuration/";
+        public static final String CONFIGURATION = "/configuration";
     }
+
 
     public static class Login {
         public static final String USERS = "/users";

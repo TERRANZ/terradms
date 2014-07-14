@@ -9,7 +9,7 @@ import java.lang.annotation.*;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
-public @interface ViewPart {
+public @interface ViewPartWindow {
     String name() default "";
     String fxml() default "";
 

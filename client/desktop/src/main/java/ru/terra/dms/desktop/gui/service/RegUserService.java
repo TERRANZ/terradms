@@ -1,8 +1,8 @@
 package ru.terra.dms.desktop.gui.service;
 
 import javafx.concurrent.Task;
-import ru.terra.dms.client.rest.Localhost_Dms;
-import ru.terra.dms.client.rest.LoginDTO;
+import ru.terra.dms.client.rest.RestService;
+import ru.terra.server.dto.LoginDTO;
 
 import java.util.logging.Level;
 
@@ -21,7 +21,7 @@ public class RegUserService extends LoginService {
             @Override
             protected LoginDTO call() throws Exception {
                 try {
-                    return Localhost_Dms.users().doRegJson().getAsLoginDTO(user, pass);
+                    return new RestService().reg(user, pass);
                 } catch (Exception e) {
                     logger.log(Level.SEVERE, "Unable to reg", e);
                 }

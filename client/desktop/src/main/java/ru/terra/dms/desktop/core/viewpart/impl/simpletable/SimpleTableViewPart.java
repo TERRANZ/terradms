@@ -16,24 +16,23 @@ import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.JavaType;
 import org.controlsfx.dialog.Dialogs;
-import ru.terra.dms.client.rest.ListDTO;
-import ru.terra.dms.client.rest.Localhost_Dms;
-import ru.terra.dms.client.rest.ObjectDTO;
-import ru.terra.dms.client.rest.Pojo;
-import ru.terra.dms.desktop.core.annotations.ViewPart;
+import ru.terra.dms.client.rest.RestService;
+import ru.terra.dms.configuration.bean.ViewPart;
+import ru.terra.dms.desktop.core.annotations.ViewPartWindow;
 import ru.terra.dms.desktop.core.configuration.ConfigurationManager;
 import ru.terra.dms.desktop.core.util.WorkIsDoneListener;
 import ru.terra.dms.desktop.core.viewpart.AbstractViewPart;
 import ru.terra.dms.desktop.gui.parts.StageHelper;
 import ru.terra.dms.desktop.gui.service.SendObjectsService;
 import ru.terra.dms.desktop.gui.util.Pair;
+import ru.terra.dms.shared.dto.ObjectDTO;
+import ru.terra.server.dto.ListDTO;
 
 import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -41,7 +40,7 @@ import java.util.ResourceBundle;
  * Date: 26.05.14
  * Time: 15:41
  */
-@ViewPart(name = "simpletable", fxml = "p_simple_table.fxml")
+@ViewPartWindow(name = "simpletable", fxml = "p_simple_table.fxml")
 public class SimpleTableViewPart extends AbstractViewPart {
     public static class SimpleTableItem implements Serializable {
         public Integer id = 0;
@@ -62,7 +61,7 @@ public class SimpleTableViewPart extends AbstractViewPart {
     public TableView<SimpleTableItem> table;
     @FXML
     public TableColumn<SimpleTableItem, String> colValue;
-    private ru.terra.dms.client.rest.ViewPart viewPart;
+    private ViewPart viewPart;
     private List<ObjectDTO> newObjects = new ArrayList<>();
 
     private class LoadService extends Service<ObservableList<SimpleTableItem>> {
@@ -75,24 +74,10 @@ public class SimpleTableViewPart extends AbstractViewPart {
                         return null;
                     List<SimpleTableItem> ret = new ArrayList<>();
                     try {
-                        String json = Localhost_Dms.objects().doListBynameJson().getAsJson(viewPart.getPojo().getType(), String.class);
-                        logger.info("json: " + json);
-//                        ListDTO listDTO = Localhost_Dms.objects().doListBynameJson().getAsListDTO(viewPart.getPojo().getType());
-                        ObjectMapper objectMapper = new ObjectMapper();
-                        JavaType type = objectMapper.getTypeFactory().constructParametricType(ListDTO.class, ru.terra.dms.shared.dto.ObjectDTO.class);
-                        ListDTO<ru.terra.dms.shared.dto.ObjectDTO> listDTO = objectMapper.readValue(json, type);
-                        if (listDTO.getData() != null)
-                            for (ru.terra.dms.shared.dto.ObjectDTO dto : listDTO.getData()) {
-                                ObjectDTO o = new ObjectDTO();
-                                o.setId(dto.id);
-                                o.setType(dto.type);
-                                o.setFields(new ObjectDTO.Fields());
-                                o.getFields().setEntry(new ArrayList<>());
-                                for (String key : dto.fields.keySet())
-                                    o.getFields().getEntry().add(new ObjectDTO.Fields.Entry(key, dto.fields.get(key)));
-                                ret.add(processObjectDTO(o));
-                            }
-
+                        ListDTO<ObjectDTO> listDTO = new RestService().getObjectsByName(viewPart.getPojo().getType());
+                        if (listDTO.data != null)
+                            for (ObjectDTO dto : listDTO.data)
+                                ret.add(processObjectDTO(dto));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -141,12 +126,12 @@ public class SimpleTableViewPart extends AbstractViewPart {
 
     private SimpleTableItem processObjectDTO(ObjectDTO objectDTO) {
         SimpleTableItem tableItem = new SimpleTableItem();
-        tableItem.id = objectDTO.getId();
+        tableItem.id = objectDTO.id;
         StringBuilder sb = new StringBuilder();
-        for (ObjectDTO.Fields.Entry entry : objectDTO.getFields().getEntry()) {
-            sb.append(entry.getKey());
+        for (String key : objectDTO.fields.keySet()) {
+            sb.append(key);
             sb.append("=");
-            sb.append(entry.getValue());
+            sb.append(objectDTO.fields.get(key));
             sb.append(";");
         }
         tableItem.values = sb.toString();
@@ -171,12 +156,9 @@ public class SimpleTableViewPart extends AbstractViewPart {
     public void add(ActionEvent actionEvent) {
         Pair<Stage, EditSimpleBeanDialog> dialogPair = StageHelper.<EditSimpleBeanDialog>openWindow("d_create_simple_bean.fxml", "редактирование");
         ObjectDTO objectDTO = new ObjectDTO();
-        objectDTO.setType(viewPart.getPojo().getType());
-        objectDTO.setId(0);
-        objectDTO.setFields(new ObjectDTO.Fields());
-        objectDTO.getFields().setEntry(new ArrayList<>());
-        for (Pojo.Fields.Entry entry : viewPart.getPojo().getFields().getEntry())
-            objectDTO.getFields().getEntry().add(new ObjectDTO.Fields.Entry(entry.getKey(), viewPart.getPojo().getFields().getEntry(entry.getKey())));
+        objectDTO.type = viewPart.getPojo().getType();
+        objectDTO.id = 0;
+        objectDTO.fields = new HashMap<>(viewPart.getPojo().getFields());
         dialogPair.getValue().setReturnValue(objectDTO);
         dialogPair.getValue().setWorkIsDoneListener(new WorkIsDoneListener() {
             @Override

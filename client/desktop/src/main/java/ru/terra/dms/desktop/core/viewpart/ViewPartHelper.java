@@ -2,7 +2,7 @@ package ru.terra.dms.desktop.core.viewpart;
 
 import org.apache.log4j.Logger;
 import org.reflections.Reflections;
-import ru.terra.dms.desktop.core.annotations.ViewPart;
+import ru.terra.dms.desktop.core.annotations.ViewPartWindow;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,8 +21,8 @@ public class ViewPartHelper {
     }
 
     private ViewPartHelper() {
-        new Reflections("ru.terra.dms.desktop.core.viewpart.impl").getTypesAnnotatedWith(ViewPart.class).forEach(c -> {
-            ViewPart viewPart = c.getAnnotation(ViewPart.class);
+        new Reflections("ru.terra.dms.desktop.core.viewpart.impl").getTypesAnnotatedWith(ViewPartWindow.class).forEach(c -> {
+            ViewPartWindow viewPart = c.getAnnotation(ViewPartWindow.class);
             viewParts.put(viewPart.name(), viewPart.fxml());
         });
     }

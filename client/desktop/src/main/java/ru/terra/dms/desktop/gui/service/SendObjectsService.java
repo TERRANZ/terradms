@@ -1,16 +1,14 @@
 package ru.terra.dms.desktop.gui.service;
 
-import com.sun.jersey.core.util.MultivaluedMapImpl;
 import flexjson.JSONSerializer;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.terra.dms.client.rest.CommonDTO;
-import ru.terra.dms.client.rest.Localhost_Dms;
-import ru.terra.dms.client.rest.ObjectDTO;
+import ru.terra.dms.client.rest.RestService;
+import ru.terra.dms.shared.dto.ObjectDTO;
+import ru.terra.server.dto.CommonDTO;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -31,21 +29,12 @@ public class SendObjectsService extends Service<Boolean> {
         return new Task<Boolean>() {
             @Override
             protected Boolean call() throws Exception {
+                RestService restService = new RestService();
                 for (ObjectDTO objectDTO : objects)
                     try {
-                        ru.terra.dms.shared.dto.ObjectDTO objectWithFieldsDTO = new ru.terra.dms.shared.dto.ObjectDTO();
-                        objectWithFieldsDTO.id = objectDTO.getId();
-                        objectWithFieldsDTO.type = objectDTO.getType();
-                        objectWithFieldsDTO.fields = new HashMap<>();
-
-                        for (ObjectDTO.Fields.Entry entry : objectDTO.getFields().getEntry())
-                            objectWithFieldsDTO.fields.put(entry.getKey(), entry.getValue());
-
-                        String json = new JSONSerializer().exclude("class").deepSerialize(objectWithFieldsDTO);
-                        MultivaluedMapImpl values = new MultivaluedMapImpl();
-                        values.add("object", json);
-                        Localhost_Dms.objects().doCreateJson().postXWwwFormUrlencodedAsJson(values, CommonDTO.class);
-                        //logger.info("uploaded: " + objectDTO.getId() + " -> " + Localhost_Dms.objects().doCreateJson().<Boolean>putXWwwFormUrlencodedAsJson(objectDTO, Boolean.class));
+                        String json = new JSONSerializer().exclude("class").deepSerialize(objectDTO);
+                        CommonDTO ret = restService.createObjects(json);
+                        logger.info("Result: " + ret.status);
                     } catch (Exception e) {
                         logger.error("unable to send object ", e);
                     }

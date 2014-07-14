@@ -2,8 +2,8 @@ package ru.terra.dms.desktop.gui.service;
 
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
-import ru.terra.dms.client.rest.Localhost_Dms;
-import ru.terra.dms.client.rest.LoginDTO;
+import ru.terra.dms.client.rest.RestService;
+import ru.terra.server.dto.LoginDTO;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,7 +29,7 @@ public class LoginService extends Service<LoginDTO> {
             @Override
             protected LoginDTO call() throws Exception {
                 try {
-                    return Localhost_Dms.users().doLoginJson().getAsLoginDTO(user, pass);
+                    return new RestService().login(user, pass);
                 } catch (Exception e) {
                     logger.log(Level.SEVERE, "Unable to login", e);
                 }

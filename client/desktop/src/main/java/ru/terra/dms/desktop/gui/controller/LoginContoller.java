@@ -6,12 +6,11 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import org.controlsfx.dialog.Dialogs;
-import ru.terra.dms.client.rest.LoginDTO;
 import ru.terra.dms.desktop.core.viewpart.AbstractWindow;
 import ru.terra.dms.desktop.gui.parts.StageHelper;
 import ru.terra.dms.desktop.gui.service.LoginService;
+import ru.terra.server.dto.LoginDTO;
 
-import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -39,9 +38,9 @@ public class LoginContoller extends AbstractWindow {
             @Override
             public void handle(WorkerStateEvent workerStateEvent) {
                 LoginDTO loginDTO = loginService.getValue();
-                System.out.println(loginDTO.isLogged());
+                System.out.println(loginDTO.logged);
                 currStage.close();
-                if (loginDTO.isLogged())
+                if (loginDTO.logged)
                     StageHelper.openWindow("w_main.fxml", "Main");
                 else
                     StageHelper.openWindow("w_reg.fxml", "Reg");
