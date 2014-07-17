@@ -17,4 +17,14 @@ public class WayBillsProcessingTrigger implements ProcessingTrigger {
     public void onCreate(Integer newObjectId) {
         logger.info("Process new waybill: " + newObjectId);
     }
+
+    @Override
+    public void onUpdate(Integer objectId) {
+
+    }
+
+    @Override
+    public void onDelete(Integer objectId) {
+
+    }
 }

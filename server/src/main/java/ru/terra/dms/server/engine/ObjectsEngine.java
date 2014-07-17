@@ -62,12 +62,16 @@ public class ObjectsEngine {
         if (tObject == null)
             return false;
         logger.info("Found " + tObject + " for deleting");
+        ProcessingTrigger trigger = ProcessingManager.getInstance().getTrigger(tObject.getName());
+        if (trigger != null)
+            trigger.onDelete(id);
         try {
             objectsManager.remove(tObject);
         } catch (NonexistentEntityException e) {
             e.printStackTrace();
             return false;
         }
+
         return true;
     }
 
@@ -91,6 +95,9 @@ public class ObjectsEngine {
         if (currentObject == null)
             return false;
         objectsManager.updateObjectFields(id, dto.fields);
+        ProcessingTrigger trigger = ProcessingManager.getInstance().getTrigger(dto.type);
+        if (trigger != null)
+            trigger.onUpdate(id);
         return true;
     }
 }

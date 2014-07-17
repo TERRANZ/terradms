@@ -15,6 +15,16 @@ public class ProductsProcessingTrigger implements ProcessingTrigger {
 
     @Override
     public void onCreate(Integer newObjectId) {
-        logger.info("Process new object " + newObjectId);
+        logger.info("Process new product " + newObjectId);
+    }
+
+    @Override
+    public void onUpdate(Integer objectId) {
+
+    }
+
+    @Override
+    public void onDelete(Integer objectId) {
+        logger.info("Process delete product " + objectId);
     }
 }
