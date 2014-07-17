@@ -30,7 +30,7 @@ public class LoginContoller extends AbstractWindow {
     }
 
     public void login(ActionEvent actionEvent) {
-        LoginService loginService = new LoginService(tfUser.getText(), tfPass.getText());
+        final LoginService loginService = new LoginService(tfUser.getText(), tfPass.getText());
         Dialogs.create().owner(currStage).showWorkerProgress(loginService);
         loginService.reset();
         loginService.start();

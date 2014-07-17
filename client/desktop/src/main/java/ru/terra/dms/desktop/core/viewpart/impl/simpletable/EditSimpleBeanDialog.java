@@ -71,7 +71,7 @@ public class EditSimpleBeanDialog extends AbstractEditDialog<ObjectDTO> {
         miAdd.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                tblFields.getItems().addAll(new Pair<>());
+                tblFields.getItems().addAll(new Pair<String, String>());
             }
         });
         MenuItem miDel = new MenuItem();

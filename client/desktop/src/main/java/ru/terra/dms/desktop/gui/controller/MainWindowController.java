@@ -1,10 +1,13 @@
 package ru.terra.dms.desktop.gui.controller;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import ru.terra.dms.configuration.Configuration;
+import ru.terra.dms.configuration.bean.MenuPart;
 import ru.terra.dms.configuration.bean.ViewPart;
 import ru.terra.dms.desktop.core.configuration.ConfigurationManager;
 import ru.terra.dms.desktop.core.viewpart.AbstractViewPart;
@@ -26,18 +29,21 @@ public class MainWindowController extends AbstractWindow {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Configuration configuration = ConfigurationManager.getConfiguration();
+        final Configuration configuration = ConfigurationManager.getConfiguration();
 //        currStage.setTitle(configuration.getName());
-        configuration.getMenus().forEach(menuPart -> {
+        for (final MenuPart menuPart : configuration.getMenus()) {
             MenuItem viewPartMenuItem = new MenuItem();
             viewPartMenuItem.setText(menuPart.getText());
-            viewPartMenuItem.setOnAction(action -> {
-                ViewPart viewPart = configuration.getViewPart(menuPart.getViewPart());
-                Pair<Stage, AbstractViewPart> windowPair = StageHelper.<AbstractViewPart>openWindow(ViewPartHelper.getInstance().getFXML(viewPart.getControllerType()), menuPart.getViewPart());
-                windowPair.getValue().setViewPartName(viewPart.getName());
-                windowPair.getValue().load();
+            viewPartMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    ViewPart viewPart = configuration.getViewPart(menuPart.getViewPart());
+                    Pair<Stage, AbstractViewPart> windowPair = StageHelper.<AbstractViewPart>openWindow(ViewPartHelper.getInstance().getFXML(viewPart.getControllerType()), menuPart.getViewPart());
+                    windowPair.getValue().setViewPartName(viewPart.getName());
+                    windowPair.getValue().load();
+                }
             });
             miViewparts.getItems().add(viewPartMenuItem);
-        });
+        }
     }
 }

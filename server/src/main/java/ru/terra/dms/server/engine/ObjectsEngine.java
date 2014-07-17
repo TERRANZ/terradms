@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import ru.terra.dms.server.processing.ProcessingManager;
 import ru.terra.dms.server.processing.ProcessingTrigger;
 import ru.terra.dms.shared.dto.ObjectDTO;
+import ru.terraobjects.entity.ObjectFields;
 import ru.terraobjects.entity.TObject;
 import ru.terraobjects.entity.controller.exceptions.NonexistentEntityException;
 import ru.terraobjects.manager.ObjectsManager;
@@ -32,7 +33,7 @@ public class ObjectsEngine {
         newObject.setCreated(new Date());
         newObject.setParent(objectDTO.parent == null ? 0 : objectDTO.parent);
         newObject.setVersion(0);
-        newObject.setObjectFieldsList(new ArrayList<>());
+        newObject.setObjectFieldsList(new ArrayList<ObjectFields>());
 
         try {
             objectsManager.saveObject(newObject);

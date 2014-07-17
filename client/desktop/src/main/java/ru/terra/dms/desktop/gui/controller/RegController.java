@@ -31,7 +31,7 @@ public class RegController extends AbstractWindow {
     }
 
     public void login(ActionEvent actionEvent) {
-        RegUserService regUserService = new RegUserService(tfUser.getText(), tfPass.getText());
+        final RegUserService regUserService = new RegUserService(tfUser.getText(), tfPass.getText());
         Dialogs.create().owner(currStage).showWorkerProgress(regUserService);
         regUserService.reset();
         regUserService.start();

@@ -107,9 +107,9 @@ public class SimpleTableViewPart extends AbstractViewPart {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (mouseEvent.getClickCount() > 1) {
-                    SimpleTableItem item = table.getSelectionModel().getSelectedItem();
+                    final SimpleTableItem item = table.getSelectionModel().getSelectedItem();
                     if (item != null) {
-                        Pair<Stage, EditSimpleBeanDialog> dialogPair = StageHelper.<EditSimpleBeanDialog>openWindow("d_create_simple_bean.fxml", "редактирование");
+                        final Pair<Stage, EditSimpleBeanDialog> dialogPair = StageHelper.<EditSimpleBeanDialog>openWindow("d_create_simple_bean.fxml", "редактирование");
                         dialogPair.getValue().setReturnValue(item.dto);
                         dialogPair.getValue().setWorkIsDoneListener(new WorkIsDoneListener() {
                             @Override
@@ -143,7 +143,7 @@ public class SimpleTableViewPart extends AbstractViewPart {
     @Override
     public void load() {
         viewPart = ConfigurationManager.getConfiguration().getViewPart(viewPartName);
-        LoadService loadService = new LoadService();
+        final LoadService loadService = new LoadService();
         loadService.start();
         loadService.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
@@ -155,7 +155,7 @@ public class SimpleTableViewPart extends AbstractViewPart {
     }
 
     public void add(ActionEvent actionEvent) {
-        Pair<Stage, EditSimpleBeanDialog> dialogPair = StageHelper.<EditSimpleBeanDialog>openWindow("d_create_simple_bean.fxml", "редактирование");
+        final Pair<Stage, EditSimpleBeanDialog> dialogPair = StageHelper.<EditSimpleBeanDialog>openWindow("d_create_simple_bean.fxml", "редактирование");
         ObjectDTO objectDTO = new ObjectDTO();
         objectDTO.type = viewPart.getPojo().getType();
         objectDTO.id = 0;
@@ -187,7 +187,7 @@ public class SimpleTableViewPart extends AbstractViewPart {
     }
 
     public void delete(ActionEvent actionEvent) {
-        SimpleTableItem item = table.getSelectionModel().getSelectedItem();
+        final SimpleTableItem item = table.getSelectionModel().getSelectedItem();
         if (item != null) {
             DeleteObjectService deleteObjectService = new DeleteObjectService(item.id);
             Dialogs.create().owner(currStage).showWorkerProgress(deleteObjectService);
