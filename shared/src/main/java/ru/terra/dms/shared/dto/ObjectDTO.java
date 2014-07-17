@@ -12,4 +12,5 @@ public class ObjectDTO {
     public String type;
     public Integer id;
     public Map<String, String> fields;
+    public Integer parent;
 }

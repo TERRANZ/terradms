@@ -24,6 +24,7 @@ import ru.terra.dms.desktop.core.configuration.ConfigurationManager;
 import ru.terra.dms.desktop.core.util.WorkIsDoneListener;
 import ru.terra.dms.desktop.core.viewpart.AbstractViewPart;
 import ru.terra.dms.desktop.gui.parts.StageHelper;
+import ru.terra.dms.desktop.gui.service.DeleteObjectService;
 import ru.terra.dms.desktop.gui.service.SendObjectsService;
 import ru.terra.dms.desktop.gui.util.Pair;
 import ru.terra.dms.shared.dto.ObjectDTO;
@@ -183,5 +184,21 @@ public class SimpleTableViewPart extends AbstractViewPart {
                 newObjects.clear();
             }
         });
+    }
+
+    public void delete(ActionEvent actionEvent) {
+        SimpleTableItem item = table.getSelectionModel().getSelectedItem();
+        if (item != null) {
+            DeleteObjectService deleteObjectService = new DeleteObjectService(item.id);
+            Dialogs.create().owner(currStage).showWorkerProgress(deleteObjectService);
+            deleteObjectService.reset();
+            deleteObjectService.start();
+            deleteObjectService.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+                @Override
+                public void handle(WorkerStateEvent workerStateEvent) {
+                    table.getItems().remove(item);
+                }
+            });
+        }
     }
 }

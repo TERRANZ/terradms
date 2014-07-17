@@ -8,8 +8,10 @@
         <ToolBar prefWidth="200.0">
             <items>
                 <Button fx:id="btnRefresh" mnemonicParsing="false" text="Обновить"/>
-                <Button mnemonicParsing="false" onAction="#add" text="Добавить"/>
+                <Button mnemonicParsing="false" text="Добавить" onAction="#add"/>
+                <Button mnemonicParsing="false" text="Удалить" onAction="#delete"/>
                 <Button mnemonicParsing="false" text="Сохранить" onAction="#save"/>
+
             </items>
         </ToolBar>
         <TableView fx:id="table" prefHeight="596.0" prefWidth="600.0">

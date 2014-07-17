@@ -76,4 +76,14 @@ public class RestService {
                 bodyPart(new BodyPart(json, MediaType.APPLICATION_JSON_TYPE));
         return resource.type("multipart/mixed").post(CommonDTO.class, multiPart);
     }
+
+    public CommonDTO deleteObject(Integer id) {
+        WebResource resource = client.resource(URLConstants.URL + URLConstants.Objects.OBJECTS + "/do.delete.json" + "/" + id.toString() + "/");
+        return resource.delete(CommonDTO.class);
+    }
+
+    public ObjectDTO getObject(Integer id) {
+        WebResource resource = client.resource(URLConstants.URL + URLConstants.Objects.OBJECTS + "/do.get.json" + "/" + id.toString() + "/");
+        return resource.get(ObjectDTO.class);
+    }
 }

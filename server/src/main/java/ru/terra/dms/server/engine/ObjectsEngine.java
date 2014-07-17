@@ -2,14 +2,16 @@ package ru.terra.dms.server.engine;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.terra.dms.shared.dto.ObjectDTO;
 import ru.terra.dms.server.processing.ProcessingManager;
 import ru.terra.dms.server.processing.ProcessingTrigger;
+import ru.terra.dms.shared.dto.ObjectDTO;
 import ru.terraobjects.entity.TObject;
+import ru.terraobjects.entity.controller.exceptions.NonexistentEntityException;
 import ru.terraobjects.manager.ObjectsManager;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Date: 03.06.14
@@ -28,7 +30,7 @@ public class ObjectsEngine {
         newObject.setName(objectDTO.type);
         newObject.setUpdated(new Date());
         newObject.setCreated(new Date());
-        newObject.setParent(0);
+        newObject.setParent(objectDTO.parent == null ? 0 : objectDTO.parent);
         newObject.setVersion(0);
         newObject.setObjectFieldsList(new ArrayList<>());
 
@@ -41,5 +43,53 @@ public class ObjectsEngine {
         } catch (Exception e) {
             logger.error("Error while persisting new object", e);
         }
+    }
+
+    public ObjectDTO getObject(Integer id) {
+        TObject tObject = objectsManager.findById(id);
+        if (tObject == null)
+            return null;
+        return convert(tObject);
+    }
+
+    public Boolean isExists(Integer id) {
+        return objectsManager.getCount(id, "id").intValue() > 0;
+    }
+
+    public Boolean deleteObject(Integer id) {
+        TObject tObject = objectsManager.findById(id);
+        if (tObject == null)
+            return false;
+        logger.info("Found " + tObject + " for deleting");
+        try {
+            objectsManager.remove(tObject);
+        } catch (NonexistentEntityException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public ObjectDTO convert(TObject tObject) {
+        ObjectDTO objectDTO = new ObjectDTO();
+        objectDTO.id = tObject.getId();
+        objectDTO.type = tObject.getName();
+        objectDTO.fields = objectsManager.getObjectFieldValues(tObject.getId());
+        return objectDTO;
+    }
+
+    public List<ObjectDTO> getByName(String name) {
+        List<ObjectDTO> data = new ArrayList<>();
+        for (TObject tObject : objectsManager.load(name, -1, -1, true))
+            data.add(convert(tObject));
+        return data;
+    }
+
+    public Boolean update(ObjectDTO dto, Integer id) {
+        ObjectDTO currentObject = getObject(id);
+        if (currentObject == null)
+            return false;
+        objectsManager.updateObjectFields(id, dto.fields);
+        return true;
     }
 }

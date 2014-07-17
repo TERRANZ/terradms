@@ -11,14 +11,10 @@ import ru.terra.dms.shared.dto.ObjectDTO;
 import ru.terra.server.controller.AbstractResource;
 import ru.terra.server.dto.CommonDTO;
 import ru.terra.server.dto.ListDTO;
-import ru.terraobjects.entity.TObject;
-import ru.terraobjects.manager.ObjectsManager;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Date: 02.06.14
@@ -27,13 +23,12 @@ import java.util.List;
 @Path(URLConstants.Objects.OBJECTS)
 public class ObjectsController extends AbstractResource {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-    private ObjectsManager<TObject> objectsManager = new ObjectsManager<>();
     private ObjectsEngine objectsEngine = new ObjectsEngine();
 
     @POST
     @Path(URLConstants.DoJson.DO_CREATE)
     @Consumes("multipart/mixed")
-    public CommonDTO create(@Context HttpContext hc, MultiPart multiPart){
+    public CommonDTO create(@Context HttpContext hc, MultiPart multiPart) {
         String json = multiPart.getBodyParts().get(0).getEntityAs(String.class);
         logger.info("Received json " + json);
         ObjectDTO objectDTO = null;
@@ -47,36 +42,41 @@ public class ObjectsController extends AbstractResource {
     }
 
     @POST
-    @Path(URLConstants.DoJson.DO_UPDATE)
-    public Boolean update(@Context HttpContext hc, @FormParam("object") String json) {
-        return true;
+    @Path(URLConstants.DoJson.DO_UPDATE + "/{id}/")
+    @Consumes("multipart/mixed")
+    public CommonDTO update(@Context HttpContext hc, MultiPart multiPart, @PathParam("id") Integer id) {
+        String json = multiPart.getBodyParts().get(0).getEntityAs(String.class);
+        logger.info("Received json " + json);
+        ObjectDTO objectDTO = null;
+        try {
+            objectDTO = new ObjectMapper().readValue(json, ObjectDTO.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        CommonDTO ret = new CommonDTO();
+        ret.status = objectsEngine.update(objectDTO, id).toString();
+        return ret;
     }
 
     @DELETE
     @Path(URLConstants.DoJson.DO_DEL + "/{id}/")
-    public Boolean delete(@Context HttpContext hc, @PathParam("id") Integer id) {
-        return true;
+    public CommonDTO delete(@Context HttpContext hc, @PathParam("id") Integer id) {
+        CommonDTO result = new CommonDTO();
+        result.status = objectsEngine.deleteObject(id).toString();
+        return result;
     }
 
     @GET
     @Path(URLConstants.DoJson.DO_GET + "/{id}/")
     public ObjectDTO get(@Context HttpContext hc, @PathParam("id") Integer id) {
-        return new ObjectDTO();
+        return objectsEngine.getObject(id);
     }
 
     @GET
     @Path(URLConstants.Objects.LIST_BY_NAME)
     public String listByName(@Context HttpContext hc, @QueryParam("name") String name) throws IOException {
         ListDTO<ObjectDTO> ret = new ListDTO<>();
-        List<ObjectDTO> data = new ArrayList<>();
-        for (TObject tObject : objectsManager.load(name, -1, -1, true)) {
-            ObjectDTO objectDTO = new ObjectDTO();
-            objectDTO.id = tObject.getId();
-            objectDTO.type = tObject.getName();
-            objectDTO.fields = objectsManager.getObjectFieldValues(tObject.getId());
-            data.add(objectDTO);
-        }
-        ret.setData(data);
+        ret.setData(objectsEngine.getByName(name));
         String json = new ObjectMapper().writeValueAsString(ret);
         return json;
     }
