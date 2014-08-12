@@ -13,16 +13,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.controlsfx.dialog.Dialogs;
 import ru.terra.dms.client.rest.RestService;
-import ru.terra.dms.configuration.bean.ViewPart;
 import ru.terra.dms.desktop.core.annotations.ViewPartWindow;
 import ru.terra.dms.desktop.core.configuration.ConfigurationManager;
 import ru.terra.dms.desktop.core.util.WorkIsDoneListener;
 import ru.terra.dms.desktop.core.viewpart.AbstractViewPart;
+import ru.terra.dms.desktop.core.viewpart.PojoEditDialog;
+import ru.terra.dms.desktop.core.viewpart.PojoTableItem;
 import ru.terra.dms.desktop.gui.parts.StageHelper;
 import ru.terra.dms.desktop.gui.service.DeleteObjectService;
 import ru.terra.dms.desktop.gui.service.SendObjectsService;
@@ -30,7 +30,6 @@ import ru.terra.dms.desktop.gui.util.Pair;
 import ru.terra.dms.shared.dto.ObjectDTO;
 import ru.terra.server.dto.ListDTO;
 
-import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,51 +42,14 @@ import java.util.ResourceBundle;
  */
 @ViewPartWindow(name = "simpletable", fxml = "p_simple_table.fxml")
 public class SimpleTableViewPart extends AbstractViewPart {
-    public static class SimpleTableItem implements Serializable {
-        public Integer id = 0;
-        public String values = "";
-        public ObjectDTO dto;
-
-        @Override
-        public String toString() {
-            return "id=" + id +
-                    ", values='" + values + '\'' +
-                    '}';
-        }
-    }
-
     @FXML
     public Button btnRefresh;
     @FXML
-    public TableView<SimpleTableItem> table;
+    public TableView<PojoTableItem> table;
     @FXML
-    public TableColumn<SimpleTableItem, String> colValue;
-    private ViewPart viewPart;
+    public TableColumn<PojoTableItem, String> colValue;
+
     private List<ObjectDTO> newObjects = new ArrayList<>();
-
-    private class LoadService extends Service<ObservableList<SimpleTableItem>> {
-        @Override
-        protected Task<ObservableList<SimpleTableItem>> createTask() {
-            return new Task<ObservableList<SimpleTableItem>>() {
-                @Override
-                protected ObservableList<SimpleTableItem> call() throws Exception {
-                    if (viewPart == null)
-                        return null;
-                    List<SimpleTableItem> ret = new ArrayList<>();
-                    try {
-                        ListDTO<ObjectDTO> listDTO = new RestService().getObjectsByName(viewPart.getPojo().getType());
-                        if (listDTO.data != null)
-                            for (ObjectDTO dto : listDTO.data)
-                                ret.add(processObjectDTO(dto));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    return FXCollections.observableArrayList(ret);
-                }
-            };
-        }
-    }
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -97,52 +59,17 @@ public class SimpleTableViewPart extends AbstractViewPart {
                 load();
             }
         });
-        colValue.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<SimpleTableItem, String>, ObservableValue<String>>() {
+        colValue.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<PojoTableItem, String>, ObservableValue<String>>() {
             @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<SimpleTableItem, String> simpleTableItemStringCellDataFeatures) {
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<PojoTableItem, String> simpleTableItemStringCellDataFeatures) {
                 return new ReadOnlyStringWrapper(simpleTableItemStringCellDataFeatures.getValue().toString());
             }
         });
-        table.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                if (mouseEvent.getClickCount() > 1) {
-                    final SimpleTableItem item = table.getSelectionModel().getSelectedItem();
-                    if (item != null) {
-                        final Pair<Stage, EditSimpleBeanDialog> dialogPair = StageHelper.<EditSimpleBeanDialog>openWindow("d_create_simple_bean.fxml", "редактирование");
-                        dialogPair.getValue().setReturnValue(item.dto);
-                        dialogPair.getValue().setWorkIsDoneListener(new WorkIsDoneListener() {
-                            @Override
-                            public void workIsDone(int code, String... msg) {
-                                int index = table.getItems().indexOf(item);
-                                table.getItems().remove(item);
-                                table.getItems().add(index, processObjectDTO(dialogPair.getValue().getReturnValue()));
-                            }
-                        });
-                    }
-                }
-            }
-        });
-    }
-
-    private SimpleTableItem processObjectDTO(ObjectDTO objectDTO) {
-        SimpleTableItem tableItem = new SimpleTableItem();
-        tableItem.id = objectDTO.id;
-        StringBuilder sb = new StringBuilder();
-        for (String key : objectDTO.fields.keySet()) {
-            sb.append(key);
-            sb.append("=");
-            sb.append(objectDTO.fields.get(key));
-            sb.append(";");
-        }
-        tableItem.values = sb.toString();
-        tableItem.dto = objectDTO;
-        return tableItem;
+        addEditingToTable(table);
     }
 
     @Override
-    public void load() {
-        viewPart = ConfigurationManager.getConfiguration().getViewPart(viewPartName);
+    protected void loadInternal() {
         final LoadService loadService = new LoadService();
         loadService.start();
         loadService.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
@@ -155,11 +82,11 @@ public class SimpleTableViewPart extends AbstractViewPart {
     }
 
     public void add(ActionEvent actionEvent) {
-        final Pair<Stage, EditSimpleBeanDialog> dialogPair = StageHelper.<EditSimpleBeanDialog>openWindow("d_create_simple_bean.fxml", "редактирование");
+        final Pair<Stage, PojoEditDialog> dialogPair = StageHelper.<PojoEditDialog>openWindow("d_create_simple_bean.fxml", "редактирование");
         ObjectDTO objectDTO = new ObjectDTO();
-        objectDTO.type = viewPart.getPojo().getType();
+        objectDTO.type = viewPart.getPojo();
         objectDTO.id = 0;
-        objectDTO.fields = new HashMap<>(viewPart.getPojo().getFields());
+        objectDTO.fields = new HashMap<>(ConfigurationManager.getConfiguration().getPojo(viewPart.getPojo()).getFields());
         dialogPair.getValue().setReturnValue(objectDTO);
         dialogPair.getValue().setWorkIsDoneListener(new WorkIsDoneListener() {
             @Override
@@ -187,7 +114,7 @@ public class SimpleTableViewPart extends AbstractViewPart {
     }
 
     public void delete(ActionEvent actionEvent) {
-        final SimpleTableItem item = table.getSelectionModel().getSelectedItem();
+        final PojoTableItem item = table.getSelectionModel().getSelectedItem();
         if (item != null) {
             DeleteObjectService deleteObjectService = new DeleteObjectService(item.id);
             Dialogs.create().owner(currStage).showWorkerProgress(deleteObjectService);

@@ -90,6 +90,15 @@ public class ObjectsEngine {
         return data;
     }
 
+
+    public List<ObjectDTO> getByParent(Integer parent) {
+        List<ObjectDTO> data = new ArrayList<>();
+        for (TObject tObject : objectsManager.load(parent, -1, -1, true))
+            data.add(convert(tObject));
+        return data;
+    }
+
+
     public Boolean update(ObjectDTO dto, Integer id) {
         ObjectDTO currentObject = getObject(id);
         if (currentObject == null)

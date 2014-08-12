@@ -2,6 +2,7 @@ package ru.terra.dms.configuration.bean;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * Date: 26.05.14
@@ -13,7 +14,7 @@ public class MenuPart implements Serializable {
         VIEWPART, SPLITTER
     }
 
-    private String text, shortcut, viewPart;
+    private String text, shortcut, viewPart, uid = UUID.randomUUID().toString();
     private MenuPartType type;
 
     public MenuPart(String text, String shortcut, String viewPart, MenuPartType type) {
@@ -57,6 +58,14 @@ public class MenuPart implements Serializable {
 
     public void setType(MenuPartType type) {
         this.type = type;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }
 

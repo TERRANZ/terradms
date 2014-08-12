@@ -10,13 +10,13 @@ import java.util.Map;
  */
 @XmlRootElement
 public class Pojo implements Serializable {
-    private String name, type;
+    private String name, type, parent;
     private Map<String, String> fields;
 
     public Pojo() {
     }
 
-    public Pojo(String name, String type, Map<String, String> fields) {
+    public Pojo(String name, String type, String parent, Map<String, String> fields) {
         this.name = name;
         this.type = type;
         this.fields = fields;
@@ -44,5 +44,13 @@ public class Pojo implements Serializable {
 
     public void setFields(Map<String, String> fields) {
         this.fields = fields;
+    }
+
+    public String getParent() {
+        return parent;
+    }
+
+    public void setParent(String parent) {
+        this.parent = parent;
     }
 }

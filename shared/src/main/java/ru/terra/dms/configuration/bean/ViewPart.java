@@ -9,13 +9,12 @@ import java.io.Serializable;
  */
 @XmlRootElement
 public class ViewPart implements Serializable {
-    private String id, controllerType, name;
-    private Pojo pojo;
+    private String id, controllerType, name, pojo;
 
     public ViewPart() {
     }
 
-    public ViewPart(String id, String controllerType, String name, Pojo pojo) {
+    public ViewPart(String id, String controllerType, String name, String pojo) {
         this.id = id;
         this.controllerType = controllerType;
         this.name = name;
@@ -38,11 +37,11 @@ public class ViewPart implements Serializable {
         this.controllerType = controllerType;
     }
 
-    public Pojo getPojo() {
+    public String getPojo() {
         return pojo;
     }
 
-    public void setPojo(Pojo pojo) {
+    public void setPojo(String pojo) {
         this.pojo = pojo;
     }
 

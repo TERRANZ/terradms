@@ -80,4 +80,13 @@ public class ObjectsController extends AbstractResource {
         String json = new ObjectMapper().writeValueAsString(ret);
         return json;
     }
+
+    @GET
+    @Path(URLConstants.Objects.LIST_BY_PARENT)
+    public String listByParent(@Context HttpContext hc, @QueryParam("parent") Integer parentId) throws IOException {
+        ListDTO<ObjectDTO> ret = new ListDTO<>();
+        ret.setData(objectsEngine.getByParent(parentId));
+        String json = new ObjectMapper().writeValueAsString(ret);
+        return json;
+    }
 }

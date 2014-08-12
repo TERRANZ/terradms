@@ -1,4 +1,4 @@
-package ru.terra.dms.desktop.core.viewpart.impl.simpletable;
+package ru.terra.dms.desktop.core.viewpart;
 
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ObservableValue;
@@ -26,7 +26,7 @@ import java.util.ResourceBundle;
  * Date: 03.06.14
  * Time: 16:35
  */
-public class EditSimpleBeanDialog extends AbstractEditDialog<ObjectDTO> {
+public class PojoEditDialog extends AbstractEditDialog<ObjectDTO> {
     @FXML
     public TableView<Pair<String, String>> tblFields;
     @FXML

@@ -10,6 +10,7 @@ public class URLConstants {
     public static class Objects {
         public static final String OBJECTS = "/objects";
         public static final String LIST_BY_NAME = "/do.list.byname.json";
+        public static final String LIST_BY_PARENT = "/do.list.byparent.json";
     }
 
     public static class Configuration {

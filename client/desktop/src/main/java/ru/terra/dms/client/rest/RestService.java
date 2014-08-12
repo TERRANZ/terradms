@@ -70,6 +70,19 @@ public class RestService {
         }
     }
 
+    public ListDTO<ObjectDTO> getObjectsByParent(Integer parent) {
+        String json = client.resource(URLConstants.URL + URLConstants.Objects.OBJECTS + URLConstants.Objects.LIST_BY_PARENT).queryParam("parent", parent.toString()).get(String.class);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JavaType type = objectMapper.getTypeFactory().constructParametricType(ListDTO.class, ru.terra.dms.shared.dto.ObjectDTO.class);
+        try {
+            return objectMapper.readValue(json, type);
+        } catch (IOException e) {
+            logger.error("Unable to read objects", e);
+            return null;
+        }
+    }
+
+
     public CommonDTO createObjects(String json) {
         WebResource resource = client.resource(URLConstants.URL + URLConstants.Objects.OBJECTS + "/do.create.json");
         MultiPart multiPart = new MultiPart().
