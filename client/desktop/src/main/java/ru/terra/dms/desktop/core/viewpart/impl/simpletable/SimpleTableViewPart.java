@@ -46,6 +46,7 @@ public class SimpleTableViewPart extends AbstractViewPart {
     @Override
     protected void loadInternal() {
         final LoadService loadService = new LoadService();
+        table.getColumns().clear();
         TableColumn<PojoTableItem, String> colId = new TableColumn<>("Ид");
         colId.setCellValueFactory(t -> new ReadOnlyStringWrapper(t.getValue().id.toString()));
         table.getColumns().add(colId);
