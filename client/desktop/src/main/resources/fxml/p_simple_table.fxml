@@ -14,10 +14,6 @@
 
             </items>
         </ToolBar>
-        <TableView fx:id="table" prefHeight="596.0" prefWidth="600.0">
-            <columns>
-                <TableColumn fx:id="colValue" prefWidth="599.0" text="Column X"/>
-            </columns>
-        </TableView>
+        <TableView fx:id="table" prefHeight="596.0" prefWidth="600.0"/>
     </children>
 </VBox>

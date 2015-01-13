@@ -1,7 +1,5 @@
 package ru.terra.dms.desktop.gui.controller;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -34,14 +32,11 @@ public class MainWindowController extends AbstractWindow {
         for (final MenuPart menuPart : configuration.getMenus()) {
             MenuItem viewPartMenuItem = new MenuItem();
             viewPartMenuItem.setText(menuPart.getText());
-            viewPartMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    ViewPart viewPart = configuration.getViewPart(menuPart.getViewPart());
-                    Pair<Stage, AbstractViewPart> windowPair = StageHelper.<AbstractViewPart>openWindow(ViewPartHelper.getInstance().getFXML(viewPart.getControllerType()), menuPart.getViewPart());
-                    windowPair.getValue().setViewPartName(viewPart.getName());
-                    windowPair.getValue().load();
-                }
+            viewPartMenuItem.setOnAction(actionEvent -> {
+                ViewPart viewPart = configuration.getViewPart(menuPart.getViewPart());
+                Pair<Stage, AbstractViewPart> windowPair = StageHelper.<AbstractViewPart>openWindow(ViewPartHelper.getInstance().getFXML(viewPart.getControllerType()), menuPart.getViewPart());
+                windowPair.getValue().setViewPartName(viewPart.getName());
+                windowPair.getValue().load();
             });
             miViewparts.getItems().add(viewPartMenuItem);
         }

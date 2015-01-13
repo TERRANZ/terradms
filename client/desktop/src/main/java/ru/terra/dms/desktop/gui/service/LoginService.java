@@ -2,7 +2,7 @@ package ru.terra.dms.desktop.gui.service;
 
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
-import ru.terra.dms.client.rest.RestService;
+import ru.terra.dms.rest.RestService;
 import ru.terra.server.dto.LoginDTO;
 
 import java.util.logging.Level;

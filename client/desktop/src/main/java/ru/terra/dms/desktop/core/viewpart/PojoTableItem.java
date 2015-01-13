@@ -10,11 +10,5 @@ import java.io.Serializable;
  */
 public class PojoTableItem implements Serializable {
     public Integer id = 0;
-    public String values = "";
     public ObjectDTO dto;
-
-    @Override
-    public String toString() {
-        return "id=" + id + ", values='" + values;
-    }
 }

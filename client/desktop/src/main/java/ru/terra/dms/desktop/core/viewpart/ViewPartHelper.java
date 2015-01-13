@@ -21,10 +21,12 @@ public class ViewPartHelper {
     }
 
     private ViewPartHelper() {
-        for (Class c : new Reflections("ru.terra.dms.desktop.core.viewpart.impl").getTypesAnnotatedWith(ViewPartWindow.class)) {
-            ViewPartWindow viewPart = (ViewPartWindow) c.getAnnotation(ViewPartWindow.class);
+        logger.debug("Loading viewparts");
+        new Reflections("ru.terra.dms.desktop.core.viewpart.impl").getTypesAnnotatedWith(ViewPartWindow.class).forEach(c -> {
+            ViewPartWindow viewPart = c.getAnnotation(ViewPartWindow.class);
             viewParts.put(viewPart.name(), viewPart.fxml());
-        }
+            logger.debug("Loading view part " + viewPart.name());
+        });
     }
 
     public String getFXML(String partName) {

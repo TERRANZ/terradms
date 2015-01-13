@@ -5,7 +5,7 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.terra.dms.client.rest.RestService;
+import ru.terra.dms.rest.RestService;
 import ru.terra.dms.shared.dto.ObjectDTO;
 import ru.terra.server.dto.CommonDTO;
 

@@ -1,6 +1,6 @@
 package ru.terra.dms.desktop.core.configuration;
 
-import ru.terra.dms.client.rest.RestService;
+import ru.terra.dms.rest.RestService;
 import ru.terra.dms.configuration.Configuration;
 
 /**

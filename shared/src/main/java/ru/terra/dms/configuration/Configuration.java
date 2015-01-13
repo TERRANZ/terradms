@@ -82,7 +82,7 @@ public class Configuration implements Serializable {
 
     public Pojo getPojo(String type) {
         for (Pojo pojo : pojos)
-            if (pojo.getName().equals(type))
+            if (pojo.getType().equals(type))
                 return pojo;
         return null;
     }

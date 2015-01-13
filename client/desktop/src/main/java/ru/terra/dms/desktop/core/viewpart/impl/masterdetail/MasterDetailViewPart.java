@@ -27,13 +27,10 @@ public class MasterDetailViewPart extends AbstractViewPart {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         addEditingToTable(tblMaster);
         addEditingToTable(tblDetail);
-        tblMaster.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                if (mouseEvent.getClickCount() > 1) {
-                    PojoTableItem tableItem = tblMaster.getSelectionModel().getSelectedItem();
-                    loadDetailPojo(tableItem.dto.id);
-                }
+        tblMaster.setOnMouseClicked(mouseEvent -> {
+            if (mouseEvent.getClickCount() > 1) {
+                PojoTableItem tableItem = tblMaster.getSelectionModel().getSelectedItem();
+                loadDetailPojo(tableItem.dto.id);
             }
         });
     }
@@ -42,24 +39,18 @@ public class MasterDetailViewPart extends AbstractViewPart {
     protected void loadInternal() {
         final LoadService loadService = new LoadService();
         loadService.start();
-        loadService.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-            @Override
-            public void handle(WorkerStateEvent workerStateEvent) {
-                tblMaster.getItems().clear();
-                tblMaster.setItems(loadService.getValue());
-            }
+        loadService.setOnSucceeded(workerStateEvent -> {
+            tblMaster.getItems().clear();
+            tblMaster.setItems(loadService.getValue());
         });
     }
 
     private void loadDetailPojo(Integer parentId) {
         final LoadService loadService = new LoadService(parentId);
         loadService.start();
-        loadService.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-            @Override
-            public void handle(WorkerStateEvent workerStateEvent) {
-                tblDetail.getItems().clear();
-                tblDetail.setItems(loadService.getValue());
-            }
+        loadService.setOnSucceeded(workerStateEvent -> {
+            tblDetail.getItems().clear();
+            tblDetail.setItems(loadService.getValue());
         });
     }
 }

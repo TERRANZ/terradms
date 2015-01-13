@@ -17,7 +17,8 @@ public class ProcessingManager {
         for (Class c : new Reflections("ru.terra.dms.server.processing.impl").getTypesAnnotatedWith(Processing.class)) {
             Processing processing = (Processing) c.getAnnotation(Processing.class);
             triggers.put(processing.value(), (Class<ProcessingTrigger>) c);
-        };
+        }
+        ;
     }
 
     public static ProcessingManager getInstance() {
@@ -26,7 +27,8 @@ public class ProcessingManager {
 
     public ProcessingTrigger getTrigger(String documentName) {
         try {
-            return triggers.get(documentName).newInstance();
+            Class<ProcessingTrigger> processingTriggerClass = triggers.get(documentName);
+            return processingTriggerClass != null ? triggers.get(documentName).newInstance() : null;
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

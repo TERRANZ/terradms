@@ -11,7 +11,7 @@ import ru.terra.dms.desktop.gui.parts.StageHelper;
  */
 public class Main extends Application {
     public static void main(String... args) {
-        BasicConfigurator.configure();
+//        BasicConfigurator.configure();
         launch(args);
     }
 
