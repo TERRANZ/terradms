@@ -1,4 +1,4 @@
-package ru.terra.dms.desktop.gui.service;
+package ru.terra.dms.desktop.core.service;
 
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -20,7 +20,7 @@ public class DeleteObjectService extends Service<Boolean> {
         return new Task<Boolean>() {
             @Override
             protected Boolean call() throws Exception {
-                return Boolean.valueOf(new RestService().deleteObject(id).status);
+                return Boolean.valueOf(RestService.getInstance().deleteObject(id).status);
             }
         };
     }

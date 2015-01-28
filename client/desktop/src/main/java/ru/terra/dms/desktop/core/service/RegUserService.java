@@ -1,4 +1,4 @@
-package ru.terra.dms.desktop.gui.service;
+package ru.terra.dms.desktop.core.service;
 
 import javafx.concurrent.Task;
 import ru.terra.dms.rest.RestService;
@@ -21,7 +21,7 @@ public class RegUserService extends LoginService {
             @Override
             protected LoginDTO call() throws Exception {
                 try {
-                    return new RestService().reg(user, pass);
+                    return RestService.getInstance().reg(user, pass);
                 } catch (Exception e) {
                     logger.log(Level.SEVERE, "Unable to reg", e);
                 }

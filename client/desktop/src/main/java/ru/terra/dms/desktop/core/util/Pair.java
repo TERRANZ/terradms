@@ -1,4 +1,4 @@
-package ru.terra.dms.desktop.gui.util;
+package ru.terra.dms.desktop.core.util;
 
 public class Pair<K, V> {
     private K key;

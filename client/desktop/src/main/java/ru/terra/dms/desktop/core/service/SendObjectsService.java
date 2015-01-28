@@ -1,4 +1,4 @@
-package ru.terra.dms.desktop.gui.service;
+package ru.terra.dms.desktop.core.service;
 
 import flexjson.JSONSerializer;
 import javafx.concurrent.Service;
@@ -29,11 +29,10 @@ public class SendObjectsService extends Service<Boolean> {
         return new Task<Boolean>() {
             @Override
             protected Boolean call() throws Exception {
-                RestService restService = new RestService();
                 for (ObjectDTO objectDTO : objects)
                     try {
                         String json = new JSONSerializer().exclude("class").deepSerialize(objectDTO);
-                        CommonDTO ret = restService.createObjects(json);
+                        CommonDTO ret = RestService.getInstance().createObjects(json);
                         logger.info("Result: " + ret.status);
                     } catch (Exception e) {
                         logger.error("unable to send object ", e);

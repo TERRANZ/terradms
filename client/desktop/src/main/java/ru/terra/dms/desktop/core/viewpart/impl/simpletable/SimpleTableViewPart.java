@@ -16,9 +16,9 @@ import ru.terra.dms.desktop.core.viewpart.AbstractViewPart;
 import ru.terra.dms.desktop.core.viewpart.PojoEditDialog;
 import ru.terra.dms.desktop.core.viewpart.PojoTableItem;
 import ru.terra.dms.desktop.gui.parts.StageHelper;
-import ru.terra.dms.desktop.gui.service.DeleteObjectService;
-import ru.terra.dms.desktop.gui.service.SendObjectsService;
-import ru.terra.dms.desktop.gui.util.Pair;
+import ru.terra.dms.desktop.core.service.DeleteObjectService;
+import ru.terra.dms.desktop.core.service.SendObjectsService;
+import ru.terra.dms.desktop.core.util.Pair;
 import ru.terra.dms.shared.dto.ObjectDTO;
 
 import java.net.URL;

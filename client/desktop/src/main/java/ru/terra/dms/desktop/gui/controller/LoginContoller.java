@@ -1,14 +1,12 @@
 package ru.terra.dms.desktop.gui.controller;
 
-import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import org.controlsfx.dialog.Dialogs;
+import ru.terra.dms.desktop.core.service.LoginService;
 import ru.terra.dms.desktop.core.viewpart.AbstractWindow;
 import ru.terra.dms.desktop.gui.parts.StageHelper;
-import ru.terra.dms.desktop.gui.service.LoginService;
 import ru.terra.server.dto.LoginDTO;
 
 import java.net.URL;
@@ -34,17 +32,13 @@ public class LoginContoller extends AbstractWindow {
         Dialogs.create().owner(currStage).showWorkerProgress(loginService);
         loginService.reset();
         loginService.start();
-        loginService.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-            @Override
-            public void handle(WorkerStateEvent workerStateEvent) {
-                LoginDTO loginDTO = loginService.getValue();
-                System.out.println(loginDTO.logged);
-                currStage.close();
-                if (loginDTO.logged)
-                    StageHelper.openWindow("w_main.fxml", "Main");
-                else
-                    StageHelper.openWindow("w_reg.fxml", "Reg");
-            }
+        loginService.setOnSucceeded(workerStateEvent -> {
+            LoginDTO loginDTO = loginService.getValue();
+            currStage.close();
+            if (loginDTO.logged)
+                StageHelper.openWindow("w_main.fxml", "Main");
+            else
+                StageHelper.openWindow("w_reg.fxml", "Reg");
         });
     }
 

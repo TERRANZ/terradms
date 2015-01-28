@@ -5,7 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import ru.terra.dms.desktop.core.viewpart.AbstractWindow;
-import ru.terra.dms.desktop.gui.util.Pair;
+import ru.terra.dms.desktop.core.util.Pair;
 
 import java.io.IOException;
 import java.net.URL;

@@ -8,7 +8,7 @@ import javafx.scene.control.TextField;
 import org.controlsfx.dialog.Dialogs;
 import ru.terra.dms.desktop.core.viewpart.AbstractWindow;
 import ru.terra.dms.desktop.gui.parts.StageHelper;
-import ru.terra.dms.desktop.gui.service.RegUserService;
+import ru.terra.dms.desktop.core.service.RegUserService;
 import ru.terra.server.dto.LoginDTO;
 
 import java.net.URL;

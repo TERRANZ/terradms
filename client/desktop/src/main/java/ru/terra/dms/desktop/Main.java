@@ -2,7 +2,6 @@ package ru.terra.dms.desktop;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import org.apache.log4j.BasicConfigurator;
 import ru.terra.dms.desktop.gui.parts.StageHelper;
 
 /**
@@ -11,7 +10,6 @@ import ru.terra.dms.desktop.gui.parts.StageHelper;
  */
 public class Main extends Application {
     public static void main(String... args) {
-//        BasicConfigurator.configure();
         launch(args);
     }
 

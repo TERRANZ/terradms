@@ -12,7 +12,7 @@ import ru.terra.dms.desktop.core.viewpart.AbstractViewPart;
 import ru.terra.dms.desktop.core.viewpart.AbstractWindow;
 import ru.terra.dms.desktop.core.viewpart.ViewPartHelper;
 import ru.terra.dms.desktop.gui.parts.StageHelper;
-import ru.terra.dms.desktop.gui.util.Pair;
+import ru.terra.dms.desktop.core.util.Pair;
 
 import java.net.URL;
 import java.util.ResourceBundle;

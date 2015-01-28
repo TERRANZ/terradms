@@ -15,7 +15,7 @@ public class ConfigurationManager {
 
     public static Configuration getConfiguration() {
         if (configuration == null)
-            configuration = new RestService().loadConfiguration();
+            configuration = RestService.getInstance().loadConfiguration();
         return configuration;
     }
 }

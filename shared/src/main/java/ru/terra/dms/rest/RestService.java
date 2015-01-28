@@ -25,14 +25,27 @@ import java.io.IOException;
  * Time: 12:24
  */
 public class RestService {
+    private static RestService instance = new RestService();
     private ClientConfig config = new DefaultClientConfig();
     private Client client;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private String session;
 
-    public RestService() {
+    private RestService() {
         client = Client.create(config);
     }
 
+    public static RestService getInstance() {
+        return instance;
+    }
+
+    public String getSession() {
+        return session;
+    }
+
+    public void setSession(String session) {
+        this.session = session;
+    }
 
     public Configuration loadConfiguration() {
         String json = client.resource(URLConstants.URL + URLConstants.Configuration.CONFIGURATION + "/do.get.json").get(String.class);
@@ -59,7 +72,10 @@ public class RestService {
     }
 
     public ListDTO<ObjectDTO> getObjectsByName(String name) {
-        String json = client.resource(URLConstants.URL + URLConstants.Objects.OBJECTS + URLConstants.Objects.LIST_BY_NAME).queryParam("name", name).get(String.class);
+
+        String json = client.resource(URLConstants.URL + URLConstants.Objects.OBJECTS + URLConstants.Objects.LIST_BY_NAME).queryParam("name", name)
+                .header("Cookie", "JSESSIONID=" + session)
+                .get(String.class);
         ObjectMapper objectMapper = new ObjectMapper();
         JavaType type = objectMapper.getTypeFactory().constructParametricType(ListDTO.class, ru.terra.dms.shared.dto.ObjectDTO.class);
         try {
@@ -71,7 +87,9 @@ public class RestService {
     }
 
     public ListDTO<ObjectDTO> getObjectsByParent(Integer parent) {
-        String json = client.resource(URLConstants.URL + URLConstants.Objects.OBJECTS + URLConstants.Objects.LIST_BY_PARENT).queryParam("parent", parent.toString()).get(String.class);
+        String json = client.resource(URLConstants.URL + URLConstants.Objects.OBJECTS + URLConstants.Objects.LIST_BY_PARENT).queryParam("parent", parent.toString())
+                .header("Cookie", "JSESSIONID=" + session)
+                .get(String.class);
         ObjectMapper objectMapper = new ObjectMapper();
         JavaType type = objectMapper.getTypeFactory().constructParametricType(ListDTO.class, ru.terra.dms.shared.dto.ObjectDTO.class);
         try {
@@ -85,6 +103,7 @@ public class RestService {
 
     public CommonDTO createObjects(String json) {
         WebResource resource = client.resource(URLConstants.URL + URLConstants.Objects.OBJECTS + "/do.create.json");
+        resource.header("Cookie", "JSESSIONID=" + session);
         MultiPart multiPart = new MultiPart().
                 bodyPart(new BodyPart(json, MediaType.APPLICATION_JSON_TYPE));
         return resource.type("multipart/mixed").post(CommonDTO.class, multiPart);
@@ -92,11 +111,13 @@ public class RestService {
 
     public CommonDTO deleteObject(Integer id) {
         WebResource resource = client.resource(URLConstants.URL + URLConstants.Objects.OBJECTS + "/do.delete.json" + "/" + id.toString() + "/");
+        resource.header("Cookie", "JSESSIONID=" + session);
         return resource.delete(CommonDTO.class);
     }
 
     public ObjectDTO getObject(Integer id) {
         WebResource resource = client.resource(URLConstants.URL + URLConstants.Objects.OBJECTS + "/do.get.json" + "/" + id.toString() + "/");
+        resource.header("Cookie", "JSESSIONID=" + session);
         return resource.get(ObjectDTO.class);
     }
 }
