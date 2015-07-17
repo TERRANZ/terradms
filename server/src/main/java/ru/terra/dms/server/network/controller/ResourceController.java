@@ -1,8 +1,7 @@
 package ru.terra.dms.server.network.controller;
 
 import com.sun.jersey.api.core.HttpContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import ru.terra.dms.server.constants.URLConstants;
 import ru.terra.server.controller.AbstractResource;
 
@@ -18,7 +17,7 @@ import javax.ws.rs.core.Response;
  */
 @Path(URLConstants.Resources.RESOURCES)
 public class ResourceController {
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private Logger logger = Logger.getLogger(this.getClass());
 
     @Path("/js/{path}")
     @GET

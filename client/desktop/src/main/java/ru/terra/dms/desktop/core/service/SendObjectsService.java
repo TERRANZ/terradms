@@ -1,8 +1,8 @@
 package ru.terra.dms.desktop.core.service;
 
-import flexjson.JSONSerializer;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.terra.dms.rest.RestService;
@@ -29,14 +29,14 @@ public class SendObjectsService extends Service<Boolean> {
         return new Task<Boolean>() {
             @Override
             protected Boolean call() throws Exception {
-                for (ObjectDTO objectDTO : objects)
+                objects.forEach(objectDTO -> {
                     try {
-                        String json = new JSONSerializer().exclude("class").deepSerialize(objectDTO);
-                        CommonDTO ret = RestService.getInstance().createObjects(json);
-                        logger.info("Result: " + ret.status);
+                        CommonDTO ret = RestService.getInstance().createObjects(new ObjectMapper().writeValueAsString(objectDTO));
+                        logger.info("Result: " + ret.errorCode);
                     } catch (Exception e) {
                         logger.error("unable to send object ", e);
                     }
+                });
                 return true;
             }
         };

@@ -5,7 +5,7 @@ package ru.terra.dms.constants;
  * Time: 12:27
  */
 public class URLConstants {
-    public static final String URL = "http://localhost:8080/dms";
+    public static final String URL = "http://localhost:5555/dms";
 
     public static class Objects {
         public static final String OBJECTS = "/objects";

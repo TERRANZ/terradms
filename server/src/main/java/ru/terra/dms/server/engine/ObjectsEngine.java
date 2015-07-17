@@ -1,7 +1,6 @@
 package ru.terra.dms.server.engine;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import ru.terra.dms.server.processing.ProcessingManager;
 import ru.terra.dms.server.processing.ProcessingTrigger;
 import ru.terra.dms.shared.dto.ObjectDTO;
@@ -20,7 +19,7 @@ import java.util.List;
  */
 public class ObjectsEngine {
     private ObjectsManager<TObject> objectsManager = new ObjectsManager<>();
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private Logger logger = Logger.getLogger(this.getClass());
 
     public ObjectsEngine() {
     }

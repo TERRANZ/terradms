@@ -52,4 +52,14 @@ public class ViewPart implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "ViewPart{" +
+                "id='" + id + '\'' +
+                ", controllerType='" + controllerType + '\'' +
+                ", name='" + name + '\'' +
+                ", pojo='" + pojo + '\'' +
+                '}';
+    }
 }

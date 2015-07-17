@@ -7,9 +7,6 @@
     <name>Terra dms</name>
 
     <properties>
-        <mysql.connector.version>5.1.18</mysql.connector.version>
-        <slf4j.version>1.6.1</slf4j.version>
-        <spring.version>4.0.5.RELEASE</spring.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 

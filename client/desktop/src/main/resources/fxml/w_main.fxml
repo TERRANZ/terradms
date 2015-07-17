@@ -12,6 +12,9 @@
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
+                        <MenuItem mnemonicParsing="false" text="md5" onAction="#md5"/>
+                    </items>
+                    <items>
                         <MenuItem mnemonicParsing="false" text="Close"/>
                     </items>
                 </Menu>

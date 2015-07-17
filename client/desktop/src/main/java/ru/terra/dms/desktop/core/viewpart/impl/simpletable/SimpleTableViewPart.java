@@ -12,13 +12,13 @@ import org.controlsfx.dialog.Dialogs;
 import ru.terra.dms.configuration.bean.Pojo;
 import ru.terra.dms.desktop.core.annotations.ViewPartWindow;
 import ru.terra.dms.desktop.core.configuration.ConfigurationManager;
+import ru.terra.dms.desktop.core.service.DeleteObjectService;
+import ru.terra.dms.desktop.core.service.SendObjectsService;
+import ru.terra.dms.desktop.core.util.Pair;
 import ru.terra.dms.desktop.core.viewpart.AbstractViewPart;
 import ru.terra.dms.desktop.core.viewpart.PojoEditDialog;
 import ru.terra.dms.desktop.core.viewpart.PojoTableItem;
 import ru.terra.dms.desktop.gui.parts.StageHelper;
-import ru.terra.dms.desktop.core.service.DeleteObjectService;
-import ru.terra.dms.desktop.core.service.SendObjectsService;
-import ru.terra.dms.desktop.core.util.Pair;
 import ru.terra.dms.shared.dto.ObjectDTO;
 
 import java.net.URL;
@@ -51,16 +51,20 @@ public class SimpleTableViewPart extends AbstractViewPart {
         colId.setCellValueFactory(t -> new ReadOnlyStringWrapper(t.getValue().id.toString()));
         table.getColumns().add(colId);
         Pojo pojo = ConfigurationManager.getConfiguration().getPojo(viewPart.getPojo());
-        for (String fieldId : pojo.getFields().keySet()) {
-            TableColumn<PojoTableItem, String> colDescription = new TableColumn<>(fieldId);
-            colDescription.setCellValueFactory(t -> new ReadOnlyObjectWrapper<>(t.getValue().dto.fields.get(fieldId)));
-            table.getColumns().add(colDescription);
+        if (pojo == null) {
+            Dialogs.create().message("Pojo " + viewPart.getPojo() + " не найден").showError();
+        } else {
+            for (String fieldId : pojo.getFields().keySet()) {
+                TableColumn<PojoTableItem, String> colDescription = new TableColumn<>(fieldId);
+                colDescription.setCellValueFactory(t -> new ReadOnlyObjectWrapper<>(t.getValue().dto.fields.get(fieldId)));
+                table.getColumns().add(colDescription);
+            }
+            loadService.start();
+            loadService.setOnSucceeded(workerStateEvent -> {
+                table.getItems().clear();
+                table.setItems(loadService.getValue());
+            });
         }
-        loadService.start();
-        loadService.setOnSucceeded(workerStateEvent -> {
-            table.getItems().clear();
-            table.setItems(loadService.getValue());
-        });
     }
 
     public void add(ActionEvent actionEvent) {

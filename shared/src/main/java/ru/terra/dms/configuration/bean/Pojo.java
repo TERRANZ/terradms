@@ -53,4 +53,14 @@ public class Pojo implements Serializable {
     public void setParent(String parent) {
         this.parent = parent;
     }
+
+    @Override
+    public String toString() {
+        return "Pojo{" +
+                "name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", parent='" + parent + '\'' +
+                ", fields=" + fields +
+                '}';
+    }
 }

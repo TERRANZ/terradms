@@ -67,6 +67,17 @@ public class MenuPart implements Serializable {
     public void setUid(String uid) {
         this.uid = uid;
     }
+
+    @Override
+    public String toString() {
+        return "MenuPart{" +
+                "text='" + text + '\'' +
+                ", shortcut='" + shortcut + '\'' +
+                ", viewPart='" + viewPart + '\'' +
+                ", uid='" + uid + '\'' +
+                ", type=" + type +
+                '}';
+    }
 }
 
 

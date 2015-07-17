@@ -1,7 +1,6 @@
 package ru.terra.dms.server.processing.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import ru.terra.dms.server.processing.Processing;
 import ru.terra.dms.server.processing.ProcessingTrigger;
 
@@ -11,7 +10,7 @@ import ru.terra.dms.server.processing.ProcessingTrigger;
  */
 @Processing("products")
 public class ProductsProcessingTrigger implements ProcessingTrigger {
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private Logger logger = Logger.getLogger(this.getClass());
 
     @Override
     public void onCreate(Integer newObjectId) {

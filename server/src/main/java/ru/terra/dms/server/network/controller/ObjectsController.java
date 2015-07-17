@@ -2,9 +2,8 @@ package ru.terra.dms.server.network.controller;
 
 import com.sun.jersey.api.core.HttpContext;
 import com.sun.jersey.multipart.MultiPart;
+import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import ru.terra.dms.server.constants.URLConstants;
 import ru.terra.dms.server.engine.ObjectsEngine;
 import ru.terra.dms.shared.dto.ObjectDTO;
@@ -23,7 +22,7 @@ import java.io.IOException;
  */
 @Path(URLConstants.Objects.OBJECTS)
 public class ObjectsController extends AbstractResource {
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private Logger logger = Logger.getLogger(this.getClass());
     private ObjectsEngine objectsEngine = new ObjectsEngine();
 
     @POST

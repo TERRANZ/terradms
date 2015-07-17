@@ -1,5 +1,6 @@
 package ru.terra.dms.desktop.gui.controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -8,11 +9,11 @@ import ru.terra.dms.configuration.Configuration;
 import ru.terra.dms.configuration.bean.MenuPart;
 import ru.terra.dms.configuration.bean.ViewPart;
 import ru.terra.dms.desktop.core.configuration.ConfigurationManager;
+import ru.terra.dms.desktop.core.util.Pair;
 import ru.terra.dms.desktop.core.viewpart.AbstractViewPart;
 import ru.terra.dms.desktop.core.viewpart.AbstractWindow;
 import ru.terra.dms.desktop.core.viewpart.ViewPartHelper;
 import ru.terra.dms.desktop.gui.parts.StageHelper;
-import ru.terra.dms.desktop.core.util.Pair;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -40,5 +41,9 @@ public class MainWindowController extends AbstractWindow {
             });
             miViewparts.getItems().add(viewPartMenuItem);
         }
+    }
+
+    public void md5(ActionEvent actionEvent) {
+        StageHelper.openWindow("w_md5.fxml", "md5");
     }
 }

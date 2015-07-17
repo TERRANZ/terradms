@@ -6,10 +6,9 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.multipart.BodyPart;
 import com.sun.jersey.multipart.MultiPart;
+import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.JavaType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import ru.terra.dms.configuration.Configuration;
 import ru.terra.dms.constants.URLConstants;
 import ru.terra.dms.shared.dto.ObjectDTO;
@@ -28,7 +27,7 @@ public class RestService {
     private static RestService instance = new RestService();
     private ClientConfig config = new DefaultClientConfig();
     private Client client;
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private Logger logger = Logger.getLogger(this.getClass());
     private String session;
 
     private RestService() {
@@ -102,11 +101,11 @@ public class RestService {
 
 
     public CommonDTO createObjects(String json) {
-        WebResource resource = client.resource(URLConstants.URL + URLConstants.Objects.OBJECTS + "/do.create.json");
-        resource.header("Cookie", "JSESSIONID=" + session);
-        MultiPart multiPart = new MultiPart().
-                bodyPart(new BodyPart(json, MediaType.APPLICATION_JSON_TYPE));
-        return resource.type("multipart/mixed").post(CommonDTO.class, multiPart);
+        return client
+                .resource(URLConstants.URL + URLConstants.Objects.OBJECTS + "/do.create.json")
+                .header("Cookie", "JSESSIONID=" + session)
+                .type("multipart/mixed")
+                .post(CommonDTO.class, new MultiPart().bodyPart(new BodyPart(json, MediaType.APPLICATION_JSON_TYPE)));
     }
 
     public CommonDTO deleteObject(Integer id) {

@@ -2,18 +2,18 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.VBox?>
-<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+<VBox prefHeight="660.0" prefWidth="598.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="ru.terra.dms.desktop.core.viewpart.impl.simpletable.SimpleTableViewPart">
     <children>
         <ToolBar prefWidth="200.0">
             <items>
                 <Button fx:id="btnRefresh" mnemonicParsing="false" text="Обновить"/>
-                <Button mnemonicParsing="false" text="Добавить" onAction="#add"/>
-                <Button mnemonicParsing="false" text="Удалить" onAction="#delete"/>
-                <Button mnemonicParsing="false" text="Сохранить" onAction="#save"/>
+                <Button mnemonicParsing="false" onAction="#add" text="Добавить"/>
+                <Button mnemonicParsing="false" onAction="#delete" text="Удалить"/>
+                <Button mnemonicParsing="false" onAction="#save" text="Сохранить"/>
 
             </items>
         </ToolBar>
-        <TableView fx:id="table" prefHeight="596.0" prefWidth="600.0"/>
+        <TableView fx:id="table" prefHeight="596.0" prefWidth="600.0" VBox.vgrow="ALWAYS"/>
     </children>
 </VBox>
