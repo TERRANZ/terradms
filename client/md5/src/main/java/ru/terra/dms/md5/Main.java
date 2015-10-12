@@ -5,7 +5,6 @@ import ru.terra.dms.configuration.Configuration;
 import ru.terra.dms.configuration.bean.Pojo;
 import ru.terra.dms.rest.RestService;
 import ru.terra.dms.shared.dto.ObjectDTO;
-import ru.terra.server.dto.CommonDTO;
 import ru.terra.server.dto.LoginDTO;
 
 import java.io.File;
@@ -14,9 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Date: 17.07.15
@@ -38,7 +35,6 @@ public class Main {
                 try {
                     File targetDir = new File(args[0]);
                     if (targetDir != null) {
-                        List<ObjectDTO> newObjects = new ArrayList<>();
                         Files.walk(Paths.get(targetDir.toURI())).parallel().forEach(path -> {
                             if (path.toFile().isFile()) {
                                 ObjectDTO dto = new ObjectDTO();
@@ -47,19 +43,13 @@ public class Main {
                                 dto.fields = new HashMap<>();
                                 dto.fields.put("name", path.toFile().getAbsolutePath());
                                 dto.fields.put("hash", doMd5(path));
-                                newObjects.add(dto);
-                            }
-                        });
-                        if (newObjects.size() > 0) {
-                            newObjects.forEach(objectDTO -> {
                                 try {
-                                    CommonDTO r = RestService.getInstance().createObjects(new ObjectMapper().writeValueAsString(objectDTO));
-                                    System.out.println("Result: " + r.errorCode);
+                                    System.out.println("Result: " + RestService.getInstance().createObjects(new ObjectMapper().writeValueAsString(dto)).errorCode);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
-                            });
-                        }
+                            }
+                        });
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

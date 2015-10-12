@@ -12,6 +12,7 @@ import org.codehaus.jackson.type.JavaType;
 import ru.terra.dms.configuration.Configuration;
 import ru.terra.dms.constants.URLConstants;
 import ru.terra.dms.shared.dto.ObjectDTO;
+import ru.terra.server.config.Config;
 import ru.terra.server.dto.CommonDTO;
 import ru.terra.server.dto.ListDTO;
 import ru.terra.server.dto.LoginDTO;
@@ -29,6 +30,7 @@ public class RestService {
     private Client client;
     private Logger logger = Logger.getLogger(this.getClass());
     private String session;
+    private final String URL = Config.getConfig().getValue("server_url", "http://xn--80aafhfrpg0adapheyc1nya.xn--p1ai:5555/dms");
 
     private RestService() {
         client = Client.create(config);
@@ -47,33 +49,34 @@ public class RestService {
     }
 
     public Configuration loadConfiguration() {
-        String json = client.resource(URLConstants.URL + URLConstants.Configuration.CONFIGURATION + "/do.get.json").get(String.class);
-        try {
-            return new ObjectMapper().readValue(json, Configuration.class);
-        } catch (IOException e) {
-            logger.error("unable to read json", e);
-            return null;
-        }
+//        String json = client.resource(URL + URLConstants.Configuration.CONFIGURATION + URLConstants.DO.GET).get(String.class);
+//        try {
+//            return new ObjectMapper().readValue(json, Configuration.class);
+//        } catch (IOException e) {
+//            logger.error("unable to read json", e);
+//            return null;
+//        }
+        return client.resource(URL + URLConstants.Configuration.CONFIGURATION + URLConstants.DO.GET)
+                .get(Configuration.class);
     }
 
     public LoginDTO login(String user, String pass) {
-        return client.resource(URLConstants.URL + URLConstants.Login.USERS + URLConstants.Login.DO_LOGIN)
+        return client.resource(URL + URLConstants.Login.USERS + URLConstants.Login.DO_LOGIN)
                 .queryParam(URLConstants.Login.PARAM_USER, user)
                 .queryParam(URLConstants.Login.PARAM_PASS, pass)
                 .get(LoginDTO.class);
     }
 
     public LoginDTO reg(String user, String pass) {
-        return client.resource(URLConstants.URL + URLConstants.Login.USERS + URLConstants.Login.DO_REG)
+        return client.resource(URL + URLConstants.Login.USERS + URLConstants.Login.DO_REG)
                 .queryParam(URLConstants.Login.PARAM_USER, user)
                 .queryParam(URLConstants.Login.PARAM_PASS, pass)
                 .get(LoginDTO.class);
     }
 
     public ListDTO<ObjectDTO> getObjectsByName(String name) {
-
-        String json = client.resource(URLConstants.URL + URLConstants.Objects.OBJECTS + URLConstants.Objects.LIST_BY_NAME).queryParam("name", name)
-                .header("Cookie", "JSESSIONID=" + session)
+        String json = client.resource(URL + URLConstants.Objects.OBJECTS + URLConstants.Objects.LIST_BY_NAME).queryParam("name", name)
+                .header(URLConstants.COOKIE, URLConstants.COOKIE_PARAM + "=" + session)
                 .get(String.class);
         ObjectMapper objectMapper = new ObjectMapper();
         JavaType type = objectMapper.getTypeFactory().constructParametricType(ListDTO.class, ru.terra.dms.shared.dto.ObjectDTO.class);
@@ -86,8 +89,8 @@ public class RestService {
     }
 
     public ListDTO<ObjectDTO> getObjectsByParent(Integer parent) {
-        String json = client.resource(URLConstants.URL + URLConstants.Objects.OBJECTS + URLConstants.Objects.LIST_BY_PARENT).queryParam("parent", parent.toString())
-                .header("Cookie", "JSESSIONID=" + session)
+        String json = client.resource(URL + URLConstants.Objects.OBJECTS + URLConstants.Objects.LIST_BY_PARENT).queryParam("parent", parent.toString())
+                .header(URLConstants.COOKIE, URLConstants.COOKIE_PARAM + "=" + session)
                 .get(String.class);
         ObjectMapper objectMapper = new ObjectMapper();
         JavaType type = objectMapper.getTypeFactory().constructParametricType(ListDTO.class, ru.terra.dms.shared.dto.ObjectDTO.class);
@@ -102,21 +105,21 @@ public class RestService {
 
     public CommonDTO createObjects(String json) {
         return client
-                .resource(URLConstants.URL + URLConstants.Objects.OBJECTS + "/do.create.json")
-                .header("Cookie", "JSESSIONID=" + session)
+                .resource(URL + URLConstants.Objects.OBJECTS + URLConstants.DO.CREATE)
+                .header(URLConstants.COOKIE, URLConstants.COOKIE_PARAM + "=" + session)
                 .type("multipart/mixed")
                 .post(CommonDTO.class, new MultiPart().bodyPart(new BodyPart(json, MediaType.APPLICATION_JSON_TYPE)));
     }
 
     public CommonDTO deleteObject(Integer id) {
-        WebResource resource = client.resource(URLConstants.URL + URLConstants.Objects.OBJECTS + "/do.delete.json" + "/" + id.toString() + "/");
-        resource.header("Cookie", "JSESSIONID=" + session);
+        WebResource resource = client.resource(URL + URLConstants.Objects.OBJECTS + URLConstants.DO.DELETE + "/" + id.toString() + "/");
+        resource.header(URLConstants.COOKIE, URLConstants.COOKIE_PARAM + "=" + session);
         return resource.delete(CommonDTO.class);
     }
 
     public ObjectDTO getObject(Integer id) {
-        WebResource resource = client.resource(URLConstants.URL + URLConstants.Objects.OBJECTS + "/do.get.json" + "/" + id.toString() + "/");
-        resource.header("Cookie", "JSESSIONID=" + session);
+        WebResource resource = client.resource(URL + URLConstants.Objects.OBJECTS + URLConstants.DO.GET + "/" + id.toString() + "/");
+        resource.header(URLConstants.COOKIE, URLConstants.COOKIE_PARAM + "=" + session);
         return resource.get(ObjectDTO.class);
     }
 }
