@@ -1,8 +1,12 @@
 package ru.terra.dms.server.processing;
 
 import org.reflections.Reflections;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -11,28 +15,34 @@ import java.util.Map;
  */
 public class ProcessingManager {
     private static ProcessingManager instance = new ProcessingManager();
-    private Map<String, Class<ProcessingTrigger>> triggers = new HashMap<>();
+    private Map<String, List<Class<? extends ProcessingTrigger>>> triggers = new HashMap<>();
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private ProcessingManager() {
         for (Class c : new Reflections("ru.terra.dms.server.processing.impl").getTypesAnnotatedWith(Processing.class)) {
             Processing processing = (Processing) c.getAnnotation(Processing.class);
-            triggers.put(processing.value(), (Class<ProcessingTrigger>) c);
+            if (triggers.get(processing.value()) == null)
+                triggers.put(processing.value(), new ArrayList<Class<? extends ProcessingTrigger>>());
+            triggers.get(processing.value()).add(c);
         }
-        ;
     }
 
     public static ProcessingManager getInstance() {
         return instance;
     }
 
-    public ProcessingTrigger getTrigger(String documentName) {
+    public List<ProcessingTrigger> getTrigger(String documentName) {
         try {
-            Class<ProcessingTrigger> processingTriggerClass = triggers.get(documentName);
-            return processingTriggerClass != null ? triggers.get(documentName).newInstance() : null;
+            List<Class<? extends ProcessingTrigger>> ts = triggers.get(documentName);
+            List<ProcessingTrigger> ret = new ArrayList<>();
+            if (ts != null && ts.size() > 0)
+                for (Class<? extends ProcessingTrigger> tsc : ts)
+                    ret.add(tsc.newInstance());
+            return ret;
         } catch (InstantiationException e) {
-            e.printStackTrace();
+            logger.error("Unable to instantiate trigger class", e);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            logger.error("Unable to access trigger class", e);
         }
         return null;
     }

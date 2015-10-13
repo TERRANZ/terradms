@@ -37,8 +37,7 @@ public class ObjectsEngine {
         try {
             objectsManager.saveObject(newObject);
             objectsManager.updateObjectFields(newObject.getId(), objectDTO.fields);
-            ProcessingTrigger trigger = ProcessingManager.getInstance().getTrigger(newObject.getName());
-            if (trigger != null)
+            for (ProcessingTrigger trigger : ProcessingManager.getInstance().getTrigger(newObject.getName()))
                 trigger.onCreate(newObject.getId());
         } catch (Exception e) {
             logger.error("Error while persisting new object", e);
@@ -61,8 +60,7 @@ public class ObjectsEngine {
         if (tObject == null)
             return false;
         logger.info("Found " + tObject + " for deleting");
-        ProcessingTrigger trigger = ProcessingManager.getInstance().getTrigger(tObject.getName());
-        if (trigger != null)
+        for (ProcessingTrigger trigger : ProcessingManager.getInstance().getTrigger(tObject.getName()))
             trigger.onDelete(id);
         try {
             objectsManager.remove(tObject);
@@ -103,8 +101,7 @@ public class ObjectsEngine {
         if (currentObject == null)
             return false;
         objectsManager.updateObjectFields(id, dto.fields);
-        ProcessingTrigger trigger = ProcessingManager.getInstance().getTrigger(dto.type);
-        if (trigger != null)
+        for (ProcessingTrigger trigger : ProcessingManager.getInstance().getTrigger(dto.type))
             trigger.onUpdate(id);
         return true;
     }
