@@ -9,9 +9,7 @@ import ru.terra.dms.server.processing.ProcessingTrigger;
  * Time: 14:01
  */
 @Processing("products")
-public class ProductsProcessingTrigger implements ProcessingTrigger {
-    private Logger logger = Logger.getLogger(this.getClass());
-
+public class ProductsProcessingTrigger extends ProcessingTrigger {
     @Override
     public void onCreate(Integer newObjectId) {
         logger.info("Process new product " + newObjectId);

@@ -1,7 +1,9 @@
 package ru.terra.dms.server.network.controller;
 
 import com.sun.jersey.api.core.HttpContext;
-import com.sun.jersey.multipart.MultiPart;
+import com.sun.jersey.core.header.FormDataContentDisposition;
+import com.sun.jersey.core.util.ReaderWriter;
+import com.sun.jersey.multipart.FormDataParam;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import ru.terra.dms.server.constants.URLConstants;
@@ -14,7 +16,9 @@ import ru.terra.server.dto.ListDTO;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import java.io.IOException;
+import javax.ws.rs.core.MediaType;
+import java.io.*;
+import java.nio.charset.Charset;
 
 /**
  * Date: 02.06.14
@@ -27,15 +31,21 @@ public class ObjectsController extends AbstractResource {
 
     @POST
     @Path(URLConstants.DoJson.DO_CREATE)
-    @Consumes("multipart/mixed")
-    public CommonDTO create(@Context HttpContext hc, MultiPart multiPart) {
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public CommonDTO create(@Context HttpContext hc, @FormDataParam("jsonfile") InputStream fileInputStream,
+                            @FormDataParam("jsonfile") FormDataContentDisposition contentDispositionHeader) {
         if (!isAuthorized(hc)) {
             CommonDTO ret = new CommonDTO();
             ret.errorCode = ErrorConstants.ERR_NOT_AUTHORIZED_ID;
             ret.errorMessage = ErrorConstants.ERR_NOT_AUTHORIZED_MSG;
             return ret;
         }
-        String json = multiPart.getBodyParts().get(0).getEntityAs(String.class);
+        String json = null;
+        try {
+            json = ReaderWriter.readFromAsString(new InputStreamReader(fileInputStream, Charset.defaultCharset()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         logger.info("Received json " + json);
         ObjectDTO objectDTO = null;
         try {
@@ -49,15 +59,21 @@ public class ObjectsController extends AbstractResource {
 
     @POST
     @Path(URLConstants.DoJson.DO_UPDATE + "/{id}/")
-    @Consumes("multipart/mixed")
-    public CommonDTO update(@Context HttpContext hc, MultiPart multiPart, @PathParam("id") Integer id) {
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public CommonDTO update(@Context HttpContext hc, @FormDataParam("jsonfile") InputStream fileInputStream,
+                            @FormDataParam("jsonfile") FormDataContentDisposition contentDispositionHeader, @PathParam("id") Integer id) {
         if (!isAuthorized(hc)) {
             CommonDTO ret = new CommonDTO();
             ret.errorCode = ErrorConstants.ERR_NOT_AUTHORIZED_ID;
             ret.errorMessage = ErrorConstants.ERR_NOT_AUTHORIZED_MSG;
             return ret;
         }
-        String json = multiPart.getBodyParts().get(0).getEntityAs(String.class);
+        String json = null;
+        try {
+            json = ReaderWriter.readFromAsString(new InputStreamReader(fileInputStream, Charset.defaultCharset()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         logger.info("Received json " + json);
         ObjectDTO objectDTO = null;
         try {

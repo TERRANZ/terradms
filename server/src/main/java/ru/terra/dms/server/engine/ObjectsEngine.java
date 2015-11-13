@@ -12,6 +12,9 @@ import ru.terraobjects.manager.ObjectsManager;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Date: 03.06.14
@@ -20,12 +23,13 @@ import java.util.List;
 public class ObjectsEngine {
     private ObjectsManager<TObject> objectsManager = new ObjectsManager<>();
     private Logger logger = Logger.getLogger(this.getClass());
+    private ExecutorService threadPool = Executors.newFixedThreadPool(20);
 
     public ObjectsEngine() {
     }
 
     public void createObject(ObjectDTO objectDTO) {
-        TObject newObject = new TObject();
+        final TObject newObject = new TObject();
         newObject.setId(0);
         newObject.setName(objectDTO.type);
         newObject.setUpdated(new Date());
@@ -37,8 +41,13 @@ public class ObjectsEngine {
         try {
             objectsManager.saveObject(newObject);
             objectsManager.updateObjectFields(newObject.getId(), objectDTO.fields);
-            for (ProcessingTrigger trigger : ProcessingManager.getInstance().getTrigger(newObject.getName()))
-                trigger.onCreate(newObject.getId());
+            for (final ProcessingTrigger trigger : ProcessingManager.getInstance().getTrigger(newObject.getName()))
+                threadPool.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        trigger.onCreate(newObject.getId());
+                    }
+                });
         } catch (Exception e) {
             logger.error("Error while persisting new object", e);
         }
@@ -55,13 +64,18 @@ public class ObjectsEngine {
         return objectsManager.getCount(id, "id").intValue() > 0;
     }
 
-    public Boolean deleteObject(Integer id) {
+    public Boolean deleteObject(final Integer id) {
         TObject tObject = objectsManager.findById(id);
         if (tObject == null)
             return false;
         logger.info("Found " + tObject + " for deleting");
-        for (ProcessingTrigger trigger : ProcessingManager.getInstance().getTrigger(tObject.getName()))
-            trigger.onDelete(id);
+        for (final ProcessingTrigger trigger : ProcessingManager.getInstance().getTrigger(tObject.getName()))
+            threadPool.submit(new Runnable() {
+                @Override
+                public void run() {
+                    trigger.onDelete(id);
+                }
+            });
         try {
             objectsManager.remove(tObject);
         } catch (NonexistentEntityException e) {
@@ -96,13 +110,18 @@ public class ObjectsEngine {
     }
 
 
-    public Boolean update(ObjectDTO dto, Integer id) {
+    public Boolean update(ObjectDTO dto, final Integer id) {
         ObjectDTO currentObject = getObject(id);
         if (currentObject == null)
             return false;
         objectsManager.updateObjectFields(id, dto.fields);
-        for (ProcessingTrigger trigger : ProcessingManager.getInstance().getTrigger(dto.type))
-            trigger.onUpdate(id);
+        for (final ProcessingTrigger trigger : ProcessingManager.getInstance().getTrigger(dto.type))
+            threadPool.submit(new Runnable() {
+                @Override
+                public void run() {
+                    trigger.onUpdate(id);
+                }
+            });
         return true;
     }
 }

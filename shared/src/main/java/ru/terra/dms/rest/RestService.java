@@ -4,8 +4,8 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.multipart.BodyPart;
-import com.sun.jersey.multipart.MultiPart;
+import com.sun.jersey.multipart.FormDataMultiPart;
+import com.sun.jersey.multipart.file.FileDataBodyPart;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.JavaType;
@@ -18,7 +18,11 @@ import ru.terra.server.dto.ListDTO;
 import ru.terra.server.dto.LoginDTO;
 
 import javax.ws.rs.core.MediaType;
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.charset.Charset;
+import java.util.Date;
 
 /**
  * Date: 14.07.14
@@ -49,13 +53,6 @@ public class RestService {
     }
 
     public Configuration loadConfiguration() {
-//        String json = client.resource(URL + URLConstants.Configuration.CONFIGURATION + URLConstants.DO.GET).get(String.class);
-//        try {
-//            return new ObjectMapper().readValue(json, Configuration.class);
-//        } catch (IOException e) {
-//            logger.error("unable to read json", e);
-//            return null;
-//        }
         return client.resource(URL + URLConstants.Configuration.CONFIGURATION + URLConstants.DO.GET)
                 .get(Configuration.class);
     }
@@ -104,11 +101,26 @@ public class RestService {
 
 
     public CommonDTO createObjects(String json) {
-        return client
-                .resource(URL + URLConstants.Objects.OBJECTS + URLConstants.DO.CREATE)
-                .header(URLConstants.COOKIE, URLConstants.COOKIE_PARAM + "=" + session)
-                .type("multipart/mixed")
-                .post(CommonDTO.class, new MultiPart().bodyPart(new BodyPart(json, MediaType.APPLICATION_JSON_TYPE)));
+        File tempFile = new File(new Date().getTime() + ".temp");
+        try {
+            PrintWriter printWriter = new PrintWriter(tempFile, Charset.forName("UTF-8").name());
+            printWriter.write(json);
+            printWriter.close();
+            FileDataBodyPart filePart = new FileDataBodyPart("jsonfile", tempFile);
+            FormDataMultiPart formDataMultiPart = new FormDataMultiPart();
+            final FormDataMultiPart multipart = (FormDataMultiPart) formDataMultiPart.bodyPart(filePart);
+            return client
+                    .resource(URL + URLConstants.Objects.OBJECTS + URLConstants.DO.CREATE)
+                    .header(URLConstants.COOKIE, URLConstants.COOKIE_PARAM + "=" + session)
+                    .type(MediaType.MULTIPART_FORM_DATA)
+                    .post(CommonDTO.class, multipart);
+//                .post(CommonDTO.class, new MultiPart().bodyPart(new BodyPart(json, MediaType.APPLICATION_JSON_TYPE)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            tempFile.delete();
+        }
+        return null;
     }
 
     public CommonDTO deleteObject(Integer id) {
