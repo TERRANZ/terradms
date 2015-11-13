@@ -29,6 +29,13 @@
       "viewPart":"TERRAERRORS",
       "uid":"43ad741b-6f8d-4d6a-8137-8137c62f08b9",
       "type":"VIEWPART"
+    },
+    {
+      "text":"Twoch image",
+      "shortcut":"ctrl+6",
+      "viewPart":"TwochImage",
+      "uid":"43ad741b-6f8d-4d6a-8137-8137c62f08c9",
+      "type":"VIEWPART"
     }
   ],
   "viewParts":[
@@ -55,7 +62,15 @@
       "controllerType":"simpletable",
       "name":"TERRAERRORS",
       "pojo":"TERRAERRORS"
+    },
+    {
+      "id":"c41623e2-4ddb-4ee4-9eed-592f7bbab071",
+      "controllerType":"simpletable",
+      "name":"TwochImage",
+      "pojo":"TwochImage"
     }
+
+
   ],
   "pojos":[
     {
