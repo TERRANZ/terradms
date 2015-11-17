@@ -7,6 +7,7 @@ import com.sun.jersey.multipart.FormDataParam;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import ru.terra.dms.server.constants.URLConstants;
+import ru.terra.dms.server.engine.ConfigurationEngine;
 import ru.terra.dms.server.engine.ObjectsEngine;
 import ru.terra.dms.shared.dto.ObjectDTO;
 import ru.terra.server.constants.ErrorConstants;
@@ -53,7 +54,7 @@ public class ObjectsController extends AbstractResource {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        objectsEngine.createObject(objectDTO);
+        objectsEngine.createObject(objectDTO, ConfigurationEngine.getInstance().getConfiguration().getPojo(objectDTO.type));
         return new CommonDTO();
     }
 
@@ -82,7 +83,7 @@ public class ObjectsController extends AbstractResource {
             e.printStackTrace();
         }
         CommonDTO ret = new CommonDTO();
-        ret.status = objectsEngine.update(objectDTO, id).toString();
+        ret.status = objectsEngine.update(objectDTO, id, ConfigurationEngine.getInstance().getConfiguration().getPojo(objectDTO.type)).toString();
         return ret;
     }
 

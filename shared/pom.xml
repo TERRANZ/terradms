@@ -29,7 +29,11 @@
             <artifactId>reflections</artifactId>
             <version>0.9.9-RC2</version>
         </dependency>
-
+        <dependency>
+            <groupId>ru.terraobjects</groupId>
+            <artifactId>entity</artifactId>
+            <version>2</version>
+        </dependency>
     </dependencies>
 
     <build>

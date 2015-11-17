@@ -1,6 +1,7 @@
 package ru.terra.dms.server.engine;
 
 import org.apache.log4j.Logger;
+import ru.terra.dms.configuration.bean.Pojo;
 import ru.terra.dms.server.processing.ProcessingManager;
 import ru.terra.dms.server.processing.ProcessingTrigger;
 import ru.terra.dms.shared.dto.ObjectDTO;
@@ -9,12 +10,9 @@ import ru.terraobjects.entity.TObject;
 import ru.terraobjects.entity.controller.exceptions.NonexistentEntityException;
 import ru.terraobjects.manager.ObjectsManager;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Date: 03.06.14
@@ -28,7 +26,7 @@ public class ObjectsEngine {
     public ObjectsEngine() {
     }
 
-    public void createObject(ObjectDTO objectDTO) {
+    public void createObject(final ObjectDTO objectDTO, final Pojo pojo) {
         final TObject newObject = new TObject();
         newObject.setId(0);
         newObject.setName(objectDTO.type);
@@ -38,19 +36,24 @@ public class ObjectsEngine {
         newObject.setVersion(0);
         newObject.setObjectFieldsList(new ArrayList<ObjectFields>());
 
-        try {
-            objectsManager.saveObject(newObject);
-            objectsManager.updateObjectFields(newObject.getId(), objectDTO.fields);
-            for (final ProcessingTrigger trigger : ProcessingManager.getInstance().getTrigger(newObject.getName()))
-                threadPool.submit(new Runnable() {
-                    @Override
-                    public void run() {
-                        trigger.onCreate(newObject.getId());
-                    }
-                });
-        } catch (Exception e) {
-            logger.error("Error while persisting new object", e);
-        }
+        threadPool.submit(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    objectsManager.saveObject(newObject);
+                    objectsManager.updateObjectFields(newObject.getId(), convertDtoFields(objectDTO.fields, pojo));
+                    for (final ProcessingTrigger trigger : ProcessingManager.getInstance().getTrigger(newObject.getName()))
+                        threadPool.submit(new Runnable() {
+                            @Override
+                            public void run() {
+                                trigger.onCreate(newObject.getId());
+                            }
+                        });
+                } catch (Exception e) {
+                    logger.error("Error while persisting new object", e);
+                }
+            }
+        });
     }
 
     public ObjectDTO getObject(Integer id) {
@@ -110,11 +113,11 @@ public class ObjectsEngine {
     }
 
 
-    public Boolean update(ObjectDTO dto, final Integer id) {
+    public Boolean update(ObjectDTO dto, final Integer id, Pojo pojo) {
         ObjectDTO currentObject = getObject(id);
         if (currentObject == null)
             return false;
-        objectsManager.updateObjectFields(id, dto.fields);
+        objectsManager.updateObjectFields(id, convertDtoFields(dto.fields, pojo));
         for (final ProcessingTrigger trigger : ProcessingManager.getInstance().getTrigger(dto.type))
             threadPool.submit(new Runnable() {
                 @Override
@@ -123,5 +126,30 @@ public class ObjectsEngine {
                 }
             });
         return true;
+    }
+
+    public Map<String, Object> convertDtoFields(Map<String, String> fields, Pojo pojo) {
+        Map<String, Object> fieldsMap = new HashMap<>();
+        for (String fieldName : fields.keySet()) {
+            String fieldType = pojo.getFields().get(fieldName);
+            switch (fieldType) {
+                case "integer":
+                    fieldsMap.put(fieldName, Integer.valueOf(fields.get(fieldName)));
+                    break;
+                case "long":
+                    fieldsMap.put(fieldName, Long.valueOf(fields.get(fieldName)));
+                    break;
+                case "double":
+                    fieldsMap.put(fieldName, Double.valueOf(fields.get(fieldName)));
+                    break;
+                case "date":
+                    fieldsMap.put(fieldName, new Date(Long.valueOf(fields.get(fieldName))));
+                    break;
+                case "string":
+                    fieldsMap.put(fieldName, fields.get(fieldName));
+                    break;
+            }
+        }
+        return fieldsMap;
     }
 }
