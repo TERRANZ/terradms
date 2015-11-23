@@ -50,6 +50,9 @@ public class SimpleTableViewPart extends AbstractViewPart {
         TableColumn<PojoTableItem, String> colId = new TableColumn<>("Ид");
         colId.setCellValueFactory(t -> new ReadOnlyStringWrapper(t.getValue().id.toString()));
         table.getColumns().add(colId);
+        TableColumn<PojoTableItem, String> colType = new TableColumn<>("Тип");
+        colType.setCellValueFactory(t -> new ReadOnlyStringWrapper(t.getValue().dto.type.toString()));
+        table.getColumns().add(colType);
         Pojo pojo = ConfigurationManager.getConfiguration().getPojo(viewPart.getPojo());
         if (pojo == null) {
             Dialogs.create().message("Pojo " + viewPart.getPojo() + " не найден").showError();

@@ -13,4 +13,7 @@ public class ObjectDTO {
     public Integer id;
     public Map<String, String> fields;
     public Integer parent;
+    public Integer version;
+    public Long created;
+    public Long updated;
 }

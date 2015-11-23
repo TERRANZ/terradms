@@ -40,7 +40,7 @@ public class ObjectsEngine {
             @Override
             public void run() {
                 try {
-                    objectsManager.saveObject(newObject);
+                    objectsManager.createObject(newObject);
                     objectsManager.updateObjectFields(newObject.getId(), convertDtoFields(objectDTO.fields, pojo));
                     for (final ProcessingTrigger trigger : ProcessingManager.getInstance().getTrigger(newObject.getName()))
                         threadPool.submit(new Runnable() {
@@ -94,6 +94,10 @@ public class ObjectsEngine {
         objectDTO.id = tObject.getId();
         objectDTO.type = tObject.getName();
         objectDTO.fields = objectsManager.getObjectFieldValues(tObject.getId());
+        objectDTO.created = tObject.getCreated().getTime();
+        objectDTO.updated = tObject.getUpdated().getTime();
+        objectDTO.parent = tObject.getParent();
+        objectDTO.version = tObject.getVersion();
         return objectDTO;
     }
 
@@ -131,7 +135,7 @@ public class ObjectsEngine {
     public Map<String, Object> convertDtoFields(Map<String, String> fields, Pojo pojo) {
         Map<String, Object> fieldsMap = new HashMap<>();
         for (String fieldName : fields.keySet()) {
-            String fieldType = pojo.getFields().get(fieldName);
+            String fieldType = pojo.getFields().get(fieldName).toLowerCase();
             switch (fieldType) {
                 case "integer":
                     fieldsMap.put(fieldName, Integer.valueOf(fields.get(fieldName)));

@@ -3,7 +3,6 @@ package ru.terra.dms.desktop.gui.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import org.controlsfx.dialog.Dialogs;
 import ru.terra.dms.desktop.core.service.LoginService;
 import ru.terra.dms.desktop.core.viewpart.AbstractWindow;
 import ru.terra.dms.desktop.gui.parts.StageHelper;
@@ -29,7 +28,7 @@ public class LoginContoller extends AbstractWindow {
 
     public void login(ActionEvent actionEvent) {
         final LoginService loginService = new LoginService(tfUser.getText(), tfPass.getText());
-        Dialogs.create().owner(currStage).showWorkerProgress(loginService);
+//        Dialogs.create().owner(currStage).showWorkerProgress(loginService);
         loginService.reset();
         loginService.start();
         loginService.setOnSucceeded(workerStateEvent -> {
