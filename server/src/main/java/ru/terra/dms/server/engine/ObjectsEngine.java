@@ -40,7 +40,7 @@ public class ObjectsEngine {
             @Override
             public void run() {
                 try {
-                    objectsManager.createObject(newObject);
+                    objectsManager.saveNewObject(newObject);
                     objectsManager.updateObjectFields(newObject.getId(), convertDtoFields(objectDTO.fields, pojo));
                     for (final ProcessingTrigger trigger : ProcessingManager.getInstance().getTrigger(newObject.getName()))
                         threadPool.submit(new Runnable() {
