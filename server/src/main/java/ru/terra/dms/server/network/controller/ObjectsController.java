@@ -28,7 +28,7 @@ import java.nio.charset.Charset;
 @Path(URLConstants.Objects.OBJECTS)
 public class ObjectsController extends AbstractResource {
     private Logger logger = Logger.getLogger(this.getClass());
-    private ObjectsEngine objectsEngine = new ObjectsEngine();
+    private ObjectsEngine objectsEngine = ObjectsEngine.getInstance();
 
     @POST
     @Path(URLConstants.DoJson.DO_CREATE)

@@ -14,6 +14,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.util.HashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Date: 17.07.15
@@ -27,6 +29,7 @@ public class Main {
         try {
             LoginDTO ret = RestService.getInstance().login(USER, PASS);
             if (ret.logged) {
+                ExecutorService service = Executors.newFixedThreadPool(20);
                 RestService.getInstance().setSession(ret.session);
                 final Configuration configuration = RestService.getInstance().loadConfiguration();
                 System.out.println(configuration.toString());
@@ -43,17 +46,20 @@ public class Main {
                                 dto.fields = new HashMap<>();
                                 dto.fields.put("name", path.toFile().getAbsolutePath());
                                 dto.fields.put("hash", doMd5(path));
-                                try {
-                                    System.out.println("Result: " + RestService.getInstance().createObjects(new ObjectMapper().writeValueAsString(dto)).errorCode);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
+                                service.submit(() -> {
+                                    try {
+                                        System.out.println("Result: " + RestService.getInstance().createObjects(new ObjectMapper().writeValueAsString(dto)).errorCode);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                });
                             }
                         });
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                service.shutdown();
             }
         } catch (Exception e) {
             e.printStackTrace();

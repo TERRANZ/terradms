@@ -50,9 +50,6 @@ public class SimpleTableViewPart extends AbstractViewPart {
         TableColumn<PojoTableItem, String> colId = new TableColumn<>("Ид");
         colId.setCellValueFactory(t -> new ReadOnlyStringWrapper(t.getValue().id.toString()));
         table.getColumns().add(colId);
-        TableColumn<PojoTableItem, String> colType = new TableColumn<>("Тип");
-        colType.setCellValueFactory(t -> new ReadOnlyStringWrapper(t.getValue().dto.type.toString()));
-        table.getColumns().add(colType);
         TableColumn<PojoTableItem, String> colCreated = new TableColumn<>("Создано");
         colCreated.setCellValueFactory(t -> new ReadOnlyStringWrapper(new Date(t.getValue().dto.created).toString()));
         table.getColumns().add(colCreated);

@@ -22,8 +22,13 @@ public class ObjectsEngine {
     private ObjectsManager<TObject> objectsManager = new ObjectsManager<>();
     private Logger logger = Logger.getLogger(this.getClass());
     private ExecutorService threadPool = Executors.newFixedThreadPool(20);
+    private static ObjectsEngine instance = new ObjectsEngine();
 
-    public ObjectsEngine() {
+    public static ObjectsEngine getInstance() {
+        return instance;
+    }
+
+    private ObjectsEngine() {
     }
 
     public void createObject(final ObjectDTO objectDTO, final Pojo pojo) {
