@@ -1,14 +1,12 @@
 package ru.terra.dms.server.test;
 
 import junit.framework.TestCase;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 import ru.terra.dms.configuration.Configuration;
 import ru.terra.dms.configuration.bean.MenuPart;
 import ru.terra.dms.configuration.bean.Pojo;
 import ru.terra.dms.configuration.bean.ViewPart;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -77,6 +75,6 @@ public class ConfigurationTest extends TestCase {
         configuration.setComment("comment 1");
         configuration.setName("configuration name 1");
 
-        new ObjectMapper().writeValue(new File("configuration.json"), configuration);
+//        new ObjectMapper().writeValue(new File("configuration.json"), configuration);
     }
 }
