@@ -194,7 +194,10 @@
       "parent": null,
       "fields": {
         "url": "String",
-        "folder": "String"
+        "folder": "String",
+        "filename": "String",
+        "md5": "String",
+        "needcheck": "Boolean"
       }
     }
   ]
