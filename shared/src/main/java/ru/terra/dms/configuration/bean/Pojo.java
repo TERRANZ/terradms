@@ -19,6 +19,7 @@ public class Pojo implements Serializable {
     public Pojo(String name, String type, String parent, Map<String, String> fields) {
         this.name = name;
         this.type = type;
+        this.parent = parent;
         this.fields = fields;
     }
 

@@ -1,6 +1,5 @@
 package ru.terra.dms.server.processing.impl;
 
-import org.apache.log4j.Logger;
 import ru.terra.dms.server.processing.Processing;
 import ru.terra.dms.server.processing.ProcessingTrigger;
 

@@ -43,6 +43,13 @@
       "viewPart": "TwochImage",
       "uid": "43ad741b-6f8d-4d6a-8137-8137c64f08c9",
       "type": "VIEWPART"
+    },
+    {
+      "text": "Terra File",
+      "shortcut": "ctrl+7",
+      "viewPart": "TerraFile",
+      "uid": "43ad741b-6f8d-4d6a-8137-8137c64f08f9",
+      "type": "VIEWPART"
     }
   ],
   "viewParts": [

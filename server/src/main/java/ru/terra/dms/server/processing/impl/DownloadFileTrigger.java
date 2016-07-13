@@ -2,6 +2,7 @@ package ru.terra.dms.server.processing.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.terra.dms.server.processing.Processing;
 import ru.terra.dms.server.processing.ProcessingTrigger;
 import ru.terraobjects.entity.TObject;
 import ru.terraobjects.manager.ObjectsManager;
@@ -14,6 +15,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Map;
 
+@Processing("TerraFile")
 public class DownloadFileTrigger extends ProcessingTrigger {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
