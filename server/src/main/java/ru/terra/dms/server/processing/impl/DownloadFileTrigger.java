@@ -6,6 +6,7 @@ import ru.terra.dms.server.engine.ObjectsEngine;
 import ru.terra.dms.server.processing.Processing;
 import ru.terra.dms.server.processing.ProcessingTrigger;
 import ru.terra.dms.shared.dto.ObjectDTO;
+import ru.terraobjects.entity.ObjectFields;
 import ru.terraobjects.entity.TObject;
 import ru.terraobjects.manager.ObjectsManager;
 
@@ -35,11 +36,21 @@ public class DownloadFileTrigger extends ProcessingTrigger {
         String folder = fields.get("folder");
         Boolean needCheck = Boolean.parseBoolean(fields.get("needcheck"));
         Path targetFile = downloadFile(folder, url);
-        Map<String, Object> updateFields = new HashMap<>();
+
         if (targetFile != null) {
-            updateFields.put("md5", doMd5(targetFile));
-            updateFields.put("filename", targetFile.toFile().getAbsolutePath());
-            objectsManager.updateObjectFields(objectId, updateFields);
+            TObject object = objectsManager.findById(objectId);
+            for (ObjectFields of : object.getObjectFieldsList()) {
+                switch (of.getName()) {
+                    case "md5": {
+                        of.setStrval(doMd5(targetFile));
+                    }
+                    break;
+                    case "filename": {
+                        of.setStrval(targetFile.toFile().getAbsolutePath());
+                    }
+                    break;
+                }
+            }
         }
         if (needCheck) {
             Map<String, List<MD5Hash>> ret = new HashMap<>();
