@@ -60,12 +60,13 @@ public class DownloadFileTrigger extends ProcessingTrigger {
                 List<MD5Hash> hashes = ret.get(md5.hash);
                 if (hashes == null) {
                     hashes = new ArrayList<>();
-                    ret.put(md5.hash, hashes);
+                    if (md5.hash != null)
+                        ret.put(md5.hash, hashes);
                 }
                 hashes.add(md5);
             }
             Map<String, List<MD5Hash>> result = new HashMap<>();
-            for (String hash : result.keySet()) {
+            for (String hash : ret.keySet()) {
                 if (ret.get(hash).size() > 1) {
                     result.put(hash, ret.get(hash));
                 }
