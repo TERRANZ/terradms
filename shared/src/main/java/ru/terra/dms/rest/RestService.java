@@ -104,7 +104,7 @@ public class RestService {
         File tempFile = new File(new Date().getTime() + ".temp");
         try {
             PrintWriter printWriter = new PrintWriter(tempFile, Charset.forName("UTF-8").name());
-            printWriter.write(json);
+            printWriter.println(json);
             printWriter.close();
             FileDataBodyPart filePart = new FileDataBodyPart("jsonfile", tempFile);
             FormDataMultiPart formDataMultiPart = new FormDataMultiPart();
@@ -116,7 +116,7 @@ public class RestService {
                     .post(CommonDTO.class, multipart);
 //                .post(CommonDTO.class, new MultiPart().bodyPart(new BodyPart(json, MediaType.APPLICATION_JSON_TYPE)));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Unable to create object", e);
         } finally {
             tempFile.delete();
         }

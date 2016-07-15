@@ -2,7 +2,6 @@ package ru.terra.dms.server.network.controller;
 
 import com.sun.jersey.api.core.HttpContext;
 import com.sun.jersey.core.header.FormDataContentDisposition;
-import com.sun.jersey.core.util.ReaderWriter;
 import com.sun.jersey.multipart.FormDataParam;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -18,8 +17,10 @@ import ru.terra.server.dto.ListDTO;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import java.io.*;
-import java.nio.charset.Charset;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /**
  * Date: 02.06.14
@@ -35,27 +36,25 @@ public class ObjectsController extends AbstractResource {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public CommonDTO create(@Context HttpContext hc, @FormDataParam("jsonfile") InputStream fileInputStream,
                             @FormDataParam("jsonfile") FormDataContentDisposition contentDispositionHeader) {
+        CommonDTO ret = new CommonDTO();
         if (!isAuthorized(hc)) {
-            CommonDTO ret = new CommonDTO();
             ret.errorCode = ErrorConstants.ERR_NOT_AUTHORIZED_ID;
             ret.errorMessage = ErrorConstants.ERR_NOT_AUTHORIZED_MSG;
             return ret;
         }
-        String json = null;
-        try {
-            json = ReaderWriter.readFromAsString(new InputStreamReader(fileInputStream, Charset.defaultCharset()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String json = readISToString(fileInputStream);
         logger.info("Received json " + json);
         ObjectDTO objectDTO = null;
         try {
             objectDTO = new ObjectMapper().readValue(json, ObjectDTO.class);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Unable to convert json to TObject", e);
+            ret.status = "Unable to convert json: " + e.getMessage();
+            ret.errorCode = ErrorConstants.ERR_INTERNAL_EXCEPTION;
+            return ret;
         }
         objectsEngine.createObject(objectDTO, ConfigurationEngine.getInstance().getConfiguration().getPojo(objectDTO.type));
-        return new CommonDTO();
+        return ret;
     }
 
     @POST
@@ -69,12 +68,7 @@ public class ObjectsController extends AbstractResource {
             ret.errorMessage = ErrorConstants.ERR_NOT_AUTHORIZED_MSG;
             return ret;
         }
-        String json = null;
-        try {
-            json = ReaderWriter.readFromAsString(new InputStreamReader(fileInputStream, Charset.defaultCharset()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String json = readISToString(fileInputStream);
         logger.info("Received json " + json);
         ObjectDTO objectDTO = null;
         try {
@@ -139,5 +133,19 @@ public class ObjectsController extends AbstractResource {
         ret.setData(objectsEngine.getByParent(parentId));
         String json = new ObjectMapper().writeValueAsString(ret);
         return json;
+    }
+
+    private String readISToString(InputStream inputStream) {
+        StringBuilder sb = new StringBuilder();
+        String inputLine;
+        try {
+            BufferedReader in = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+            while ((inputLine = in.readLine()) != null)
+                sb.append(inputLine);
+            in.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sb.toString();
     }
 }
