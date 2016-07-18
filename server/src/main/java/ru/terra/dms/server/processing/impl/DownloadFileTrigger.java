@@ -51,21 +51,25 @@ public class DownloadFileTrigger extends ProcessingTrigger {
                     break;
                 }
             }
+            try {
+                objectsManager.saveOrUpdate(object);
+            } catch (Exception e) {
+                logger.error("Unable to update object", e);
+            }
         }
         if (needCheck) {
-            Map<String, List<MD5Hash>> ret = new HashMap<>();
+            Map<String, List<ObjectDTO>> ret = new HashMap<>();
             List<ObjectDTO> downloadedFiles = objectsEngine.getByName("TerraFile");
             for (ObjectDTO df : downloadedFiles) {
-                MD5Hash md5 = new MD5Hash(df);
-                List<MD5Hash> hashes = ret.get(md5.hash);
+                List<ObjectDTO> hashes = ret.get(df.fields.get("md5"));
                 if (hashes == null) {
                     hashes = new ArrayList<>();
-                    if (md5.hash != null)
-                        ret.put(md5.hash, hashes);
+                    if (df.fields.get("md5") != null && !df.fields.get("md5").isEmpty())
+                        ret.put(df.fields.get("md5"), hashes);
                 }
-                hashes.add(md5);
+                hashes.add(df);
             }
-            Map<String, List<MD5Hash>> result = new HashMap<>();
+            Map<String, List<ObjectDTO>> result = new HashMap<>();
             for (String hash : ret.keySet()) {
                 if (ret.get(hash).size() > 1) {
                     result.put(hash, ret.get(hash));
@@ -73,8 +77,13 @@ public class DownloadFileTrigger extends ProcessingTrigger {
             }
 
             for (String hash : result.keySet())
-                for (int i = 1; i < result.get(hash).size(); i++)
-                    logger.info("Removing doublicate: " + result.get(hash).get(i).name + " : " + new File(result.get(hash).get(i).name).delete());
+                for (int i = 1; i < result.get(hash).size(); i++) {
+                    String fn = result.get(hash).get(i).fields.get("filename");
+                    if (!fn.isEmpty()) {
+                        logger.info("Removing duplicate: " + fn + " : " + new File(fn).delete());
+                        logger.info("Deleting object: " + objectsEngine.deleteObject(result.get(hash).get(i).id));
+                    }
+                }
         }
     }
 

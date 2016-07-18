@@ -139,6 +139,9 @@ public class ObjectsEngine {
 
     public Map<String, Object> convertDtoFields(Map<String, String> fields, Pojo pojo) {
         Map<String, Object> fieldsMap = new HashMap<>();
+        for (String pojoField : pojo.getFields().keySet())
+            fieldsMap.put(pojoField, "");
+
         for (String fieldName : fields.keySet()) {
             String fieldType = pojo.getFields().get(fieldName).toLowerCase();
             switch (fieldType) {
