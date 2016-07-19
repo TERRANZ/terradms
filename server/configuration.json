@@ -33,20 +33,20 @@
     {
       "text": "Twoch image",
       "shortcut": "ctrl+6",
-      "viewPart": "TwitterMessage",
-      "uid": "43ad741b-6f8d-4d6a-8137-8137c62f08c9",
+      "viewPart": "TwochImage",
+      "uid": "43ad741b-6f8d-4d6a-8137-8137c62f09c9",
       "type": "VIEWPART"
     },
     {
       "text": "Twitter message",
-      "shortcut": "ctrl+6",
-      "viewPart": "TwochImage",
-      "uid": "43ad741b-6f8d-4d6a-8137-8137c64f08c9",
+      "shortcut": "ctrl+7",
+      "viewPart": "TwitterMessage",
+      "uid": "43ad741b-6f8d-4d6a-8137-8137c64f18c9",
       "type": "VIEWPART"
     },
     {
       "text": "Terra File",
-      "shortcut": "ctrl+7",
+      "shortcut": "ctrl+8",
       "viewPart": "TerraFile",
       "uid": "43ad741b-6f8d-4d6a-8137-8137c64f08f9",
       "type": "VIEWPART"
