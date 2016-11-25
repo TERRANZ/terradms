@@ -33,6 +33,11 @@
             <artifactId>mail</artifactId>
             <version>1.4.7</version>
         </dependency>
+        <dependency>
+            <groupId>jivesoftware</groupId>
+            <artifactId>smack</artifactId>
+            <version>3.1.0</version>
+        </dependency>
     </dependencies>
 
     <build>

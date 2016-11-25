@@ -3,6 +3,7 @@ package ru.terra.dms.server.processing.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.terra.dms.server.engine.ObjectsEngine;
+import ru.terra.dms.server.jabber.JabberManager;
 import ru.terra.dms.server.processing.Processing;
 import ru.terra.dms.server.processing.ProcessingTrigger;
 import ru.terra.dms.shared.dto.ObjectDTO;
@@ -36,6 +37,10 @@ public class DownloadFileTrigger extends ProcessingTrigger {
         String folder = fields.get("folder");
         Boolean needCheck = Boolean.parseBoolean(fields.get("needcheck"));
         Path targetFile = downloadFile(folder, url);
+
+        if (JabberManager.getInstance().isOk()) {
+            JabberManager.getInstance().sendMessage(url);
+        }
 
         if (targetFile != null) {
             TObject object = objectsManager.findById(objectId);

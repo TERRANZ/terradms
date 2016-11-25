@@ -1,5 +1,6 @@
 package ru.terra.dms.server;
 
+import ru.terra.dms.server.jabber.JabberManager;
 import ru.terra.server.ServerBoot;
 
 import java.io.IOException;
@@ -11,6 +12,12 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String... args) throws IOException {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                JabberManager.getInstance().start();
+            }
+        }).start();
         new ServerBoot().start();
     }
 }
