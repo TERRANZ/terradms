@@ -60,12 +60,15 @@ public class DownloadFileTrigger extends ProcessingTrigger {
         if (needCheck) {
             Map<String, List<ObjectDTO>> ret = new HashMap<>();
             List<ObjectDTO> downloadedFiles = objectsEngine.getByName("TerraFile");
+            List<ObjectDTO> toDelete = new ArrayList<>();
             for (ObjectDTO df : downloadedFiles) {
                 List<ObjectDTO> hashes = ret.get(df.fields.get("md5"));
                 if (hashes == null) {
                     hashes = new ArrayList<>();
                     if (df.fields.get("md5") != null && !df.fields.get("md5").isEmpty())
                         ret.put(df.fields.get("md5"), hashes);
+                    else
+                        toDelete.add(df);
                 }
                 hashes.add(df);
             }
@@ -84,6 +87,8 @@ public class DownloadFileTrigger extends ProcessingTrigger {
                         logger.info("Deleting object: " + objectsEngine.deleteObject(result.get(hash).get(i).id));
                     }
                 }
+            for (ObjectDTO o : toDelete)
+                objectsEngine.deleteObject(o.id);
         }
     }
 
