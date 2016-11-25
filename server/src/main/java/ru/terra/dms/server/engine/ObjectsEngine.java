@@ -31,7 +31,7 @@ public class ObjectsEngine {
     private ObjectsEngine() {
     }
 
-    public void createObject(final ObjectDTO objectDTO, final Pojo pojo) {
+    public Integer createObject(final ObjectDTO objectDTO, final Pojo pojo) {
         final TObject newObject = new TObject();
         newObject.setId(0);
         newObject.setName(objectDTO.type);
@@ -41,24 +41,21 @@ public class ObjectsEngine {
         newObject.setVersion(0);
         newObject.setObjectFieldsList(new ArrayList<ObjectFields>());
 
-        threadPool.submit(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    objectsManager.saveNewObject(newObject);
-                    objectsManager.updateObjectFields(newObject.getId(), convertDtoFields(objectDTO.fields, pojo));
-                    for (final ProcessingTrigger trigger : ProcessingManager.getInstance().getTrigger(newObject.getName()))
-                        threadPool.submit(new Runnable() {
-                            @Override
-                            public void run() {
-                                trigger.onCreate(newObject.getId());
-                            }
-                        });
-                } catch (Exception e) {
-                    logger.error("Error while persisting new object", e);
-                }
-            }
-        });
+        try {
+            objectsManager.saveNewObject(newObject);
+            objectsManager.updateObjectFields(newObject.getId(), convertDtoFields(objectDTO.fields, pojo));
+            for (final ProcessingTrigger trigger : ProcessingManager.getInstance().getTrigger(newObject.getName()))
+                threadPool.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        trigger.onCreate(newObject.getId());
+                    }
+                });
+            return newObject.getId();
+        } catch (Exception e) {
+            logger.error("Error while persisting new object", e);
+            return -1;
+        }
     }
 
     public ObjectDTO getObject(Integer id) {

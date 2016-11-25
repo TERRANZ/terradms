@@ -53,7 +53,7 @@ public class ObjectsController extends AbstractResource {
             ret.errorCode = ErrorConstants.ERR_INTERNAL_EXCEPTION;
             return ret;
         }
-        objectsEngine.createObject(objectDTO, ConfigurationEngine.getInstance().getConfiguration().getPojo(objectDTO.type));
+        ret.id = objectsEngine.createObject(objectDTO, ConfigurationEngine.getInstance().getConfiguration().getPojo(objectDTO.type));
         return ret;
     }
 

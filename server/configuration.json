@@ -197,6 +197,7 @@
         "folder": "String",
         "filename": "String",
         "md5": "String",
+        "parent": "Integer",
         "needcheck": "String"
       }
     }
