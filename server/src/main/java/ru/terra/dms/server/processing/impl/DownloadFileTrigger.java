@@ -64,7 +64,7 @@ public class DownloadFileTrigger extends ProcessingTrigger {
         }
         if (needCheck) {
             Map<String, List<ObjectDTO>> ret = new HashMap<>();
-            List<ObjectDTO> downloadedFiles = objectsEngine.getByName("TerraFile");
+            List<ObjectDTO> downloadedFiles = objectsEngine.getByName("TerraFile", -1, -1);
             List<ObjectDTO> toDelete = new ArrayList<>();
             for (ObjectDTO df : downloadedFiles) {
                 List<ObjectDTO> hashes = ret.get(df.fields.get("md5"));

@@ -107,7 +107,11 @@ public class ObjectsController extends AbstractResource {
 
     @GET
     @Path(URLConstants.Objects.LIST_BY_NAME)
-    public String listByName(@Context HttpContext hc, @QueryParam("name") String name) throws IOException {
+    public String listByName(@Context HttpContext hc,
+                             @QueryParam("name") String name,
+                             @QueryParam("page") @DefaultValue("-1") Integer page,
+                             @QueryParam("perpage") @DefaultValue("-1") Integer perpage
+    ) throws IOException {
         if (!isAuthorized(hc)) {
             CommonDTO ret = new CommonDTO();
             ret.errorCode = ErrorConstants.ERR_NOT_AUTHORIZED_ID;
@@ -115,14 +119,17 @@ public class ObjectsController extends AbstractResource {
             return new ObjectMapper().writeValueAsString(ret);
         }
         ListDTO<ObjectDTO> ret = new ListDTO<>();
-        ret.setData(objectsEngine.getByName(name));
+        ret.setData(objectsEngine.getByName(name, page, perpage));
         String json = new ObjectMapper().writeValueAsString(ret);
         return json;
     }
 
     @GET
     @Path(URLConstants.Objects.LIST_BY_PARENT)
-    public String listByParent(@Context HttpContext hc, @QueryParam("parent") Integer parentId) throws IOException {
+    public String listByParent(@Context HttpContext hc, @QueryParam("parent") Integer parentId,
+                               @QueryParam("page") @DefaultValue("-1") Integer page,
+                               @QueryParam("perpage") @DefaultValue("-1") Integer perpage
+    ) throws IOException {
         if (!isAuthorized(hc)) {
             CommonDTO ret = new CommonDTO();
             ret.errorCode = ErrorConstants.ERR_NOT_AUTHORIZED_ID;
@@ -130,7 +137,7 @@ public class ObjectsController extends AbstractResource {
             return new ObjectMapper().writeValueAsString(ret);
         }
         ListDTO<ObjectDTO> ret = new ListDTO<>();
-        ret.setData(objectsEngine.getByParent(parentId));
+        ret.setData(objectsEngine.getByParent(parentId, page, perpage));
         String json = new ObjectMapper().writeValueAsString(ret);
         return json;
     }

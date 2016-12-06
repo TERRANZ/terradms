@@ -71,8 +71,10 @@ public class RestService {
                 .get(LoginDTO.class);
     }
 
-    public ListDTO<ObjectDTO> getObjectsByName(String name) {
+    public ListDTO<ObjectDTO> getObjectsByName(String name, Integer page, Integer perpage) {
         String json = client.resource(URL + URLConstants.Objects.OBJECTS + URLConstants.Objects.LIST_BY_NAME).queryParam("name", name)
+                .queryParam("page", page.toString())
+                .queryParam("perpage", perpage.toString())
                 .header(URLConstants.COOKIE, URLConstants.COOKIE_PARAM + "=" + session)
                 .get(String.class);
         ObjectMapper objectMapper = new ObjectMapper();

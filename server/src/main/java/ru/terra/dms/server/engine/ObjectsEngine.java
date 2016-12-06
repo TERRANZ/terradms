@@ -103,17 +103,17 @@ public class ObjectsEngine {
         return objectDTO;
     }
 
-    public List<ObjectDTO> getByName(String name) {
+    public List<ObjectDTO> getByName(String name, Integer page, Integer perpage) {
         List<ObjectDTO> data = new ArrayList<>();
-        for (TObject tObject : objectsManager.load(name, -1, -1, true))
+        for (TObject tObject : objectsManager.load(name, page, perpage, perpage > 0))
             data.add(convert(tObject));
         return data;
     }
 
 
-    public List<ObjectDTO> getByParent(Integer parent) {
+    public List<ObjectDTO> getByParent(Integer parent, Integer page, Integer perpage) {
         List<ObjectDTO> data = new ArrayList<>();
-        for (TObject tObject : objectsManager.load(parent, -1, -1, true))
+        for (TObject tObject : objectsManager.load(parent, page, perpage, perpage > 0))
             data.add(convert(tObject));
         return data;
     }

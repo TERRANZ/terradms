@@ -8,8 +8,8 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import ru.terra.dms.configuration.bean.ViewPart;
 import ru.terra.dms.desktop.core.configuration.ConfigurationManager;
-import ru.terra.dms.desktop.gui.parts.StageHelper;
 import ru.terra.dms.desktop.core.util.Pair;
+import ru.terra.dms.desktop.gui.parts.StageHelper;
 import ru.terra.dms.rest.RestService;
 import ru.terra.dms.shared.dto.ObjectDTO;
 import ru.terra.server.dto.ListDTO;
@@ -46,7 +46,7 @@ public abstract class AbstractViewPart extends AbstractWindow {
                     try {
                         ListDTO<ObjectDTO> listDTO;
                         if (parentid == null)
-                            listDTO = RestService.getInstance().getObjectsByName(viewPart.getPojo());
+                            listDTO = RestService.getInstance().getObjectsByName(viewPart.getPojo(), 1, 100);
                         else
                             listDTO = RestService.getInstance().getObjectsByParent(parentid);
                         if (listDTO.data != null)

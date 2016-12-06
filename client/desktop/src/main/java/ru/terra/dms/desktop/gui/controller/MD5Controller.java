@@ -99,7 +99,7 @@ public class MD5Controller extends AbstractWindow {
                     @Override
                     protected Map<String, List<MD5Hash>> call() throws Exception {
                         Map<String, List<MD5Hash>> ret = new HashMap<>();
-                        RestService.getInstance().getObjectsByName("MD5Hash").data.parallelStream().map(MD5Hash::new).forEach(md5 -> {
+                        RestService.getInstance().getObjectsByName("MD5Hash", -1, -1).data.parallelStream().map(MD5Hash::new).forEach(md5 -> {
                             List<MD5Hash> hashes = ret.get(md5.hash);
                             if (hashes == null) {
                                 hashes = new ArrayList<>();
