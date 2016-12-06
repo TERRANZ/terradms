@@ -30,7 +30,7 @@ public abstract class AbstractViewPart extends AbstractWindow {
 
     public class LoadService extends Service<ObservableList<PojoTableItem>> {
         private Integer parentid;
-        private Integer page = 1, perpage = 100;
+        private Integer page = 0, perpage = 100;
         private Long count;
 
         public LoadService(Integer parentid) {
@@ -65,6 +65,7 @@ public abstract class AbstractViewPart extends AbstractWindow {
             return new Task<ObservableList<PojoTableItem>>() {
                 @Override
                 protected ObservableList<PojoTableItem> call() throws Exception {
+                    logger.info("Loading data...");
                     if (viewPart == null)
                         return null;
                     List<PojoTableItem> ret = new ArrayList<>();

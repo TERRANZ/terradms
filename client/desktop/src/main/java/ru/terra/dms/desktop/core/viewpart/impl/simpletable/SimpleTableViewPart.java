@@ -137,18 +137,21 @@ public class SimpleTableViewPart extends AbstractViewPart {
         double value = newValue.doubleValue();
         ScrollBar bar = getVerticalScrollbar(table);
         if (value == bar.getMax()) {
-            System.out.println("Adding new persons.");
             double targetValue = value * table.getItems().size();
-            if (!loadService.isRunning())
-                loadMore();
-            bar.setValue(targetValue / table.getItems().size());
+            if (!loadService.isRunning() && count >= page * loadService.getPerpage()) {
+                loadService = new LoadService();
+                loadService.setPage(page + 1);
+                loadService.start();
+                loadService.setOnSucceeded(workerStateEvent -> {
+                    onLoaded(false);
+                    bar.setValue(targetValue / table.getItems().size());
+                });
+            }
+
         }
     }
 
     private void loadMore() {
-        loadService = new LoadService();
-        loadService.setPage(page++);
-        loadService.start();
-        loadService.setOnSucceeded(workerStateEvent -> onLoaded(false));
+
     }
 }
