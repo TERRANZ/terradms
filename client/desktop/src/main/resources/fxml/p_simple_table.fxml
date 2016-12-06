@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <VBox prefHeight="660.0" prefWidth="598.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="ru.terra.dms.desktop.core.viewpart.impl.simpletable.SimpleTableViewPart">
@@ -11,9 +13,32 @@
                 <Button mnemonicParsing="false" onAction="#add" text="Добавить"/>
                 <Button mnemonicParsing="false" onAction="#delete" text="Удалить"/>
                 <Button mnemonicParsing="false" onAction="#save" text="Сохранить"/>
-
             </items>
         </ToolBar>
         <TableView fx:id="table" prefHeight="596.0" prefWidth="600.0" VBox.vgrow="ALWAYS"/>
+        <HBox>
+            <children>
+                <Label text="Всего: ">
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </padding>
+                </Label>
+                <Label fx:id="lblCount" text="lblCount">
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </padding>
+                </Label>
+                <Label text="Страница: ">
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </padding>
+                </Label>
+                <Label fx:id="lblPage" text="lblPage">
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </padding>
+                </Label>
+            </children>
+        </HBox>
     </children>
 </VBox>

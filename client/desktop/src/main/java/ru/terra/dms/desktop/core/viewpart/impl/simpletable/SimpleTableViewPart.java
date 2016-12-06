@@ -2,11 +2,11 @@ package ru.terra.dms.desktop.core.viewpart.impl.simpletable;
 
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.controlsfx.dialog.Dialogs;
 import ru.terra.dms.configuration.bean.Pojo;
@@ -34,6 +34,13 @@ public class SimpleTableViewPart extends AbstractViewPart {
     public Button btnRefresh;
     @FXML
     public TableView<PojoTableItem> table;
+    @FXML
+    public Label lblPage;
+    @FXML
+    public Label lblCount;
+    private Long count;
+    private Integer page;
+    private LoadService loadService;
 
     private List<ObjectDTO> newObjects = new ArrayList<>();
 
@@ -45,7 +52,7 @@ public class SimpleTableViewPart extends AbstractViewPart {
 
     @Override
     protected void loadInternal() {
-        final LoadService loadService = new LoadService();
+        loadService = new LoadService();
         table.getColumns().clear();
         TableColumn<PojoTableItem, String> colId = new TableColumn<>("Ид");
         colId.setCellValueFactory(t -> new ReadOnlyStringWrapper(t.getValue().id.toString()));
@@ -63,11 +70,24 @@ public class SimpleTableViewPart extends AbstractViewPart {
                 table.getColumns().add(colDescription);
             }
             loadService.start();
+            table.getItems().clear();
             loadService.setOnSucceeded(workerStateEvent -> {
-                table.getItems().clear();
-                table.setItems(loadService.getValue());
+                onLoaded(true);
             });
         }
+    }
+
+    private void onLoaded(boolean updateScroll) {
+        ObservableList<PojoTableItem> items = table.getItems();
+        items.addAll(loadService.getValue());
+        if (updateScroll) {
+            ScrollBar bar = getVerticalScrollbar(table);
+            bar.valueProperty().addListener(this::scrolled);
+        }
+        count = loadService.getCount();
+        lblCount.setText(count.toString());
+        page = loadService.getPage();
+        lblPage.setText(page.toString());
     }
 
     public void add(ActionEvent actionEvent) {
@@ -111,5 +131,24 @@ public class SimpleTableViewPart extends AbstractViewPart {
 
     private void fillTableColumns(Map<String, String> fields) {
 
+    }
+
+    protected void scrolled(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+        double value = newValue.doubleValue();
+        ScrollBar bar = getVerticalScrollbar(table);
+        if (value == bar.getMax()) {
+            System.out.println("Adding new persons.");
+            double targetValue = value * table.getItems().size();
+            if (!loadService.isRunning())
+                loadMore();
+            bar.setValue(targetValue / table.getItems().size());
+        }
+    }
+
+    private void loadMore() {
+        loadService = new LoadService();
+        loadService.setPage(page++);
+        loadService.start();
+        loadService.setOnSucceeded(workerStateEvent -> onLoaded(false));
     }
 }

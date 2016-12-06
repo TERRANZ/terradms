@@ -20,7 +20,8 @@ public class URLConstants {
         public static final String OBJECTS = "/objects";
         public static final String LIST_BY_NAME = "/do.list.byname.json";
         public static final String LIST_BY_PARENT = "/do.list.byparent.json";
-
+        public static final String COUNT_BY_NAME = "/do.count.byname.json";
+        public static final String COUNT_BY_PARENT = "/do.count.byparent.json";
     }
 
     public static class Configuration {

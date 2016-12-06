@@ -16,6 +16,7 @@ import ru.terra.server.config.Config;
 import ru.terra.server.dto.CommonDTO;
 import ru.terra.server.dto.ListDTO;
 import ru.terra.server.dto.LoginDTO;
+import ru.terra.server.dto.SimpleDataDTO;
 
 import javax.ws.rs.core.MediaType;
 import java.io.File;
@@ -23,6 +24,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.util.Date;
+import java.util.Optional;
 
 /**
  * Date: 14.07.14
@@ -87,8 +89,10 @@ public class RestService {
         }
     }
 
-    public ListDTO<ObjectDTO> getObjectsByParent(Integer parent) {
+    public ListDTO<ObjectDTO> getObjectsByParent(Integer parent, Integer page, Integer perpage) {
         String json = client.resource(URL + URLConstants.Objects.OBJECTS + URLConstants.Objects.LIST_BY_PARENT).queryParam("parent", parent.toString())
+                .queryParam("page", page.toString())
+                .queryParam("perpage", perpage.toString())
                 .header(URLConstants.COOKIE, URLConstants.COOKIE_PARAM + "=" + session)
                 .get(String.class);
         ObjectMapper objectMapper = new ObjectMapper();
@@ -135,5 +139,33 @@ public class RestService {
         WebResource resource = client.resource(URL + URLConstants.Objects.OBJECTS + URLConstants.DO.GET + "/" + id.toString() + "/");
         resource.header(URLConstants.COOKIE, URLConstants.COOKIE_PARAM + "=" + session);
         return resource.get(ObjectDTO.class);
+    }
+
+    public Optional<Long> countObjectsByName(String name) {
+        String json = client.resource(URL + URLConstants.Objects.OBJECTS + URLConstants.Objects.COUNT_BY_NAME).queryParam("name", name)
+                .header(URLConstants.COOKIE, URLConstants.COOKIE_PARAM + "=" + session)
+                .get(String.class);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JavaType type = objectMapper.getTypeFactory().constructParametricType(SimpleDataDTO.class, Long.class);
+        try {
+            return Optional.of(objectMapper.<SimpleDataDTO<Long>>readValue(json, type).data);
+        } catch (IOException e) {
+            logger.error("Unable to read objects count", e);
+            return Optional.empty();
+        }
+    }
+
+    public Optional<Long> countObjectsByParent(Integer parent) {
+        String json = client.resource(URL + URLConstants.Objects.OBJECTS + URLConstants.Objects.COUNT_BY_PARENT).queryParam("parent", parent.toString())
+                .header(URLConstants.COOKIE, URLConstants.COOKIE_PARAM + "=" + session)
+                .get(String.class);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JavaType type = objectMapper.getTypeFactory().constructParametricType(SimpleDataDTO.class, Long.class);
+        try {
+            return Optional.of(objectMapper.<SimpleDataDTO<Long>>readValue(json, type).data);
+        } catch (IOException e) {
+            logger.error("Unable to read objects count", e);
+            return Optional.empty();
+        }
     }
 }

@@ -13,6 +13,7 @@ import ru.terra.server.constants.ErrorConstants;
 import ru.terra.server.controller.AbstractResource;
 import ru.terra.server.dto.CommonDTO;
 import ru.terra.server.dto.ListDTO;
+import ru.terra.server.dto.SimpleDataDTO;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -154,5 +155,33 @@ public class ObjectsController extends AbstractResource {
             e.printStackTrace();
         }
         return sb.toString();
+    }
+
+    @GET
+    @Path(URLConstants.Objects.COUNT_BY_NAME)
+    public String countByName(@Context HttpContext hc, @QueryParam("name") String name) throws IOException {
+        if (!isAuthorized(hc)) {
+            CommonDTO ret = new CommonDTO();
+            ret.errorCode = ErrorConstants.ERR_NOT_AUTHORIZED_ID;
+            ret.errorMessage = ErrorConstants.ERR_NOT_AUTHORIZED_MSG;
+            return new ObjectMapper().writeValueAsString(ret);
+        }
+        SimpleDataDTO<Long> ret = new SimpleDataDTO<>();
+        ret.data = objectsEngine.getCountByName(name);
+        return new ObjectMapper().writeValueAsString(ret);
+    }
+
+    @GET
+    @Path(URLConstants.Objects.COUNT_BY_PARENT)
+    public String countByName(@Context HttpContext hc, @QueryParam("parent") Integer parent) throws IOException {
+        if (!isAuthorized(hc)) {
+            CommonDTO ret = new CommonDTO();
+            ret.errorCode = ErrorConstants.ERR_NOT_AUTHORIZED_ID;
+            ret.errorMessage = ErrorConstants.ERR_NOT_AUTHORIZED_MSG;
+            return new ObjectMapper().writeValueAsString(ret);
+        }
+        SimpleDataDTO<Long> ret = new SimpleDataDTO<>();
+        ret.data = objectsEngine.getCountByParent(parent);
+        return new ObjectMapper().writeValueAsString(ret);
     }
 }

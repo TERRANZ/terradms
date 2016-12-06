@@ -105,7 +105,7 @@ public class ObjectsEngine {
 
     public List<ObjectDTO> getByName(String name, Integer page, Integer perpage) {
         List<ObjectDTO> data = new ArrayList<>();
-        for (TObject tObject : objectsManager.load(name, page, perpage, perpage > 0))
+        for (TObject tObject : objectsManager.load(name, page, perpage, perpage < 0))
             data.add(convert(tObject));
         return data;
     }
@@ -113,7 +113,7 @@ public class ObjectsEngine {
 
     public List<ObjectDTO> getByParent(Integer parent, Integer page, Integer perpage) {
         List<ObjectDTO> data = new ArrayList<>();
-        for (TObject tObject : objectsManager.load(parent, page, perpage, perpage > 0))
+        for (TObject tObject : objectsManager.load(parent, page, perpage, perpage < 0))
             data.add(convert(tObject));
         return data;
     }
@@ -160,5 +160,13 @@ public class ObjectsEngine {
             }
         }
         return fieldsMap;
+    }
+
+    public Long getCountByName(String name) {
+        return objectsManager.getCountByName(name);
+    }
+
+    public Long getCountByParent(Integer parent) {
+        return objectsManager.getCountByParent(parent);
     }
 }

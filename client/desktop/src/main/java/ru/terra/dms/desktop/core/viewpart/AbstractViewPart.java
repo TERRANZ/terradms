@@ -4,6 +4,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import javafx.geometry.Orientation;
+import javafx.scene.Node;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import ru.terra.dms.configuration.bean.ViewPart;
@@ -27,12 +30,34 @@ public abstract class AbstractViewPart extends AbstractWindow {
 
     public class LoadService extends Service<ObservableList<PojoTableItem>> {
         private Integer parentid;
+        private Integer page = 1, perpage = 100;
+        private Long count;
 
         public LoadService(Integer parentid) {
             this.parentid = parentid;
         }
 
         public LoadService() {
+        }
+
+        public Integer getPage() {
+            return page;
+        }
+
+        public void setPage(Integer page) {
+            this.page = page;
+        }
+
+        public Integer getPerpage() {
+            return perpage;
+        }
+
+        public void setPerpage(Integer perpage) {
+            this.perpage = perpage;
+        }
+
+        public Long getCount() {
+            return count;
         }
 
         @Override
@@ -45,10 +70,13 @@ public abstract class AbstractViewPart extends AbstractWindow {
                     List<PojoTableItem> ret = new ArrayList<>();
                     try {
                         ListDTO<ObjectDTO> listDTO;
-                        if (parentid == null)
-                            listDTO = RestService.getInstance().getObjectsByName(viewPart.getPojo(), 1, 100);
-                        else
-                            listDTO = RestService.getInstance().getObjectsByParent(parentid);
+                        if (parentid == null) {
+                            listDTO = RestService.getInstance().getObjectsByName(viewPart.getPojo(), page, perpage);
+                            count = RestService.getInstance().countObjectsByName(viewPart.getPojo()).orElseGet(() -> -1L);
+                        } else {
+                            listDTO = RestService.getInstance().getObjectsByParent(parentid, page, perpage);
+                            count = RestService.getInstance().countObjectsByParent(parentid).orElseGet(() -> -1L);
+                        }
                         if (listDTO.data != null)
                             for (ObjectDTO dto : listDTO.data)
                                 ret.add(processObjectDTO(dto));
@@ -98,5 +126,18 @@ public abstract class AbstractViewPart extends AbstractWindow {
         tableItem.id = objectDTO.id;
         tableItem.dto = objectDTO;
         return tableItem;
+    }
+
+    protected ScrollBar getVerticalScrollbar(TableView<?> table) {
+        ScrollBar result = null;
+        for (Node n : table.lookupAll(".scroll-bar")) {
+            if (n instanceof ScrollBar) {
+                ScrollBar bar = (ScrollBar) n;
+                if (bar.getOrientation().equals(Orientation.VERTICAL)) {
+                    result = bar;
+                }
+            }
+        }
+        return result;
     }
 }
