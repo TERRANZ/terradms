@@ -7,6 +7,7 @@ import ru.terra.dms.server.jabber.JabberManager;
 import ru.terra.dms.server.processing.Processing;
 import ru.terra.dms.server.processing.ProcessingTrigger;
 import ru.terra.dms.shared.dto.ObjectDTO;
+import ru.terraobjects.entity.ObjectFields;
 import ru.terraobjects.entity.TObject;
 import ru.terraobjects.manager.ObjectsManager;
 
@@ -19,7 +20,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.util.List;
-import java.util.Map;
 
 @Processing("TerraFile")
 public class DownloadFileTrigger extends ProcessingTrigger {
@@ -29,10 +29,32 @@ public class DownloadFileTrigger extends ProcessingTrigger {
     @Override
     public void onCreate(Integer objectId) {
         ObjectsManager<TObject> objectsManager = new ObjectsManager<>();
-        Map<String, Object> fields = objectsManager.getObjectFieldValues(objectId);
-        String url = fields.get("url").toString();
-        String folder = fields.get("folder").toString();
-        Boolean needCheck = Boolean.parseBoolean(fields.get("needcheck").toString());
+        TObject object = objectsManager.findById(objectId);
+
+        String url ="";
+        String folder = "";
+        Boolean needCheck = false;
+        ObjectFields md5field = null;
+        for (ObjectFields of : object.getObjectFieldsList()) {
+            switch (of.getName()) {
+                case "url": {
+                    url = of.getStrval();
+                }
+                break;
+                case "folder": {
+                    folder = of.getStrval();
+                }
+                break;
+                case "needcheck": {
+                    needCheck = Boolean.parseBoolean(of.getStrval());
+                }
+                break;
+                case "md5": {
+                    md5field = of;
+                }
+                break;
+            }
+        }
         Path targetFile = downloadFile(folder, url);
 
         if (JabberManager.getInstance().isOk()) {
@@ -42,7 +64,7 @@ public class DownloadFileTrigger extends ProcessingTrigger {
         String md5 = null;
         if (targetFile != null) {
             md5 = doMd5(targetFile);
-            fields.put("md5", md5);
+            md5field.setStrval(md5);
         }
 
         if (needCheck && md5 != null) {
@@ -55,7 +77,7 @@ public class DownloadFileTrigger extends ProcessingTrigger {
         }
 
         try {
-            objectsManager.updateObjectFields(objectId, fields);
+            objectsManager.saveTObject(object);
         } catch (Exception e) {
             logger.error("Unable to update object", e);
         }
