@@ -33,11 +33,11 @@ public class TEEMailReportingProcessingTrigger extends ProcessingTrigger {
         if (mailServer != null && mailUser != null && mailPass != null) {
             logger.info("Sending email with error report");
             ObjectsManager<TObject> objectsManager = new ObjectsManager<>();
-            Map<String, String> fields = objectsManager.getObjectFieldValues(objectId);
-            String app = fields.get("PROJECT_NAME");
-            String versionCode = fields.get("APP_VERSION_CODE");
-            String versionName = fields.get("APP_VERSION_NAME");
-            String stackTrace = fields.get("STACK_TRACE");
+            Map<String, Object> fields = objectsManager.getObjectFieldValues(objectId);
+            String app = fields.get("PROJECT_NAME").toString();
+            String versionCode = fields.get("APP_VERSION_CODE").toString();
+            String versionName = fields.get("APP_VERSION_NAME").toString();
+            String stackTrace = fields.get("STACK_TRACE").toString();
             StringBuilder report = new StringBuilder();
             report.append("Version: ");
             report.append(versionCode + " " + versionName);

@@ -96,7 +96,11 @@ public class ObjectsEngine {
         ObjectDTO objectDTO = new ObjectDTO();
         objectDTO.id = tObject.getId();
         objectDTO.type = tObject.getName();
-        objectDTO.fields = objectsManager.getObjectFieldValues(tObject.getId());
+        Map<String, String> fields = new HashMap<>();
+        Map<String, Object> tobjectFields = objectsManager.getObjectFieldValues(tObject.getId());
+        for (String s : tobjectFields.keySet())
+            fields.put(s, tobjectFields.get(s).toString());
+        objectDTO.fields = fields;
         objectDTO.created = tObject.getCreated().getTime();
         objectDTO.updated = tObject.getUpdated().getTime();
         objectDTO.parent = tObject.getParent();

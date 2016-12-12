@@ -17,7 +17,7 @@ public class TwitterMessage extends ProcessingTrigger {
     public void onCreate(Integer objectId) {
         if (JabberManager.getInstance().isOk()) {
             ObjectsManager<TObject> objectsManager = new ObjectsManager<>();
-            Map<String, String> fields = objectsManager.getObjectFieldValues(objectId);
+            Map<String, Object> fields = objectsManager.getObjectFieldValues(objectId);
             StringBuilder sb = new StringBuilder();
             sb.append(fields.get("username"));
             sb.append(" : ");

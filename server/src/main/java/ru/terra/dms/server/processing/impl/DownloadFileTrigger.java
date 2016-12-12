@@ -7,7 +7,6 @@ import ru.terra.dms.server.jabber.JabberManager;
 import ru.terra.dms.server.processing.Processing;
 import ru.terra.dms.server.processing.ProcessingTrigger;
 import ru.terra.dms.shared.dto.ObjectDTO;
-import ru.terraobjects.entity.ObjectFields;
 import ru.terraobjects.entity.TObject;
 import ru.terraobjects.manager.ObjectsManager;
 
@@ -30,43 +29,33 @@ public class DownloadFileTrigger extends ProcessingTrigger {
     @Override
     public void onCreate(Integer objectId) {
         ObjectsManager<TObject> objectsManager = new ObjectsManager<>();
-        Map<String, String> fields = objectsManager.getObjectFieldValues(objectId);
-        String url = fields.get("url");
-        String folder = fields.get("folder");
-        Boolean needCheck = Boolean.parseBoolean(fields.get("needcheck"));
+        Map<String, Object> fields = objectsManager.getObjectFieldValues(objectId);
+        String url = fields.get("url").toString();
+        String folder = fields.get("folder").toString();
+        Boolean needCheck = Boolean.parseBoolean(fields.get("needcheck").toString());
         Path targetFile = downloadFile(folder, url);
 
         if (JabberManager.getInstance().isOk()) {
             JabberManager.getInstance().sendMessage(url);
         }
-        TObject object = objectsManager.findById(objectId);
+
         String md5 = null;
         if (targetFile != null) {
-            for (ObjectFields of : object.getObjectFieldsList()) {
-                switch (of.getName()) {
-                    case "md5": {
-                        md5 = doMd5(targetFile);
-                        of.setStrval(md5);
-                    }
-                    break;
-                    case "filename": {
-                        of.setStrval(targetFile.toFile().getAbsolutePath());
-                    }
-                    break;
-                }
-            }
+            md5 = doMd5(targetFile);
+            fields.put("md5", md5);
         }
 
         if (needCheck && md5 != null) {
             List<ObjectDTO> filesWithSameHash = objectsEngine.getByNameAndFieldValue("TerraFile", "md5", md5);
             if (!filesWithSameHash.isEmpty()) {
                 logger.info("Found " + filesWithSameHash.size() + " files with same hash: " + md5);
-                filesWithSameHash.forEach(o -> objectsEngine.deleteObject(o.id));
+                for (ObjectDTO o : filesWithSameHash)
+                    objectsEngine.deleteObject(o.id);
             }
         }
 
         try {
-            objectsManager.saveOrUpdate(object);
+            objectsManager.updateObjectFields(objectId, fields);
         } catch (Exception e) {
             logger.error("Unable to update object", e);
         }
