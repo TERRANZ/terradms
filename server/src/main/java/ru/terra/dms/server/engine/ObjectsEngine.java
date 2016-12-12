@@ -13,6 +13,7 @@ import ru.terraobjects.manager.ObjectsManager;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 /**
  * Date: 03.06.14
@@ -104,18 +105,12 @@ public class ObjectsEngine {
     }
 
     public List<ObjectDTO> getByName(String name, Integer page, Integer perpage) {
-        List<ObjectDTO> data = new ArrayList<>();
-        for (TObject tObject : objectsManager.load(name, page, perpage, perpage < 0))
-            data.add(convert(tObject));
-        return data;
+        return objectsManager.load(name, page, perpage, perpage < 0).stream().map(this::convert).collect(Collectors.toList());
     }
 
 
     public List<ObjectDTO> getByParent(Integer parent, Integer page, Integer perpage) {
-        List<ObjectDTO> data = new ArrayList<>();
-        for (TObject tObject : objectsManager.load(parent, page, perpage, perpage < 0))
-            data.add(convert(tObject));
-        return data;
+        return objectsManager.load(parent, page, perpage, perpage < 0).stream().map(this::convert).collect(Collectors.toList());
     }
 
 
@@ -125,12 +120,7 @@ public class ObjectsEngine {
             return false;
         objectsManager.updateObjectFields(id, convertDtoFields(dto.fields, pojo));
         for (final ProcessingTrigger trigger : ProcessingManager.getInstance().getTrigger(dto.type))
-            threadPool.submit(new Runnable() {
-                @Override
-                public void run() {
-                    trigger.onUpdate(id);
-                }
-            });
+            threadPool.submit(() -> trigger.onUpdate(id));
         return true;
     }
 
@@ -168,5 +158,9 @@ public class ObjectsEngine {
 
     public Long getCountByParent(Integer parent) {
         return objectsManager.getCountByParent(parent);
+    }
+
+    public List<ObjectDTO> getByNameAndFieldValue(String name, String field, Object value) {
+        return objectsManager.load(name, field, value).stream().map(this::convert).collect(Collectors.toList());
     }
 }

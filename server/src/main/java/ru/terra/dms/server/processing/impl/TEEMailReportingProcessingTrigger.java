@@ -12,6 +12,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.util.Date;
 import java.util.Map;
 import java.util.Properties;
 
@@ -77,7 +78,7 @@ public class TEEMailReportingProcessingTrigger extends ProcessingTrigger {
             MimeMessage message = new MimeMessage(mailSession);
             message.setSubject("Error report from " + app + " android client");
             message.setContent(error, "text/plain");
-
+            message.setSentDate(new Date());
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(mailTo));
             message.addFrom(new InternetAddress[]{new InternetAddress(mailFrom)});
 

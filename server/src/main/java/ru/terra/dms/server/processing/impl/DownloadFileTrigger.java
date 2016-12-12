@@ -19,8 +19,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,13 +39,14 @@ public class DownloadFileTrigger extends ProcessingTrigger {
         if (JabberManager.getInstance().isOk()) {
             JabberManager.getInstance().sendMessage(url);
         }
-
+        TObject object = objectsManager.findById(objectId);
+        String md5 = null;
         if (targetFile != null) {
-            TObject object = objectsManager.findById(objectId);
             for (ObjectFields of : object.getObjectFieldsList()) {
                 switch (of.getName()) {
                     case "md5": {
-                        of.setStrval(doMd5(targetFile));
+                        md5 = doMd5(targetFile);
+                        of.setStrval(md5);
                     }
                     break;
                     case "filename": {
@@ -56,44 +55,20 @@ public class DownloadFileTrigger extends ProcessingTrigger {
                     break;
                 }
             }
-            try {
-                objectsManager.saveOrUpdate(object);
-            } catch (Exception e) {
-                logger.error("Unable to update object", e);
+        }
+
+        if (needCheck && md5 != null) {
+            List<ObjectDTO> filesWithSameHash = objectsEngine.getByNameAndFieldValue("TerraFile", "md5", md5);
+            if (!filesWithSameHash.isEmpty()) {
+                logger.info("Found " + filesWithSameHash.size() + " files with same hash: " + md5);
+                filesWithSameHash.forEach(o -> objectsEngine.deleteObject(o.id));
             }
         }
-        if (needCheck) {
-            Map<String, List<ObjectDTO>> ret = new HashMap<>();
-            List<ObjectDTO> downloadedFiles = objectsEngine.getByName("TerraFile", -1, -1);
-            List<ObjectDTO> toDelete = new ArrayList<>();
-            for (ObjectDTO df : downloadedFiles) {
-                List<ObjectDTO> hashes = ret.get(df.fields.get("md5"));
-                if (hashes == null) {
-                    hashes = new ArrayList<>();
-                    if (df.fields.get("md5") != null && !df.fields.get("md5").isEmpty())
-                        ret.put(df.fields.get("md5"), hashes);
-                    else
-                        toDelete.add(df);
-                }
-                hashes.add(df);
-            }
-            Map<String, List<ObjectDTO>> result = new HashMap<>();
-            for (String hash : ret.keySet()) {
-                if (ret.get(hash).size() > 1) {
-                    result.put(hash, ret.get(hash));
-                }
-            }
 
-            for (String hash : result.keySet())
-                for (int i = 1; i < result.get(hash).size(); i++) {
-                    String fn = result.get(hash).get(i).fields.get("filename");
-                    if (!fn.isEmpty()) {
-                        logger.info("Removing duplicate: " + fn + " : " + new File(fn).delete());
-                        logger.info("Deleting object: " + objectsEngine.deleteObject(result.get(hash).get(i).id));
-                    }
-                }
-            for (ObjectDTO o : toDelete)
-                objectsEngine.deleteObject(o.id);
+        try {
+            objectsManager.saveOrUpdate(object);
+        } catch (Exception e) {
+            logger.error("Unable to update object", e);
         }
     }
 
