@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class ObjectsEngine {
     private ObjectsManager<TObject> objectsManager = new ObjectsManager<>();
     private Logger logger = Logger.getLogger(this.getClass());
-    private ExecutorService threadPool = Executors.newFixedThreadPool(20);
+    private ExecutorService threadPool = Executors.newFixedThreadPool(5);
     private static ObjectsEngine instance = new ObjectsEngine();
 
     public static ObjectsEngine getInstance() {
@@ -40,18 +40,13 @@ public class ObjectsEngine {
         newObject.setCreated(new Date());
         newObject.setParent(objectDTO.parent == null ? 0 : objectDTO.parent);
         newObject.setVersion(0);
-        newObject.setObjectFieldsList(new ArrayList<ObjectFields>());
+        newObject.setObjectFieldsList(new ArrayList<>());
 
         try {
             objectsManager.saveNewObject(newObject);
             objectsManager.updateObjectFields(newObject.getId(), convertDtoFields(objectDTO.fields, pojo));
             for (final ProcessingTrigger trigger : ProcessingManager.getInstance().getTrigger(newObject.getName()))
-                threadPool.submit(new Runnable() {
-                    @Override
-                    public void run() {
-                        trigger.onCreate(newObject.getId());
-                    }
-                });
+                threadPool.submit(() -> trigger.onCreate(newObject.getId()));
             return newObject.getId();
         } catch (Exception e) {
             logger.error("Error while persisting new object", e);
