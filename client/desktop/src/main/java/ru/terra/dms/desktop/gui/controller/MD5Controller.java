@@ -1,5 +1,6 @@
 package ru.terra.dms.desktop.gui.controller;
 
+import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -37,34 +38,52 @@ public class MD5Controller extends AbstractWindow {
     }
 
     public void scan(ActionEvent actionEvent) {
-        try {
-            File targetDir = new DirectoryChooser().showDialog(currStage);
-            if (targetDir != null) {
-                List<ObjectDTO> newObjects = new ArrayList<>();
-                Files.walk(Paths.get(targetDir.toURI())).forEach(path -> {
-                    if (path.toFile().isFile()) {
-                        String hash = doMd5(path);
-                        lvFiles.getItems().add(path.toFile().getName() + " = " + hash);
-                        ObjectDTO dto = new ObjectDTO();
-                        dto.id = 0;
-                        dto.type = "MD5Hash";
-                        dto.fields = new HashMap<>();
-                        dto.fields.put("name", path.toFile().getAbsolutePath());
-                        dto.fields.put("hash", hash);
-                        newObjects.add(dto);
+        File targetDir = new DirectoryChooser().showDialog(currStage);
+        Service<List<ObjectDTO>> dirWalkerService = new Service<List<ObjectDTO>>() {
+            @Override
+            protected Task<List<ObjectDTO>> createTask() {
+                return new Task<List<ObjectDTO>>() {
+                    @Override
+                    protected List<ObjectDTO> call() throws Exception {
+                        List<ObjectDTO> newObjects = new ArrayList<>();
+                        try {
+                            if (targetDir != null) {
+                                Files.walk(Paths.get(targetDir.toURI())).parallel().forEach(path -> {
+                                    if (path.toFile().isFile()) {
+                                        String hash = doMd5(path);
+                                        Platform.runLater(() -> lvFiles.getItems().add(path.toFile().getName() + " = " + hash));
+                                        ObjectDTO dto = new ObjectDTO();
+                                        dto.id = 0;
+                                        dto.type = "MD5Hash";
+                                        dto.fields = new HashMap<>();
+                                        dto.fields.put("name", path.toFile().getAbsolutePath());
+                                        dto.fields.put("hash", hash);
+                                        newObjects.add(dto);
+                                    }
+                                });
+
+                            }
+                        } catch (Exception e) {
+                            logger.error("Unable to list files", e);
+                        }
+                        return newObjects;
                     }
-                });
-                if (newObjects.size() > 0) {
-                    SendObjectsService sendObjectsService = new SendObjectsService(newObjects);
-                    Dialogs.create().owner(currStage).showWorkerProgress(sendObjectsService);
-                    sendObjectsService.reset();
-                    sendObjectsService.start();
-                    sendObjectsService.setOnSucceeded(workerStateEvent -> newObjects.clear());
-                }
+                };
             }
-        } catch (Exception e) {
-            logger.error("Unable to list files", e);
-        }
+        };
+        dirWalkerService.reset();
+        Dialogs.create().owner(currStage).showWorkerProgress(dirWalkerService);
+        dirWalkerService.start();
+        dirWalkerService.setOnSucceeded(event -> {
+            List<ObjectDTO> newObjects = dirWalkerService.getValue();
+            if (newObjects.size() > 0) {
+                SendObjectsService sendObjectsService = new SendObjectsService(newObjects);
+                Dialogs.create().owner(currStage).showWorkerProgress(sendObjectsService);
+                sendObjectsService.reset();
+                sendObjectsService.start();
+                sendObjectsService.setOnSucceeded(workerStateEvent -> newObjects.clear());
+            }
+        });
     }
 
     public String doMd5(Path p) {
