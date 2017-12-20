@@ -72,7 +72,7 @@ public class MD5Controller extends AbstractWindow {
             }
         };
         dirWalkerService.reset();
-        Dialogs.create().owner(currStage).showWorkerProgress(dirWalkerService);
+//        Dialogs.create().owner(currStage).showWorkerProgress(dirWalkerService);
         dirWalkerService.start();
         dirWalkerService.setOnSucceeded(event -> {
             List<ObjectDTO> newObjects = dirWalkerService.getValue();

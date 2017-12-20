@@ -62,7 +62,7 @@ public class DownloadFileTrigger extends ProcessingTrigger {
         }
 
         String md5 = null;
-        if (targetFile != null) {
+        if (targetFile != null && md5field != null) {
             md5 = doMd5(targetFile);
             md5field.setStrval(md5);
         }
