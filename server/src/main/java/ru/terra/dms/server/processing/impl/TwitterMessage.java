@@ -1,6 +1,6 @@
 package ru.terra.dms.server.processing.impl;
 
-import ru.terra.dms.server.jabber.JabberManager;
+import ru.terra.dms.server.im.jabber.JabberManager;
 import ru.terra.dms.server.processing.Processing;
 import ru.terra.dms.server.processing.ProcessingTrigger;
 import ru.terraobjects.entity.TObject;

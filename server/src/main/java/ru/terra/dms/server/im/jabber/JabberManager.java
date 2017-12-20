@@ -1,4 +1,4 @@
-package ru.terra.dms.server.jabber;
+package ru.terra.dms.server.im.jabber;
 
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.PacketListener;

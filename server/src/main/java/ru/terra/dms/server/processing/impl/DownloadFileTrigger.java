@@ -3,7 +3,8 @@ package ru.terra.dms.server.processing.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.terra.dms.server.engine.ObjectsEngine;
-import ru.terra.dms.server.jabber.JabberManager;
+import ru.terra.dms.server.im.jabber.JabberManager;
+import ru.terra.dms.server.im.telegram.TelegramManager;
 import ru.terra.dms.server.processing.Processing;
 import ru.terra.dms.server.processing.ProcessingTrigger;
 import ru.terra.dms.shared.dto.ObjectDTO;
@@ -31,7 +32,7 @@ public class DownloadFileTrigger extends ProcessingTrigger {
         ObjectsManager<TObject> objectsManager = new ObjectsManager<>();
         TObject object = objectsManager.findById(objectId);
 
-        String url ="";
+        String url = "";
         String folder = "";
         Boolean needCheck = false;
         ObjectFields md5field = null;
@@ -59,6 +60,10 @@ public class DownloadFileTrigger extends ProcessingTrigger {
 
         if (JabberManager.getInstance().isOk()) {
             JabberManager.getInstance().sendMessage(url);
+        }
+
+        if (TelegramManager.getInstance().isOk()) {
+            TelegramManager.getInstance().sendMessage(url);
         }
 
         String md5 = null;
